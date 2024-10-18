@@ -1,20 +1,18 @@
 import {
   NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
+  // NavigationMenuIndicator,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
-  NavigationMenuViewport,
 } from "@/components/ui/navigation-menu";
 import Image from "next/image";
 import { Dark } from "@/components/DarkMode";
 import logo from "../app/public/images/logo.png";
-import { User, UserCircle } from "lucide-react";
+import { UserCircle } from "lucide-react";
 import { Bell } from "lucide-react";
 import { ClipboardList } from "lucide-react";
 import { ShoppingCart } from "lucide-react";
+import { Searchbar } from "@/components/Searchbar";
 
 export const Navbar = () => {
   return (
@@ -26,9 +24,15 @@ export const Navbar = () => {
           </NavigationMenuLink>
         </NavigationMenuItem>
 
+        <NavigationMenuItem>
+          <Searchbar />
+        </NavigationMenuItem>
+
         <div className="flex flex-row items-center gap-3">
           <NavigationMenuItem>
-            <ShoppingCart />
+            <NavigationMenuLink href="/">
+              <ShoppingCart />
+            </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuLink href="/">
