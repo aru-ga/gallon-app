@@ -8,11 +8,16 @@ import logo from "@/assets/logo.png";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { SearchIcon } from "lucide-react";
+import { Link } from "react-router-dom";
 
-export default function Navbar() {
+interface NavbarProps {
+  activePath: string;
+}
+
+export default function Navbar({ activePath }: NavbarProps) {
   return (
     <>
-      <NavigationMenu className="pt-5 border-b ">
+      <NavigationMenu className="py-3 fixed top-0 left-0 w-full bg-white z-50">
         <NavigationMenuList className="flex flex-row items-center px-5 w-screen justify-between">
           <NavigationMenuItem>
             <NavigationMenuLink href="#">
@@ -23,19 +28,50 @@ export default function Navbar() {
           <div className="flex">
             <NavigationMenuItem>
               <NavigationMenuLink href="#">
-                <Button variant="ghost">Home</Button>
+                <Link to="/">
+                  <Button
+                    variant="ghost"
+                    className={
+                      activePath === "/" ? "text-blue-600 font-semibold" : ""
+                    }
+                  >
+                    Home
+                  </Button>
+                </Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
 
             <NavigationMenuItem>
               <NavigationMenuLink href="#">
-                <Button variant="ghost">Contact</Button>
+                <Link to="/contact">
+                  <Button
+                    variant="ghost"
+                    className={
+                      activePath === "/contact"
+                        ? "text-blue-600 font-semibold"
+                        : ""
+                    }
+                  >
+                    Contact
+                  </Button>
+                </Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
 
             <NavigationMenuItem>
               <NavigationMenuLink href="#">
-                <Button variant="ghost">About Us</Button>
+                <Link to="/about">
+                  <Button
+                    variant="ghost"
+                    className={
+                      activePath === "/about"
+                        ? "text-blue-600 font-semibold"
+                        : ""
+                    }
+                  >
+                    About
+                  </Button>
+                </Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
           </div>
