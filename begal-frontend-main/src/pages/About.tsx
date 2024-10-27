@@ -3,6 +3,13 @@ import { Link, useLocation } from "react-router-dom";
 import dummyImg from "@/assets/feature-slider.png";
 import { Button } from "@/components/ui/button";
 import { UsersIcon } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+
 import Footer from "@/components/Footer";
 
 export default function About() {
@@ -87,7 +94,7 @@ export default function About() {
         <div className="h-full"></div>
 
         <div className="h-full w-1/2 bg-white flex flex-col">
-          <h3 className="text-5xl text-right h-full">
+          <h3 className="text-5xl text-right h-full p-10">
             WHY <div className="font-bold"> CHOOSE </div>
             <div className="font-bold"> US?</div>
           </h3>
@@ -113,47 +120,57 @@ export default function About() {
         </div>
       </div>
 
-      <div className="mt-28 mx-32">
-        <div className="flex flex-col gap-10">
-          <h3 className="text-2xl border p-2 w-min whitespace-nowrap rounded">
-            Our Team
-          </h3>
-          <h3 className="text-4xl w-1/2">
-            Lorem ipsum dolor sit amet consectetur. Amet tortor phasellus in
-            velit integer sed. Ullamcorper velit non massa egestas.
-          </h3>
+      <div className="my-28 w-screen bg-[#F3F5F6] justify-around py-20 h-full flex flex-row">
+        <div className="w-1/2 h-full flex justify-center items-center">
+          <img src={dummyImg} className="w-1/2" alt="" />
         </div>
 
-        <div className="mt-20 flex flex-row gap-10">
-          <div className="flex flex-col gap-5">
-            <img src={dummyImg} alt="dummy" />
-            <h3 className="text-2xl">Lorem ipsum</h3>
-            <p className="text-xl">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
-              voluptates, quia magnam, quos, quidem nemo doloribus quibusdam
-              voluptatibus quae doloremque.
-            </p>
-          </div>
-
-          <div className="flex flex-col gap-5">
-            <img src={dummyImg} alt="dummy" />
-            <h3 className="text-2xl">Lorem ipsum</h3>
-            <p className="text-xl">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
-              voluptates, quia magnam, quos, quidem nemo doloribus quibusdam
-              voluptatibus quae doloremque.
-            </p>
-          </div>
-
-          <div className="flex flex-col gap-5">
-            <img src={dummyImg} alt="dummy" />
-            <h3 className="text-2xl">Lorem ipsum</h3>
-            <p className="text-xl">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
-              voluptates, quia magnam, quos, quidem nemo doloribus quibusdam
-              voluptatibus quae doloremque.
-            </p>
-          </div>
+        <div className="flex flex-col h-full">
+          <h3 className="text-5xl mb-20">Frequently Asked Questions</h3>
+          <Accordion type="single" collapsible>
+            <AccordionItem value="item-1">
+              <AccordionTrigger>Is it accessible?</AccordionTrigger>
+              <AccordionContent>
+                Yes. It adheres to the WAI-ARIA design pattern.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2">
+              <AccordionTrigger>Is it accessible?</AccordionTrigger>
+              <AccordionContent>
+                Yes. It adheres to the WAI-ARIA design pattern.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-3">
+              <AccordionTrigger>Is it accessible?</AccordionTrigger>
+              <AccordionContent>
+                Yes. It adheres to the WAI-ARIA design pattern.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-4">
+              <AccordionTrigger>Is it accessible?</AccordionTrigger>
+              <AccordionContent>
+                Yes. It adheres to the WAI-ARIA design pattern.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-5">
+              <AccordionTrigger>Is it accessible?</AccordionTrigger>
+              <AccordionContent>
+                Yes. It adheres to the WAI-ARIA design pattern.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-6">
+              <AccordionTrigger>Is it accessible?</AccordionTrigger>
+              <AccordionContent>
+                Yes. It adheres to the WAI-ARIA design pattern.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-7">
+              <AccordionTrigger>Is it accessible?</AccordionTrigger>
+              <AccordionContent>
+                Yes. It adheres to the WAI-ARIA design pattern.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </div>
       </div>
 

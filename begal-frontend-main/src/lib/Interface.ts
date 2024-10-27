@@ -1,5 +1,11 @@
 interface NavbarProps {
-    activePath: string;
-  }
+  activePath: string;
+}
 
-export type { NavbarProps };
+interface Depot {
+  id: string;
+  name: string;
+  location: string;
+}
+
+export type { NavbarProps, Depot };

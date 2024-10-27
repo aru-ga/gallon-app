@@ -6,6 +6,8 @@ import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import DepotList from "./pages/DepotList";
 import About from "./pages/About";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
 
 const router = createBrowserRouter([
   {
@@ -16,11 +18,23 @@ const router = createBrowserRouter([
   {
     path: "/about",
     element: <About />,
+    errorElement: <NotFound />,
   },
   {
     path: "/depot-list",
     element: <DepotList />,
-  }
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
+    errorElement: <NotFound />,
+  },
 ]);
 
 createRoot(document.getElementById("root")!).render(

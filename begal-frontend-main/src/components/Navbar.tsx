@@ -20,14 +20,16 @@ export default function Navbar({ activePath }: NavbarProps) {
       <NavigationMenu className="py-3 fixed top-0 left-0 w-full bg-white z-50">
         <NavigationMenuList className="flex flex-row items-center px-5 w-screen justify-between">
           <NavigationMenuItem>
-            <NavigationMenuLink href="#">
-              <img src={logo} alt="logo" width="200px" />
+            <NavigationMenuLink>
+              <Link to="/">
+                <img src={logo} alt="logo" width="200px" />
+              </Link>
             </NavigationMenuLink>
           </NavigationMenuItem>
 
           <div className="flex">
             <NavigationMenuItem>
-              <NavigationMenuLink href="#">
+              <NavigationMenuLink>
                 <Link to="/">
                   <Button
                     variant="ghost"
@@ -42,7 +44,7 @@ export default function Navbar({ activePath }: NavbarProps) {
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-              <NavigationMenuLink href="#">
+              <NavigationMenuLink>
                 <Link to="/contact">
                   <Button
                     variant="ghost"
