@@ -7,11 +7,12 @@ import {
 } from "@/components/ui/card";
 import dummyImg from "@/assets/feature-slider.png";
 import { Button } from "./ui/button";
+import { Link } from "react-router-dom";
 
 export default function CardDepot() {
   return (
     <>
-      <Card className="w-96 rounded-2xl flex flex-col items-center">
+      <Card className="w-1/4 rounded-2xl flex flex-col items-center">
         <CardHeader className="flex flex-col items-center">
           <img
             src={dummyImg}
@@ -25,9 +26,11 @@ export default function CardDepot() {
           <p>Depot Ratings</p>
         </CardContent>
         <CardFooter>
-          <Button className="px-24 rounded bg-transparent text-black border">
-            Detail Depot
-          </Button>
+          <Link to="product-detail">
+            <Button className="px-16 rounded bg-transparent text-black border hover:bg-blue-600 hover:text-white">
+              Detail Depot
+            </Button>
+          </Link>
         </CardFooter>
       </Card>
     </>

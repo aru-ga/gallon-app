@@ -90,17 +90,21 @@ export default function Navbar({ activePath }: NavbarProps) {
 
             <NavigationMenuItem>
               <NavigationMenuLink href="#">
-                <Button className="border-2 border-blue-600 bg-transparent text-blue-600 font-semibold rounded">
-                  Sign In
-                </Button>
+                <Link to="/login">
+                  <Button className="border-2 border-blue-600 bg-transparent text-blue-600 font-semibold rounded hover:bg-slate-200">
+                    Sign In
+                  </Button>
+                </Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
 
             <NavigationMenuItem>
               <NavigationMenuLink href="#">
-                <Button className="bg-blue-600 rounded font-semibold">
-                  Sign Up
-                </Button>
+                <Link to="/register">
+                  <Button className="bg-blue-600 rounded font-semibold hover:bg-blue-700">
+                    Sign Up
+                  </Button>
+                </Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
           </div>

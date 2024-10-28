@@ -78,7 +78,7 @@ function DepotList() {
         </div>
       </div>
 
-      <div className="flex flex-row flex-wrap mx-24 gap-5 my-10">
+      <div className="flex flex-row flex-wrap mx-24 gap-5 my-10 justify-around">
         <CardDepot />
         <CardDepot />
         <CardDepot />

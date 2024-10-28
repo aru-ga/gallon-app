@@ -16,7 +16,7 @@ export default function login() {
               Masuk untuk memesan galon dengan mudah dan cepat
             </h4>
           </div>
-          <div className="flex flex-col border-2 border-blue-600 py-24 gap-20 px-64 rounded-3xl">
+          <div className="flex flex-col border-2 border-blue-600 py-20 mt-10 gap-20 px-36 rounded-3xl">
             <Link
               to="/login-user"
               className="px-16 py-3 text-white rounded bg-blue-600 font-semibold hover:bg-blue-700"
