@@ -111,7 +111,8 @@ function Home() {
             Produk yang <br /> ditawarkan
           </h3>
 
-          <Carousel
+          <Carousel 
+          orientation="horizontal"
             opts={{
               align: "start",
             }}

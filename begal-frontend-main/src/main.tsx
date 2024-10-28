@@ -8,6 +8,7 @@ import DepotList from "./pages/DepotList";
 import About from "./pages/About";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
+import LoginUser from "./pages/auth/LoginUser";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,11 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/login-user",
+    element: <LoginUser />,
     errorElement: <NotFound />,
   },
 ]);

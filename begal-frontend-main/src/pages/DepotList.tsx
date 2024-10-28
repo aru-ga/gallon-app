@@ -12,9 +12,47 @@ import {
 import Autoplay from "embla-carousel-autoplay";
 import { useLocation } from "react-router-dom";
 import CardDepot from "@/components/CardDepot";
+import dummyImg from "@/assets/feature-slider.png";
 
 function DepotList() {
   const location = useLocation();
+  const depotData = [
+    {
+      id: "1",
+      imageUrl: dummyImg,
+      name: "Depot A",
+      location: "Location A",
+      ratings: 4.5,
+    },
+    {
+      id: "2",
+      imageUrl: dummyImg,
+      name: "Depot B",
+      location: "Location B",
+      ratings: 4.0,
+    },
+    {
+      id: "3",
+      imageUrl: dummyImg,
+      name: "Depot C",
+      location: "Location C",
+      ratings: 3.8,
+    },
+    {
+      id: "4",
+      imageUrl: dummyImg,
+      name: "Depot D",
+      location: "Location D",
+      ratings: 4.2,
+    },
+    {
+      id: "5",
+      imageUrl: dummyImg,
+      name: "Depot E",
+      location: "Location E",
+      ratings: 4.7,
+    },
+  ];
   const carouselItems = [
     {
       id: 1,
@@ -26,6 +64,14 @@ function DepotList() {
     },
     {
       id: 3,
+      image: heroImg,
+    },
+    {
+      id: 4,
+      image: heroImg,
+    },
+    {
+      id: 5,
       image: heroImg,
     },
   ];
@@ -78,14 +124,19 @@ function DepotList() {
         </div>
       </div>
 
-      <div className="flex flex-row flex-wrap mx-24 gap-5 my-10 justify-around">
-        <CardDepot />
-        <CardDepot />
-        <CardDepot />
-        <CardDepot />
-        <CardDepot />
-        <CardDepot />
+      <div className="grid grid-cols-4 gap-5 mx-24 my-10">
+        {depotData.map((depot) => (
+          <CardDepot
+            key={depot.id}
+            id={depot.id}
+            imageUrl={depot.imageUrl}
+            name={depot.name}
+            location={depot.location}
+            ratings={depot.ratings}
+          />
+        ))}
       </div>
+
       <Footer />
     </>
   );

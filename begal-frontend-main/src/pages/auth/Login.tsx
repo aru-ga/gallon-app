@@ -10,7 +10,7 @@ export default function login() {
         </div>
 
         <div className="p-20 flex flex-col justify-around items-center">
-          <div className="">
+          <div>
             <h3 className="text-5xl">Selamat Datang!</h3>
             <h4 className="text-5xl">
               Masuk untuk memesan galon dengan mudah dan cepat

@@ -69,7 +69,7 @@ export default function About() {
       </div>
 
       <div
-        className="mt-20 flex flex-row justify-between bg-cover bg-center h-screen py-20"
+        className="mt-20 flex flex-row justify-between bg-cover bg-center py-20"
         style={{ backgroundImage: `url(${dummyImg})` }}
       >
         <div className="h-full w-2/5">
@@ -93,7 +93,7 @@ export default function About() {
 
         <div className="h-full"></div>
 
-        <div className="h-full w-1/2 bg-white flex flex-col">
+        <div className="w-1/2 bg-white flex flex-col">
           <h3 className="text-5xl text-right h-full p-10">
             WHY <div className="font-bold"> CHOOSE </div>
             <div className="font-bold"> US?</div>
