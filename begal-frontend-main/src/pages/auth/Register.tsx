@@ -1,4 +1,4 @@
-import React, { useState, KeyboardEvent, ChangeEvent } from "react";
+import { useState, KeyboardEvent, ChangeEvent } from "react";
 import { z } from "zod";
 
 // Define Zod schema and TypeScript types for each step's data
