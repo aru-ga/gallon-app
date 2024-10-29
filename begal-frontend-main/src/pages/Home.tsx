@@ -1,9 +1,9 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import "../styles/globals.css";
-import heroImg from "@/assets/hero-slider.png";
+import { carouselItems, featureItems, depotListData } from "@/lib/DummyData";
 import heroIcon from "@/assets/hero-icon.png";
-import featureSlider from "@/assets/feature-slider.png";
+import CardDepot from "@/components/CardDepot";
 import ellipse from "@/assets/ellipse.png";
 import {
   Carousel,
@@ -19,43 +19,6 @@ import { Link } from "react-router-dom";
 
 function Home() {
   const location = useLocation();
-  const carouselItems = [
-    {
-      id: 1,
-      image: heroImg,
-    },
-    {
-      id: 2,
-      image: heroImg,
-    },
-    {
-      id: 3,
-      image: heroImg,
-    },
-  ];
-
-  const featureItems = [
-    {
-      id: 1,
-      image: featureSlider,
-    },
-    {
-      id: 2,
-      image: featureSlider,
-    },
-    {
-      id: 3,
-      image: featureSlider,
-    },
-    {
-      id: 4,
-      image: featureSlider,
-    },
-    {
-      id: 5,
-      image: featureSlider,
-    },
-  ];
   return (
     <>
       <Navbar activePath={location.pathname} />
@@ -106,31 +69,31 @@ function Home() {
           </div>
         </div>
 
-        <div className="flex justify-between gap-20 mt-20">
-          <h3 className="text-3xl">
+        <div className="flex justify-between items-center gap-20 mt-20">
+          <h3 className="text-2xl flex items-center justify-center -mr-40 rounded-lg -z-10 p-24 w-1/2 bg-blue-600 text-white">
             Produk yang <br /> ditawarkan
           </h3>
 
-          <Carousel 
-          orientation="horizontal"
+          <Carousel
+            orientation="horizontal"
             opts={{
               align: "start",
             }}
-            className="w-1/2"
-          >
+            className="z-10"
+>
             <CarouselPrevious
               variant="ghost"
               className="p-9 text-white bg-black  right-80 -top-14 translate-x-96 left-40"
             />
             <CarouselNext
               variant="ghost"
-              className="p-9 text-white bg-black  -top-14 right-0"
+              className="p-9 text-white bg-black -top-14 right-0"
             />
             <CarouselContent>
               {featureItems.map((item) => (
                 <CarouselItem
                   key={item.id}
-                  className="flex items-center justify-center basis-1/3"
+                  className="flex items-center flex-shrink justify-center basis-1/5"
                 >
                   <img src={item.image} alt="" />
                 </CarouselItem>
@@ -159,12 +122,18 @@ function Home() {
             />
             <CarouselNext className="p-10 text-white bg-black text-9xl -top-14 right-0" />
             <CarouselContent>
-              {featureItems.map((item) => (
+            {depotListData.map((depot) => (
                 <CarouselItem
-                  key={item.id}
-                  className="flex items-center justify-center basis-1/3"
+                  key={depot.id}
+                  className="basis-1/3"
                 >
-                  <img src={item.image} alt="" />
+                  <CardDepot
+                    id={depot.id}
+                    imageUrl={depot.imageUrl}
+                    name={depot.name}
+                    location={depot.address.province}
+                    ratings={depot.ratings}
+                  />
                 </CarouselItem>
               ))}
             </CarouselContent>
@@ -191,12 +160,18 @@ function Home() {
             />
             <CarouselNext className="p-10 text-white bg-black text-9xl -top-14 right-0" />
             <CarouselContent>
-              {featureItems.map((item) => (
+            {depotListData.map((depot) => (
                 <CarouselItem
-                  key={item.id}
-                  className="flex items-center justify-center basis-1/3"
+                  key={depot.id}
+                  className="basis-1/3"
                 >
-                  <img src={item.image} alt="" />
+                  <CardDepot
+                    id={depot.id}
+                    imageUrl={depot.imageUrl}
+                    name={depot.name}
+                    location={depot.address.province}
+                    ratings={depot.ratings}
+                  />
                 </CarouselItem>
               ))}
             </CarouselContent>
@@ -248,12 +223,18 @@ function Home() {
             />
             <CarouselNext className="p-10 text-white bg-black text-9xl -top-14 right-0" />
             <CarouselContent>
-              {featureItems.map((item) => (
+            {depotListData.map((depot) => (
                 <CarouselItem
-                  key={item.id}
-                  className="flex items-center justify-center basis-1/3"
+                  key={depot.id}
+                  className="basis-1/3"
                 >
-                  <img src={item.image} alt="" />
+                  <CardDepot
+                    id={depot.id}
+                    imageUrl={depot.imageUrl}
+                    name={depot.name}
+                    location={depot.address.province}
+                    ratings={depot.ratings}
+                  />
                 </CarouselItem>
               ))}
             </CarouselContent>
