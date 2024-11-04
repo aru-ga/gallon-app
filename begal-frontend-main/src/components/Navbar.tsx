@@ -7,19 +7,20 @@ import {
 import logo from "@/assets/logo.png";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { SearchIcon } from "lucide-react";
+import { SearchIcon, ShoppingCartIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface NavbarProps {
   activePath: string;
 }
 
 export default function Navbar({ activePath }: NavbarProps) {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
 
   return (
-    <NavigationMenu className="py-3 fixed top-0 left-0 w-full bg-white z-50">
+    <NavigationMenu className="py-5  fixed top-0 left-0 w-full bg-white z-50">
       <NavigationMenuList className="flex flex-row items-center px-5 w-screen justify-between">
         <NavigationMenuItem>
           <NavigationMenuLink>
@@ -68,15 +69,25 @@ export default function Navbar({ activePath }: NavbarProps) {
         <div className="flex space-x-5">
           {loggedIn ? (
             <>
-              <NavigationMenuItem>
-                <NavigationMenuLink>
-                  <Link to="/profile">
-                    <Button className="border-2 border-blue-600 bg-transparent text-blue-600 font-semibold rounded hover:bg-slate-200">
-                      Profile
-                    </Button>
-                  </Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
+              <div className="flex flex-row items-center gap-5">
+                <NavigationMenuItem>
+                  <NavigationMenuLink>
+                    <Link to="/cart">
+                      <ShoppingCartIcon className="text-gray-600" />
+                    </Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuLink>
+                    <Link to="/profile">
+                      <Avatar className="w-9 h-9">
+                        <AvatarImage src="https://github.com/shadcn.png" />
+                        <AvatarFallback>user</AvatarFallback>
+                      </Avatar>
+                    </Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              </div>
             </>
           ) : (
             <>
