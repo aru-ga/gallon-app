@@ -126,7 +126,7 @@ export default function About() {
         </div>
 
         <div className="flex flex-col h-full">
-          <h3 className="text-5xl mb-20">Frequently Asked Questions</h3>
+          <h3 className="text-5xl mb-20 pr-20">Frequently Asked Questions</h3>
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger>Is it accessible?</AccordionTrigger>

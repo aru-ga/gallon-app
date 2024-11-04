@@ -7,9 +7,9 @@ export default {
   ],
   theme: {
   	extend: {
-		fontFamily: {
-			publicSans: ['Public Sans', 'sans-serif']
-		},
+  		fontFamily: {
+  			publicSans: ['Public Sans', 'sans-serif']
+  		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',

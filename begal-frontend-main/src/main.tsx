@@ -10,6 +10,10 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import LoginUser from "./pages/auth/LoginUser";
 import DepotDetail from "./pages/DepotDetail";
+import Dashboard from "./pages/seller/Dashboard";
+import Transaction from "./pages/seller/Transaction";
+import Profile from "./pages/seller/Profile";
+import Order from "./pages/seller/Order";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +49,26 @@ const router = createBrowserRouter([
   {
     path: "/login-user",
     element: <LoginUser />,
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/seller/dashboard",
+    element: <Dashboard />,
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/seller/profile",
+    element: <Profile />,
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/seller/transaction",
+    element: <Transaction />,
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/seller/order",
+    element: <Order />,
     errorElement: <NotFound />,
   },
 ]);

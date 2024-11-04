@@ -1,8 +1,12 @@
-import { HomeIcon } from "lucide-react";
-import { UserCircle2 } from "lucide-react";
-import { DollarSign } from "lucide-react";
-import { Search } from "lucide-react";
-import { ShoppingBagIcon } from "lucide-react";
+"use client";
+
+import * as React from "react";
+import {
+  Check,
+  ChevronsUpDown,
+  GalleryVerticalEnd,
+  Search,
+} from "lucide-react";
 
 import {
   Breadcrumb,
@@ -10,6 +14,12 @@ import {
   BreadcrumbLink,
   BreadcrumbList,
 } from "@/components/ui/breadcrumb";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -27,43 +37,81 @@ import {
   SidebarRail,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+
 const data = {
+  versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
   navMain: [
     {
-      url: "#",
+      url: "/seller",
       items: [
         {
           title: "Dashboard",
           url: "/seller/dashboard",
-          icon: <HomeIcon />,
-          isActive: true,
         },
         {
           title: "Profile",
           url: "/seller/profile",
-          icon: <UserCircle2 />,
         },
         {
           title: "Transaction",
           url: "/seller/transaction",
-          icon: <DollarSign />,
         },
         {
           title: "Order",
           url: "/seller/order",
-          icon: <ShoppingBagIcon />,
+          isActive: true,
         },
       ],
     },
   ],
 };
 
-export default function Dashboard() {
+export default function Order() {
+  const [selectedVersion, setSelectedVersion] = React.useState(
+    data.versions[0]
+  );
+
   return (
     <SidebarProvider className="bg-blue-800">
       <Sidebar className="bg-blue-600">
         <SidebarHeader>
-          <SidebarMenu></SidebarMenu>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <SidebarMenuButton
+                    size="lg"
+                    className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                  >
+                    <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                      <GalleryVerticalEnd className="size-4" />
+                    </div>
+                    <div className="flex flex-col gap-0.5 leading-none">
+                      <span className="font-semibold">Documentation</span>
+                      <span className="">v{selectedVersion}</span>
+                    </div>
+                    <ChevronsUpDown className="ml-auto" />
+                  </SidebarMenuButton>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  className="w-[--radix-dropdown-menu-trigger-width]"
+                  align="start"
+                >
+                  {data.versions.map((version) => (
+                    <DropdownMenuItem
+                      key={version}
+                      onSelect={() => setSelectedVersion(version)}
+                    >
+                      v{version}{" "}
+                      {version === selectedVersion && (
+                        <Check className="ml-auto" />
+                      )}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </SidebarMenuItem>
+          </SidebarMenu>
           <form>
             <SidebarGroup className="py-0">
               <SidebarGroupContent className="relative">
@@ -89,10 +137,7 @@ export default function Dashboard() {
                   {item.items.map((item) => (
                     <SidebarMenuItem key={item.title}>
                       <SidebarMenuButton asChild isActive={item.isActive}>
-                        <a href={item.url}>
-                          {item.icon}
-                          {item.title}
-                        </a>
+                        <a href={item.url}>{item.title}</a>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                   ))}
@@ -110,7 +155,9 @@ export default function Dashboard() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="#">Dashboard</BreadcrumbLink>
+                <BreadcrumbLink href="#">
+                  Building Your Application
+                </BreadcrumbLink>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
