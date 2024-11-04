@@ -1,16 +1,15 @@
 import { HomeIcon } from "lucide-react";
 import { UserCircle2 } from "lucide-react";
 import { DollarSign } from "lucide-react";
-import { Search } from "lucide-react";
+import { ClipboardCheckIcon } from "lucide-react";
+import { Hourglass } from "lucide-react";
 import { ShoppingBagIcon } from "lucide-react";
-
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
 } from "@/components/ui/breadcrumb";
-import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import {
   Sidebar,
@@ -18,7 +17,6 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarHeader,
-  SidebarInput,
   SidebarInset,
   SidebarMenu,
   SidebarMenuButton,
@@ -27,6 +25,7 @@ import {
   SidebarRail,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+
 const data = {
   navMain: [
     {
@@ -63,22 +62,11 @@ export default function Dashboard() {
     <SidebarProvider className="bg-blue-800">
       <Sidebar className="bg-blue-600">
         <SidebarHeader>
-          <SidebarMenu></SidebarMenu>
-          <form>
-            <SidebarGroup className="py-0">
-              <SidebarGroupContent className="relative">
-                <Label htmlFor="search" className="sr-only">
-                  Search
-                </Label>
-                <SidebarInput
-                  id="search"
-                  placeholder="Search the docs..."
-                  className="pl-8"
-                />
-                <Search className="pointer-events-none absolute left-2 top-1/2 size-4 -translate-y-1/2 select-none opacity-50" />
-              </SidebarGroupContent>
-            </SidebarGroup>
-          </form>
+          <SidebarGroup className="py-5">
+            <SidebarGroupContent className="relative">
+              <h2>Depot Name</h2>
+            </SidebarGroupContent>
+          </SidebarGroup>
         </SidebarHeader>
         <SidebarContent>
           {/* We create a SidebarGroup for each parent. */}
@@ -116,13 +104,23 @@ export default function Dashboard() {
           </Breadcrumb>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4">
-          <div className="grid auto-rows-min gap-4 md:grid-cols-3"></div>
-          <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
-        </div>
+          {/* <div className="grid auto-rows-min gap-4 md:grid-cols-3"></div> */}
+          <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min">
+            <p>Hello, user</p>
+            <p>Atur dan lihat track toko anda disini.</p>
 
-        <div className="flex flex-1 flex-col gap-4 p-4">
-          <div className="grid auto-rows-min gap-4 md:grid-cols-3"></div>
-          <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
+            <div className="flex flex-row bg-blue-800 text-white rounded-lg h-40 w-min p-10 space-x-5 items-center justify-center">
+              <div className="flex flex-row items-center space-x-3">
+                <ClipboardCheckIcon size={70} />
+                <p>lorem</p>
+              </div>
+              <Separator orientation="vertical" />
+              <div className="flex flex-row items-center space-x-3">
+                <Hourglass size={70} />
+                <p>lorem</p>
+              </div>
+            </div>
+          </div>
         </div>
       </SidebarInset>
     </SidebarProvider>
