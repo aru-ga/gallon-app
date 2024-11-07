@@ -1,10 +1,15 @@
 import { SidebarProvider } from "@/components/ui/sidebar";
-import Dashboard from "./Dashboard";
+import SidebarApp from "./SidebarApp";
+import { ReactNode } from "react";
 
-export default function Layout({ }: { children: React.ReactNode }) {
+interface LayoutProps {
+  children: ReactNode;
+}
+
+export default function Layout({ children }: LayoutProps) {
   return (
     <SidebarProvider>
-      <Dashboard />
+      <SidebarApp comps={children} />
     </SidebarProvider>
   );
 }

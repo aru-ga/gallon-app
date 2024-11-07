@@ -11,14 +11,24 @@ import Register from "./pages/auth/Register";
 import LoginUser from "./pages/auth/LoginUser";
 import DepotDetail from "./pages/DepotDetail";
 import Dashboard from "./pages/seller/Dashboard";
-import Transaction from "./pages/seller/Transaction";
+import SellerTransaction from "./pages/seller/SellerTransaction";
 import Profile from "./pages/seller/Profile";
 import Order from "./pages/seller/Order";
+import Cart from "./pages/Cart";
+import Layout from "./pages/seller/Layout";
+import CatalogueEdit from "./pages/seller/CatalogueEdit";
+import ForgotPassword from "./pages/auth/ForgotPassword";
+import Transaction from "./pages/Transaction";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/transaction",
+    element: <Transaction />,
     errorElement: <NotFound />,
   },
   {
@@ -52,23 +62,38 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
   },
   {
+    path: "/forgot-password",
+    element: <ForgotPassword />,
+    errorElement: <NotFound />,
+  },
+  {
     path: "/seller/dashboard",
-    element: <Dashboard />,
+    element: <Layout children={<Dashboard />} />,
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/seller/dashboard/edit-catalogue",
+    element: <CatalogueEdit />,
     errorElement: <NotFound />,
   },
   {
     path: "/seller/profile",
-    element: <Profile />,
+    element: <Layout children={<Profile />} />,
     errorElement: <NotFound />,
   },
   {
     path: "/seller/transaction",
-    element: <Transaction />,
+    element: <Layout children={<SellerTransaction />} />,
     errorElement: <NotFound />,
   },
   {
     path: "/seller/order",
-    element: <Order />,
+    element: <Layout children={<Order />} />,
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/cart",
+    element: <Cart />,
     errorElement: <NotFound />,
   },
 ]);

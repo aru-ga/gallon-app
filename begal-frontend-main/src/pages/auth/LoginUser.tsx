@@ -2,6 +2,7 @@ import { useState } from "react";
 import Illustration from "@/assets/img-sign.png";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 export default function LoginUser() {
   const [name, setName] = useState("");
@@ -51,6 +52,9 @@ export default function LoginUser() {
               className="w-full bg-white text-blue-600 hover:bg-blue-100"
             >
               Login
+            </Button>
+            <Button type="submit" variant="link" className="text-white">
+              <Link to="/forgot-password">Forgot password</Link>
             </Button>
           </form>
         </div>

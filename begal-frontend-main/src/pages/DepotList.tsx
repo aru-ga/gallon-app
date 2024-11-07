@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import "../styles/globals.css";
@@ -15,10 +16,31 @@ import { carouselItems, depotListData } from "@/lib/DummyData";
 
 function DepotList() {
   const location = useLocation();
+
+  useEffect(() => {
+    const savedMode = localStorage.getItem("dark-mode");
+    if (savedMode) {
+      if (savedMode === "enabled") {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    } else {
+      const systemPreference = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+      if (systemPreference) {
+        document.documentElement.classList.add("dark");
+      }
+    }
+  }, []);
+
   return (
     <>
       <Navbar activePath={location.pathname} />
-      <div className="my-10">
+
+
+      <div className="py-10 dark:bg-gray-900">
         <Carousel
           className="w-full"
           plugins={[
@@ -39,7 +61,7 @@ function DepotList() {
           </CarouselContent>
         </Carousel>
 
-        <div className="bg-white shadow-lg w-2/3 h-24 mx-auto mt-20 flex justify-around items-center">
+        <div className="bg-white dark:bg-gray-800 shadow-lg w-2/3 h-24 mx-auto mt-20 flex justify-around items-center">
           <div className="absolute left-44 -z-10">
             <img src={ellipse} alt="" />
           </div>
@@ -47,14 +69,14 @@ function DepotList() {
             <img src={ellipse} alt="" />
           </div>
           <div>
-            <p className="font-bold">Begal</p>
-            <p className="ml-10 font-bold">
+            <p className="font-bold text-black dark:text-white">Begal</p>
+            <p className="ml-10 font-bold text-black dark:text-white">
               <span className="text-blue-600">Gallon </span>
               Delivery
             </p>
           </div>
           <div>
-            <p className="font-semibold">
+            <p className="font-semibold text-black dark:text-white">
               Pesan Galon Sekarang Menjadi Lebih Mudah
             </p>
           </div>
@@ -64,7 +86,7 @@ function DepotList() {
         </div>
       </div>
 
-      <div className="grid grid-cols-5 gap-2 mx-24 my-10">
+      <div className="grid grid-cols-5 gap-2 px-24 py-10 dark:bg-gray-900">
         {depotListData.map((depot) => (
           <CardDepot
             key={depot.id}

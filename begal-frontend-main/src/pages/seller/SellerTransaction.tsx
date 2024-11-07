@@ -4,14 +4,14 @@ import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import logo from "@/assets/logo.png";
 
-export default function Order() {
+export default function SellerTransaction() {
   return (
     <>
       <SidebarInset>
         <div className="flex flex-row items-center space-x-2 p-3">
           <SidebarTrigger />
           <Separator orientation="vertical" />
-          <h1>Order</h1>
+          <h1>Transaction</h1>
         </div>
         <div className="flex flex-1 flex-col gap-4 p-4">
           <div className="grid auto-rows-min gap-4 md:grid-cols-2">

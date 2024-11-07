@@ -17,7 +17,7 @@ export default function About() {
   return (
     <>
       <Navbar activePath={location.pathname} />
-      <div className="mt-28 mx-32">
+      <div className="pt-28 px-32 dark:bg-gray-900 dark:text-white">
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-10">
             <h3 className="text-2xl border p-2 w-min whitespace-nowrap rounded">
