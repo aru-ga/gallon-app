@@ -41,7 +41,7 @@ const DarkModeToggle = () => {
       className="relative inline-flex items-center cursor-pointer"
       onClick={toggleDarkMode}
     >
-      <span className="absolute left-0 top-0 w-16 h-8 bg-gray-200 dark:bg-gray-800 rounded-full"></span>
+      <span className="absolute left-0 top-0 w-14 h-8 bg-gray-200 dark:bg-gray-800 rounded-full"></span>
       <div
         className={`flex items-center justify-center w-7 h-7 bg-white dark:bg-gray-900 rounded-full transition-all duration-300 ${
           isDarkMode ? "translate-x-8" : "translate-x-0"

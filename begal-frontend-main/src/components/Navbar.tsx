@@ -62,7 +62,7 @@ export default function Navbar({ activePath }: NavbarProps) {
         <div className="flex items-center space-x-2">
           <NavigationMenuItem>
             <NavigationMenuLink className="flex" href="#">
-              <Input placeholder="Search" className="rounded w-96" />
+              <Input placeholder="Search" className="rounded w-72" />
               <Button variant="ghost" type="submit" className="-ml-12">
                 <SearchIcon />
               </Button>

@@ -1,5 +1,3 @@
-// CardProductCart.js
-import React from "react";
 import { Minus, Plus } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
