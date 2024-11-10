@@ -16,7 +16,7 @@ export default function Cart() {
     products.map((product) => ({ ...product, quantity: 1, selected: false }))
   );
 
-  const toggleSelect = (id) => {
+  const toggleSelect = (id: string) => {
     setCart((prevCart) =>
       prevCart.map((item) =>
         item.id === id ? { ...item, selected: !item.selected } : item
@@ -24,7 +24,7 @@ export default function Cart() {
     );
   };
 
-  const updateQuantity = (id, delta) => {
+  const updateQuantity = (id: string, delta: number) => {
     setCart((prevCart) =>
       prevCart.map((item) =>
         item.id === id

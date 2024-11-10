@@ -14,8 +14,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { useLocation, Link } from "react-router-dom"; // Import useLocation and Link
-
+import { useLocation, Link } from "react-router-dom";
+import DarkModeToggle from "@/components/DarkToggle";
 interface SidebarAppProps {
   comps: React.ReactNode;
 }
@@ -58,6 +58,7 @@ export default function SidebarApp({ comps }: SidebarAppProps) {
         <SidebarContent>
           <SidebarHeader>
             <h1 className="text-2xl font-semibold">Seller Dashboard</h1>
+            <DarkModeToggle />
           </SidebarHeader>
           {links.navMain.map((group) => (
             <SidebarGroup key="main-group">

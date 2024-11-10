@@ -70,7 +70,7 @@ function Home() {
         </div>
 
         <div className="flex justify-between items-center gap-20 mt-20 dark:text-white">
-          <h3 className="text-2xl flex items-center justify-center -mr-40 rounded-lg -z-10 p-24 w-1/2 bg-blue-600 text-white dark:bg-blue-800 dark:text-gray-300">
+          <h3 className="text-2xl flex items-center justify-center -mr-40 rounded-lg z-10 p-24 w-1/2 bg-blue-600 dark:bg-red text-white dark:text-gray-100">
             Produk yang <br /> ditawarkan
           </h3>
 
@@ -83,7 +83,7 @@ function Home() {
           >
             <CarouselPrevious
               variant="ghost"
-              className="p-9 text-white bg-black dark:bg-gray-700  right-80 -top-14 translate-x-96 left-40"
+              className="p-9 text-white bg-black dark:bg-gray-700 right-80 -top-14 translate-x-96 left-40"
             />
             <CarouselNext
               variant="ghost"

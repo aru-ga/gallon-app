@@ -11,8 +11,9 @@ import Register from "./pages/auth/Register";
 import LoginUser from "./pages/auth/LoginUser";
 import DepotDetail from "./pages/DepotDetail";
 import Dashboard from "./pages/seller/Dashboard";
+import Profile from "./pages/Profile";
 import SellerTransaction from "./pages/seller/SellerTransaction";
-import Profile from "./pages/seller/Profile";
+import SellerProfile from "./pages/seller/SellerProfile";
 import Order from "./pages/seller/Order";
 import Cart from "./pages/Cart";
 import Layout from "./pages/seller/Layout";
@@ -52,6 +53,11 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
   },
   {
+    path: "/profile",
+    element: <Profile />,
+    errorElement: <NotFound />,
+  },
+  {
     path: "/register",
     element: <Register />,
     errorElement: <NotFound />,
@@ -78,7 +84,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/seller/profile",
-    element: <Layout children={<Profile />} />,
+    element: <Layout children={<SellerProfile />} />,
     errorElement: <NotFound />,
   },
   {
