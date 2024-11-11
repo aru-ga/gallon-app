@@ -3,9 +3,29 @@ interface LoginData {
   password: string;
 }
 
+interface UserProfileWithConfirmPassword {
+  address: {
+    province: string;
+    regency: string;
+    district: string;
+    village: string;
+    detail?: string;  // Optional
+    street?: string;  // Optional
+  };
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  role: string;
+  phone: number;
+  profile_picture_url: string;
+}
+
+
 interface UserProfile {
   name: string;
   email: string;
+  password: string;
   address: {
     detail: string;
     district: string;
@@ -16,6 +36,7 @@ interface UserProfile {
   };
   role: string;
   phone: number;
+  profile_picture_url: string;
 }
 
-export type { LoginData, UserProfile };
+export type { LoginData, UserProfile, UserProfileWithConfirmPassword };

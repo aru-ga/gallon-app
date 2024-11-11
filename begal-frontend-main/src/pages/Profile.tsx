@@ -12,6 +12,7 @@ export default function Profile() {
     name: "",
     email: "",
     role: "",
+    password: "",
     address: {
       detail: "",
       district: "",
@@ -21,6 +22,7 @@ export default function Profile() {
       village: "",
     },
     phone: 0,
+    profile_picture_url: "",
   });
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -39,10 +41,10 @@ export default function Profile() {
   }, []);
   return (
     <>
-      <div className="h-screen w-screen absolute dark:bg-gray-900">
+      <div className="dark:bg-gray-900">
         <Link
           to="/"
-          className="flex flex-row hover:text-gray-500 items-center gap-5 mx-20 mt-10 mb-20 w-min"
+          className="flex flex-row hover:text-gray-500 items-center gap-5 px-20 pt-10 w-min"
         >
           <ChevronLeftCircle size="40" className="dark:text-white" />
         </Link>
@@ -71,7 +73,7 @@ export default function Profile() {
               </div>
             </div>
 
-            <div className="flex flex-col mr-32 gap-1 -mb-10">
+            <div className="flex flex-col mr-32 gap-1 -pb-10">
               <Link
                 className="border-b  text-right hover:bg-blue-200 p-3 w-48"
                 to={""}

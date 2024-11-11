@@ -1,4 +1,6 @@
 import axios from 'axios';
+import {userRegisterSchemas} from '@/schemas/userSchema';
+import { UserProfile } from '@/types/userTypes';
 
 const API_URL = "https://api-beli-galon.vercel.app/api/users";
 
@@ -11,7 +13,7 @@ const login = async (email: string, password: string) => {
   }
 };
 
-const register = async (userData: object) => {
+const register = async (userData: UserProfile) => {
   try {
     const response = await axios.post(`${API_URL}/register`, userData);
     return response.data;
