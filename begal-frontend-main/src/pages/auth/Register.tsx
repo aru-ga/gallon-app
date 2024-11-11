@@ -266,14 +266,14 @@ const Register = () => {
             </div>
 
             {/* Step 4 */}
-            <div className="w-full flex-shrink-0 flex p-5 flex-col items-center">
+            <div className="w-full flex-shrink-0 flex p-5 flex-col items-start">
               <Input
                 type="password"
                 placeholder="Masukkan Password"
                 value={formData.password}
                 onChange={handleChange("password")}
                 onKeyDown={handleKeyDown}
-                className="w-full p-2 border border-gray-300 rounded mb-4"
+                className="w-1/2 p-2 border rounded mb-4"
               />
               <Input
                 type="password"
@@ -281,7 +281,7 @@ const Register = () => {
                 value={formData.confirmPassword}
                 onChange={handleChange("confirmPassword")}
                 onKeyDown={handleKeyDown}
-                className="w-full p-2 border border-gray-300 rounded mb-4"
+                className="w-1/2 p-2 border rounded mb-4"
               />
               {errors.confirmPassword && (
                 <p className="text-red-500">{errors.confirmPassword}</p>
@@ -290,18 +290,20 @@ const Register = () => {
               {errors.password && (
                 <p className="text-red-500">{errors.password}</p>
               )}
-              <button
-                onClick={prevStep}
-                className="px-4 py-2 bg-gray-300 rounded mr-2"
-              >
-                Back
-              </button>
-              <button
-                onClick={handleSubmit}
-                className="px-4 py-2 bg-blue-500 text-white rounded"
-              >
-                Submit
-              </button>
+              <div className="flex">
+                <Button
+                  onClick={prevStep}
+                  className="px-4 py-2 bg-gray-300 rounded mr-2"
+                >
+                  <ChevronLeftIcon />
+                </Button>
+                <Button
+                  onClick={handleSubmit}
+                  className="px-4 py-2 bg-blue-500 text-white rounded"
+                >
+                  Submit
+                </Button>
+              </div>
             </div>
           </div>
         </div>
