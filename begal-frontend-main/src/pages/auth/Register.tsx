@@ -6,6 +6,10 @@ import { userRegisterSchemas } from "@/schemas/userSchema";
 import { ComboxAddress } from "@/components/ComboxAddress";
 import React from "react";
 import { Location } from "@/types/locationTypes";
+import { register } from "@/api/auth";
+import { Button } from "@/components/ui/button";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import { Label } from "@/components/ui/label";
 
 type ErrorData = {
   [key in keyof UserProfile]?: string;
@@ -17,6 +21,7 @@ const Register = () => {
     name: "",
     email: "",
     password: "",
+    confirmPassword: "",
     address: {
       detail: "",
       district: "",
@@ -25,10 +30,11 @@ const Register = () => {
       street: "",
       village: "",
     },
-    role: "",
-    phone: 0,
+    role: "user",
+    phone: "",
     profile_picture_url: "",
   });
+
   const [errors, setErrors] = useState<ErrorData>({});
   const [selectedAddress, setSelectedAddress] = React.useState<{
     province: Location | null;
@@ -49,6 +55,16 @@ const Register = () => {
     village: Location | null;
   }) => {
     setSelectedAddress(addressData);
+    setFormData((prevData) => ({
+      ...prevData,
+      address: {
+        ...prevData.address,
+        province: addressData.province?.name || "",
+        regency: addressData.regency?.name || "",
+        district: addressData.district?.name || "",
+        village: addressData.village?.name || "",
+      },
+    }));
   };
 
   const nextStep = () => {
@@ -68,16 +84,54 @@ const Register = () => {
   };
 
   const handleChange =
-    (field: keyof UserProfile) => (event: ChangeEvent<HTMLInputElement>) => {
-      setFormData({ ...formData, [field]: event.target.value });
+    (field: keyof UserProfile | `address.${keyof UserProfile["address"]}`) =>
+    (event: ChangeEvent<HTMLInputElement>) => {
+      if (field.startsWith("address.")) {
+        const addressField = field.split(
+          "."
+        )[1] as keyof UserProfile["address"];
+        setFormData((prevData) => ({
+          ...prevData,
+          address: {
+            ...prevData.address,
+            [addressField]: event.target.value,
+          },
+        }));
+      } else {
+        setFormData({ ...formData, [field]: event.target.value });
+      }
     };
 
   const handleSubmit = () => {
     const result = userRegisterSchemas[step].safeParse(formData);
-    if (result.success) {
-      alert(formData.name);
+
+    if (result.success && formData.password === formData.confirmPassword) {
+      setErrors({});
+      console.log("in");
+      console.log("form data", formData);
     } else {
-      setErrors(result.error.flatten().fieldErrors as ErrorData);
+      console.log("Validation errors:", result.error?.flatten().fieldErrors);
+      if (formData.password !== formData.confirmPassword) {
+        console.log("Password error: Passwords do not match");
+      }
+
+      setErrors(
+        (prevErrors) =>
+          ({
+            ...prevErrors,
+            ...result.error?.flatten().fieldErrors,
+            confirmPassword:
+              formData.password !== formData.confirmPassword
+                ? "Passwords do not match"
+                : prevErrors.confirmPassword,
+          } as ErrorData)
+      );
+    }
+
+    try {
+      register(formData);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -100,8 +154,13 @@ const Register = () => {
             style={{ transform: `translateX(-${step * 100}%)` }}
           >
             {/* Step 1 */}
-            <div className="w-full flex-shrink-0 flex p-5 flex-col items-center">
+            <div className="w-full flex-shrink-0 flex p-5 flex-col items-start">
+              <Label htmlFor="name" className="mb-3">
+                Name
+              </Label>
+              {errors.name && <p className="text-red-500">{errors.name}</p>}
               <Input
+                id="name"
                 type="text"
                 placeholder="Masukkan Nama"
                 value={formData.name}
@@ -109,76 +168,80 @@ const Register = () => {
                 onKeyDown={handleKeyDown}
                 className="w-1/2 p-2 border rounded mb-4"
               />
-              {errors.name && <p className="text-red-500">{errors.name}</p>}
-              <button
-                onClick={nextStep}
-                className="px-4 py-2 bg-blue-500 text-white rounded"
-              >
-                Next
-              </button>
+              <Button onClick={nextStep}>
+                <ChevronRightIcon />
+              </Button>
             </div>
 
             {/* Step 2 */}
-            <div className="w-full flex-shrink-0 flex p-5 flex-col items-center">
+            <div className="w-full flex-shrink-0 flex p-5 flex-col items-start">
+              <Label htmlFor="email" className="mb-3">
+                Email
+              </Label>
               <Input
+                id="email"
                 type="email"
                 placeholder="Masukkan Email"
                 value={formData.email}
                 onChange={handleChange("email")}
                 onKeyDown={handleKeyDown}
-                className="w-full p-2 border border-gray-300 rounded mb-4"
+                className="w-1/2 p-2 border rounded mb-4"
               />
               {errors.email && <p className="text-red-500">{errors.email}</p>}
-              <button
-                onClick={prevStep}
-                className="px-4 py-2 bg-gray-300 rounded mr-2"
-              >
-                Back
-              </button>
-              <button
-                onClick={nextStep}
-                className="px-4 py-2 bg-blue-500 text-white rounded"
-              >
-                Next
-              </button>
+              <div>
+                <Button onClick={prevStep}>
+                  <ChevronLeftIcon />
+                </Button>
+                <Button onClick={nextStep}>
+                  <ChevronRightIcon />
+                </Button>
+              </div>
             </div>
 
             {/* Step 3 */}
-            <div className="w-full flex-shrink-0 flex p-5 flex-col items-center">
+            <div className="w-full flex-shrink-0 flex p-5 flex-col items-start">
+              <Label htmlFor="email" className="mb-3">
+                Phone
+              </Label>
+              {errors.phone && <p className="text-red-500">{errors.phone}</p>}
               <Input
                 type="phone"
-                placeholder="Masukkan Nomor Telepon"
+                placeholder="Phone no"
                 value={formData.phone}
                 onChange={handleChange("phone")}
                 onKeyDown={handleKeyDown}
-                className="w-full p-2 border border-gray-300 rounded mb-4"
+                className="w-1/2 p-2 border rounded mb-4"
               />
-              {errors.phone && <p className="text-red-500">{errors.phone}</p>}
-              <Input
-                type="role"
-                placeholder="Masukkan Role"
-                value={formData.role}
-                onChange={handleChange("role")}
-                onKeyDown={handleKeyDown}
-                className="w-full p-2 border border-gray-300 rounded mb-4"
-              />
-              {errors.role && <p className="text-red-500">{errors.role}</p>}
               <div className="address-form">
                 <h2>Select Address</h2>
                 <ComboxAddress onChange={handleAddressChange} />
-                <p>
-                  Selected Address:
-                  {selectedAddress.province?.name} /
-                  {selectedAddress.regency?.name} /
-                  {selectedAddress.district?.name} /
+                <div className="hidden">
+                  {selectedAddress.province?.name}
+                  {selectedAddress.regency?.name}
+                  {selectedAddress.district?.name}
                   {selectedAddress.village?.name}
-                </p>
-
+                </div>
+                <Label htmlFor="detail" className="mb-3">
+                  Phone
+                </Label>
                 <Input
-                  type="address"
+                  id="detail"
+                  type="text"
                   placeholder="Masukkan Detail"
                   value={formData.address.detail}
                   onChange={handleChange("address.detail")}
+                  onKeyDown={handleKeyDown}
+                  className="w-full p-2 border border-gray-300 rounded mb-4"
+                />
+                <Label htmlFor="email" className="mb-3">
+                  Street
+                </Label>
+                <Input
+                  id="street"
+                  type="text"
+                  placeholder="Masukkan Street"
+                  value={formData.address.street}
+                  onChange={handleChange("address.street")}
                   onKeyDown={handleKeyDown}
                   className="w-full p-2 border border-gray-300 rounded mb-4"
                 />
@@ -186,19 +249,20 @@ const Register = () => {
                   <p className="text-red-500">{errors.address}</p>
                 )}
               </div>
-
-              <button
-                onClick={prevStep}
-                className="px-4 py-2 bg-gray-300 rounded mr-2"
-              >
-                Back
-              </button>
-              <button
-                onClick={nextStep}
-                className="px-4 py-2 bg-blue-500 text-white rounded"
-              >
-                Next
-              </button>
+              <div>
+                <Button
+                  onClick={prevStep}
+                  className="px-4 py-2 bg-gray-300 rounded mr-2"
+                >
+                  <ChevronLeftIcon />
+                </Button>
+                <Button
+                  onClick={nextStep}
+                  className="px-4 py-2 bg-blue-500 text-white rounded"
+                >
+                  <ChevronRightIcon />
+                </Button>
+              </div>
             </div>
 
             {/* Step 4 */}
@@ -211,6 +275,18 @@ const Register = () => {
                 onKeyDown={handleKeyDown}
                 className="w-full p-2 border border-gray-300 rounded mb-4"
               />
+              <Input
+                type="password"
+                placeholder="Confirm Password"
+                value={formData.confirmPassword}
+                onChange={handleChange("confirmPassword")}
+                onKeyDown={handleKeyDown}
+                className="w-full p-2 border border-gray-300 rounded mb-4"
+              />
+              {errors.confirmPassword && (
+                <p className="text-red-500">{errors.confirmPassword}</p>
+              )}
+
               {errors.password && (
                 <p className="text-red-500">{errors.password}</p>
               )}

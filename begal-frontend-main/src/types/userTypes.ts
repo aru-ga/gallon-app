@@ -9,8 +9,8 @@ interface UserProfileWithConfirmPassword {
     regency: string;
     district: string;
     village: string;
-    detail?: string;  // Optional
-    street?: string;  // Optional
+    detail?: string;  
+    street?: string;
   };
   name: string;
   email: string;
@@ -26,6 +26,7 @@ interface UserProfile {
   name: string;
   email: string;
   password: string;
+  confirmPassword?: string;  
   address: {
     detail: string;
     district: string;
@@ -35,8 +36,9 @@ interface UserProfile {
     village: string;
   };
   role: string;
-  phone: number;
+  phone: string;
   profile_picture_url: string;
 }
+
 
 export type { LoginData, UserProfile, UserProfileWithConfirmPassword };

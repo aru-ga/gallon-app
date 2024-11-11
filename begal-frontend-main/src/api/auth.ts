@@ -1,5 +1,4 @@
 import axios from 'axios';
-import {userRegisterSchemas} from '@/schemas/userSchema';
 import { UserProfile } from '@/types/userTypes';
 
 const API_URL = "https://api-beli-galon.vercel.app/api/users";
@@ -9,18 +8,23 @@ const login = async (email: string, password: string) => {
     const response = await axios.post(`${API_URL}/login`, { email, password });
     return response.data;
   } catch (error) {
+    console.error("Error in login API call:", error);
     throw new Error("Login failed");
   }
 };
 
 const register = async (userData: UserProfile) => {
+  console.log("User Data being sent to API:", userData); 
   try {
     const response = await axios.post(`${API_URL}/register`, userData);
     return response.data;
   } catch (error) {
+    console.error("Error in register API call:", error); 
     throw new Error("Registration failed");
   }
 };
+
+
 
 const userProfile = async (token: string) => {
   try {
@@ -31,6 +35,7 @@ const userProfile = async (token: string) => {
     });
     return response.data;
   } catch (error) {
+    console.error("Error in register API call:", error); 
     throw new Error("Failed to fetch user profile");
   }
 };

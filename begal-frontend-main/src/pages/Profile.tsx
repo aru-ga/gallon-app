@@ -21,7 +21,7 @@ export default function Profile() {
       street: "",
       village: "",
     },
-    phone: 0,
+    phone: "",
     profile_picture_url: "",
   });
   useEffect(() => {
