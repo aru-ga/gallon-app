@@ -26,6 +26,17 @@ export default function Navbar({ activePath }: NavbarProps) {
     name: "",
     email: "",
     role: "",
+    password: "",
+    address: {
+      detail: "",
+      district: "",
+      province: "",
+      regency: "",
+      street: "",
+      village: "",
+    },
+    phone: "",
+    profile_picture_url: "",
   });
 
   useEffect(() => {
@@ -38,7 +49,7 @@ export default function Navbar({ activePath }: NavbarProps) {
 
     const fetchProfile = async () => {
       try {
-        const profile = await userProfile(token);
+        const profile = await userProfile();
         console.log(profile);
         setProfile(profile.data);
       } catch (error) {
@@ -100,10 +111,10 @@ export default function Navbar({ activePath }: NavbarProps) {
 
         <div className="hidden md:flex items-center space-x-2">
           <NavigationMenuItem>
-            <NavigationMenuLink className="flex" href="#">
-              <Input placeholder="Search" className="rounded w-72" />
+            <NavigationMenuLink className="flex">
+              <Input placeholder="Search" className="rounded w-72 dark:text-white" />
               <Button variant="ghost" type="submit" className="-ml-12">
-                <SearchIcon />
+                <SearchIcon className="text-blue-600" />
               </Button>
             </NavigationMenuLink>
           </NavigationMenuItem>
@@ -111,7 +122,7 @@ export default function Navbar({ activePath }: NavbarProps) {
 
         <div className="hidden md:flex items-center space-x-2">
           <NavigationMenuItem>
-            <NavigationMenuLink className="flex" href="#">
+            <NavigationMenuLink className="flex">
               <DarkModeToggle />
             </NavigationMenuLink>
           </NavigationMenuItem>

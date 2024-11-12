@@ -14,7 +14,6 @@ const login = async (email: string, password: string) => {
 };
 
 const register = async (userData: UserProfile) => {
-  console.log("User Data being sent to API:", userData); 
   try {
     const response = await axios.post(`${API_URL}/register`, userData);
     return response.data;
@@ -26,8 +25,9 @@ const register = async (userData: UserProfile) => {
 
 
 
-const userProfile = async (token: string) => {
+const userProfile = async () => {
   try {
+    const token = localStorage.getItem("authToken");
     const response = await axios.get(`${API_URL}/profile`, {
       headers: {
         Authorization: `Bearer ${token}`,

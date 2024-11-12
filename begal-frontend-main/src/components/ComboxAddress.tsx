@@ -33,6 +33,7 @@ interface ComboboxAddressProps {
 }
 
 export function ComboxAddress({ onChange }: ComboboxAddressProps) {
+  const [open, setOpen] = React.useState(false);
   const [selectedProvince, setSelectedProvince] =
     React.useState<Location | null>(null);
   const [selectedRegency, setSelectedRegency] = React.useState<Location | null>(
@@ -117,7 +118,7 @@ export function ComboxAddress({ onChange }: ComboboxAddressProps) {
     onSelect: (option: Location) => void,
     delay: number
   ) => (
-    <Popover>
+    <Popover defaultOpen>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
@@ -141,7 +142,10 @@ export function ComboxAddress({ onChange }: ComboboxAddressProps) {
                 <CommandItem
                   key={option.id}
                   value={option.name}
-                  onSelect={() => onSelect(option)}
+                  onSelect={() => {
+                    onSelect(option);
+                    setOpen(false);
+                  }}
                 >
                   {option.name}
                   <Check

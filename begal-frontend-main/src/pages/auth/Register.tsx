@@ -136,7 +136,7 @@ const Register = () => {
   };
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen dark:bg-gray-900 dark:text-white">
       <div className="w-1/2 flex items-center ">
         <img
           src={Illustration}
@@ -168,7 +168,7 @@ const Register = () => {
                 onKeyDown={handleKeyDown}
                 className="w-1/2 p-2 border rounded mb-4"
               />
-              <Button onClick={nextStep}>
+              <Button className="bg-blue-600 rounded-full h-10 w-10 p-0 hover:bg-blue-700 text-white" onClick={nextStep}>
                 <ChevronRightIcon />
               </Button>
             </div>
@@ -188,11 +188,11 @@ const Register = () => {
                 className="w-1/2 p-2 border rounded mb-4"
               />
               {errors.email && <p className="text-red-500">{errors.email}</p>}
-              <div>
-                <Button onClick={prevStep}>
+              <div className="flex flex-row gap-2">
+              <Button className="bg-blue-600 rounded-full h-10 w-10 p-0 hover:bg-blue-700 text-white" onClick={prevStep}>
                   <ChevronLeftIcon />
                 </Button>
-                <Button onClick={nextStep}>
+              <Button className="bg-blue-600 rounded-full h-10 w-10 p-0 hover:bg-blue-700 text-white" onClick={nextStep}>
                   <ChevronRightIcon />
                 </Button>
               </div>
