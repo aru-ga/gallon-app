@@ -57,7 +57,7 @@ export default function Profile() {
   }, []);
   return (
     <>
-      <div className="dark:bg-gray-900">
+      <div className="dark:bg-gray-900 h-screen">
         <Link
           to="/"
           className="flex flex-row hover:text-gray-500 items-center gap-5 px-20 pt-10 w-min"
@@ -76,32 +76,32 @@ export default function Profile() {
               <Avatar className="w-40 h-40">
                 <AvatarImage
                   src={profile.profile_picture_url}
-                  alt={`${profile.name}\'s img`}
+                  alt={`${profile.name}'s img`}
                 />
                 <AvatarFallback>
-                  <p className="text-sm text-gray-400 ">{`${profile.name}\'s img`}</p>
+                  <p className="text-sm text-gray-400 ">{`${profile.name}'s img`}</p>
                 </AvatarFallback>
-                <div className="grid w-full max-w-sm items-center gap-1.5">
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button variant="ghost" className="text-sm font-light">
-                        Change Image
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-80">
-                      <div className="grid gap-4">
-                        <div className="space-y-2">
-                          <Input
-                            id="picture"
-                            className="hover:cursor-pointer"
-                            type="file"
-                          />
-                        </div>
-                      </div>
-                    </PopoverContent>
-                  </Popover>
-                </div>
               </Avatar>
+              <div className="grid w-full max-w-sm items-center gap-1.5">
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="ghost" className="text-sm font-light">
+                      Change Image
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-80">
+                    <div className="grid gap-4">
+                      <div className="space-y-2">
+                        <Input
+                          id="picture"
+                          className="hover:cursor-pointer"
+                          type="file"
+                        />
+                      </div>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              </div>
               <div>
                 <h2 className="text-2xl font-bold">{profile.name}</h2>
                 <h2>{profile.address.detail}</h2>
@@ -150,9 +150,42 @@ export default function Profile() {
               <button className="border-b  text-right hover:bg-blue-200 p-3 w-48">
                 <Link to="/transaction">Transaction</Link>
               </button>
-              <button className="border-b  text-right hover:bg-blue-200 p-3 w-48">
-                Change Password
-              </button>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="outline">Change Password</Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md">
+                  <DialogHeader>
+                    <DialogTitle>Share link</DialogTitle>
+                    <DialogDescription>
+                      Anyone who has this link will be able to view this.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="flex items-center space-x-2">
+                    <div className="grid flex-1 gap-2">
+                      <Label htmlFor="link" className="sr-only">
+                        Link
+                      </Label>
+                      <Input
+                        id="link"
+                        defaultValue="https://ui.shadcn.com/docs/installation"
+                        readOnly
+                      />
+                    </div>
+                    <Button type="submit" size="sm" className="px-3">
+                      <span className="sr-only">Copy</span>
+                      <Copy />
+                    </Button>
+                  </div>
+                  <DialogFooter className="sm:justify-start">
+                    <DialogClose asChild>
+                      <Button type="button" variant="secondary">
+                        Close
+                      </Button>
+                    </DialogClose>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
               <button className="border-b  text-right hover:bg-blue-200 p-3 w-48">
                 Info
               </button>

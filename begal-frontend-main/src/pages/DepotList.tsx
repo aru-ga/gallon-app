@@ -39,7 +39,6 @@ function DepotList() {
     <>
       <Navbar activePath={location.pathname} />
 
-
       <div className="py-10 dark:bg-gray-900">
         <Carousel
           className="w-full"
@@ -86,7 +85,7 @@ function DepotList() {
         </div>
       </div>
 
-      <div className="grid grid-cols-5 gap-2 px-24 py-10 dark:bg-gray-900">
+      <div className="grid xl:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 gap-2 px-24 py-10 dark:bg-gray-900">
         {depotListData.map((depot) => (
           <CardDepot
             key={depot.id}

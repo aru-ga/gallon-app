@@ -42,15 +42,6 @@ export default function Dashboard() {
               <p>lorem</p>
             </div>
           </div>
-          <div className="flex flex-row items-center space-x-2">
-            <Button onClick={() => setCount(count + 1)}>State +</Button>
-            <Button
-              disabled={count === 0 ? true : false}
-              onClick={() => count > 0 && setCount(count - 1)}
-            >
-              State -
-            </Button>
-          </div>
 
           <div className="min-h-[100vh]  flex-1 rounded-xl md:min-h-min">
             <div className="flex flex-row justify-between">

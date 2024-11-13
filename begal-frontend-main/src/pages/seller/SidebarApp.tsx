@@ -20,6 +20,7 @@ interface SidebarAppProps {
   comps: React.ReactNode;
 }
 
+
 export default function SidebarApp({ comps }: SidebarAppProps) {
   const location = useLocation();
 

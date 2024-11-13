@@ -123,7 +123,7 @@ function Home() {
             <CarouselNext className="p-10 text-white bg-black text-9xl dark:bg-gray-700 -top-14 right-0" />
             <CarouselContent>
               {depotListData.map((depot) => (
-                <CarouselItem key={depot.id} className="basis-1/3">
+                <CarouselItem key={depot.id} className="basis-1/4">
                   <CardDepot
                     id={depot.id}
                     imageUrl={depot.imageUrl}
