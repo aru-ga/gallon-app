@@ -90,7 +90,7 @@ export default function About() {
               di lokasi Anda.
             </p>
           </div>
-          <div className="flex flex-col px-10 py-20 bg-white dark:bg-gray-700 text-white h-1/2 justify-around gap-5">
+          <div className="flex flex-col px-10 py-20 bg-white dark:bg-gray-700 dark:text-white h-1/2 justify-around gap-5">
             <WavesIcon className="w-10 h-10" />
             <h3 className="font-semibold text-2xl">EFISIENSI</h3>
             <p className="">
@@ -101,7 +101,7 @@ export default function About() {
         </div>
 
         <div className="h-full w-2/5 flex items-center justify-center">
-          <img src={whyChooseUsIllustration} alt="" />
+          <img src={whyChooseUsIllustration} className="bg-cover" alt="" />
         </div>
 
         <div className="w-1/2 bg-white dark:bg-gray-800 flex flex-col ">
@@ -137,22 +137,28 @@ export default function About() {
         </div>
 
         <div className="flex flex-col h-full">
-          <h3 className="text-5xl mb-20 pr-20 font-bold">Frequently Asked Questions</h3>
+          <h3 className="text-5xl mb-20 pr-20 font-bold">
+            Frequently Asked Questions
+          </h3>
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
-              <AccordionTrigger>Berapa banyak mitra yang  bekerja sama dengan begal?</AccordionTrigger>
-              <AccordionContent>
-                1000+ dan masih bertambah
-              </AccordionContent>
+              <AccordionTrigger>
+                Berapa banyak mitra yang bekerja sama dengan begal?
+              </AccordionTrigger>
+              <AccordionContent>1000+ dan masih bertambah</AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
-              <AccordionTrigger>Bagaimana cara menjadi mitra di begal?</AccordionTrigger>
+              <AccordionTrigger>
+                Bagaimana cara menjadi mitra di begal?
+              </AccordionTrigger>
               <AccordionContent>
                 Yes. It adheres to the WAI-ARIA design pattern.
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-3">
-              <AccordionTrigger>Apakah ada biaya admin untuk mendaftar sebagai mitra?</AccordionTrigger>
+              <AccordionTrigger>
+                Apakah ada biaya admin untuk mendaftar sebagai mitra?
+              </AccordionTrigger>
               <AccordionContent>
                 Yes. It adheres to the WAI-ARIA design pattern.
               </AccordionContent>

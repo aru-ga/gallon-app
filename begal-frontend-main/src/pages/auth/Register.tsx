@@ -168,7 +168,10 @@ const Register = () => {
                 onKeyDown={handleKeyDown}
                 className="w-1/2 p-2 border rounded mb-4"
               />
-              <Button className="bg-blue-600 rounded-full h-10 w-10 p-0 hover:bg-blue-700 text-white" onClick={nextStep}>
+              <Button
+                className="bg-blue-600 rounded-full h-10 w-10 p-0 hover:bg-blue-700 text-white"
+                onClick={nextStep}
+              >
                 <ChevronRightIcon />
               </Button>
             </div>
@@ -189,10 +192,16 @@ const Register = () => {
               />
               {errors.email && <p className="text-red-500">{errors.email}</p>}
               <div className="flex flex-row gap-2">
-              <Button className="bg-blue-600 rounded-full h-10 w-10 p-0 hover:bg-blue-700 text-white" onClick={prevStep}>
+                <Button
+                  className="bg-blue-600 rounded-full h-10 w-10 p-0 hover:bg-blue-700 text-white"
+                  onClick={prevStep}
+                >
                   <ChevronLeftIcon />
                 </Button>
-              <Button className="bg-blue-600 rounded-full h-10 w-10 p-0 hover:bg-blue-700 text-white" onClick={nextStep}>
+                <Button
+                  className="bg-blue-600 rounded-full h-10 w-10 p-0 hover:bg-blue-700 text-white"
+                  onClick={nextStep}
+                >
                   <ChevronRightIcon />
                 </Button>
               </div>

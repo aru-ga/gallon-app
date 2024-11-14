@@ -65,7 +65,7 @@ export default function LoginUser() {
                 id="email"
                 type="email"
                 {...register("email")}
-                className="w-full text-black"
+                className="w-full text-black dark:text-white"
                 placeholder="Enter your email"
               />
               {errors.email && (
@@ -80,7 +80,7 @@ export default function LoginUser() {
                 id="password"
                 type="password"
                 {...register("password")}
-                className="w-full text-black"
+                className="w-full text-black dark:text-white"
                 placeholder="Enter your password"
               />
               {errors.password && (

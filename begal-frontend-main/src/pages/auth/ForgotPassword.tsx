@@ -13,9 +13,12 @@ import AnimForgotPassword from "@/components/AnimForgotPassword";
 import AnimSetNew from "@/components/AnimSetNew";
 import AnimPlane from "@/components/AnimPlane";
 import AnimChecklist from "@/components/AnimChecklist";
+import { ChevronRightIcon } from "lucide-react";
+import { LoaderIcon } from "lucide-react";
 
 export default function ForgotPassword() {
   const [step, setStep] = useState(0);
+  const [submitOtp, setSubmitOtp] = useState(false);
 
   const nextStep = () => setStep((prevStep) => prevStep + 1);
   const prevStep = () => setStep((prevStep) => Math.max(prevStep - 1, 0));
@@ -99,8 +102,15 @@ export default function ForgotPassword() {
               <Button onClick={prevStep} variant="ghost">
                 <ChevronLeft />
               </Button>
-              <Button onClick={nextStep} className="bg-blue-500 text-white">
-                Next
+              <Button
+                onClick={() => setSubmitOtp(true)}
+                className="bg-blue-500 text-white"
+              >
+                {submitOtp ? (
+                  <LoaderIcon className="animate-spin" />
+                ) : (
+                  <ChevronRightIcon />
+                )}
               </Button>
             </div>
           </div>
@@ -127,9 +137,8 @@ export default function ForgotPassword() {
               <Button onClick={prevStep} variant="ghost">
                 <ChevronLeft />
               </Button>
-              <Button className="bg-green-500 text-white">Reset</Button>
               <Button onClick={nextStep} className="bg-blue-500 text-white">
-                Next
+                <ChevronRightIcon />
               </Button>
             </div>
           </div>
