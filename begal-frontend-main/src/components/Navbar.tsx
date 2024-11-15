@@ -15,11 +15,7 @@ import DarkModeToggle from "./DarkToggle";
 import { userProfile } from "@/api/auth";
 import { UserProfile } from "@/types/userTypes";
 
-interface NavbarProps {
-  activePath: string;
-}
-
-export default function Navbar({ activePath }: NavbarProps) {
+export default function Navbar() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [profile, setProfile] = useState<UserProfile>({
@@ -38,6 +34,8 @@ export default function Navbar({ activePath }: NavbarProps) {
     phone: "",
     profile_picture_url: "",
   });
+
+  const activePath = window.location.pathname;
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -112,7 +110,10 @@ export default function Navbar({ activePath }: NavbarProps) {
         <div className="hidden md:flex items-center space-x-2">
           <NavigationMenuItem>
             <NavigationMenuLink className="flex">
-              <Input placeholder="Search" className="rounded xl:w-72 md:w-36 dark:text-white" />
+              <Input
+                placeholder="Search"
+                className="rounded xl:w-72 md:w-36 dark:text-white"
+              />
               <Button variant="ghost" type="submit" className="-ml-12">
                 <SearchIcon className="text-blue-600" />
               </Button>

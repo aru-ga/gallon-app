@@ -1,5 +1,5 @@
 import Navbar from "@/components/Navbar";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { UsersIcon } from "lucide-react";
 import AboutIllustration from "@/assets/about.png";
@@ -19,10 +19,9 @@ import whyChooseUsIllustration from "@/assets/whychooseus.png";
 import Footer from "@/components/Footer";
 
 export default function About() {
-  const location = useLocation();
   return (
     <>
-      <Navbar activePath={location.pathname} />
+      <Navbar />
       <div className="pt-28 px-32 dark:bg-gray-900 dark:text-white">
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-10">
@@ -131,12 +130,12 @@ export default function About() {
         </div>
       </div>
 
-      <div className="my-28 w-screen bg-gray-200 justify-around py-20 h-full flex flex-row">
+      <div className="my-28 bg-gray-200 justify-around py-20 h-full flex flex-row">
         <div className="w-1/2 h-full flex justify-center items-center">
           <img src={faqIllustration} className="" alt="" />
         </div>
 
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col h-full px-20">
           <h3 className="text-5xl mb-20 pr-20 font-bold">
             Frequently Asked Questions
           </h3>

@@ -14,14 +14,12 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { Button } from "@/components/ui/button";
-import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 function Home() {
-  const location = useLocation();
   return (
     <>
-      <Navbar activePath={location.pathname} />
+      <Navbar />
       <main className="px-20 mt-24 dark:bg-gray-900 dark:text-white">
         <div className="my-10">
           <Carousel
