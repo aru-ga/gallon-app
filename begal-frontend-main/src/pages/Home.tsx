@@ -15,6 +15,7 @@ import {
 import Autoplay from "embla-carousel-autoplay";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import AnimWaterdrop from "@/components/ui/Animwaterdrop";
 
 function Home() {
   return (
