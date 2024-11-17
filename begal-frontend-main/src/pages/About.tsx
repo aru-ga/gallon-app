@@ -126,12 +126,12 @@ export default function About() {
         </div>
       </div>
 
-      <div className="my-28 w-screen bg-gray-200 justify-around py-20 h-full flex flex-row">
+      <div className="my-28 bg-gray-200 justify-around py-20 h-full flex flex-row">
         <div className="w-1/2 h-full flex justify-center items-center">
           <img src={faqIllustration} className="" alt="" />
         </div>
 
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col h-full px-20">
           <h3 className="text-5xl mb-20 pr-20 font-bold">
             Frequently Asked Questions
           </h3>
