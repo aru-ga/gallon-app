@@ -1,5 +1,4 @@
-import Navbar from "@/components/Navbar";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { UsersIcon } from "lucide-react";
 import AboutIllustration from "@/assets/about.png";
@@ -16,13 +15,9 @@ import {
 } from "@/components/ui/accordion";
 import whyChooseUsIllustration from "@/assets/whychooseus.png";
 
-import Footer from "@/components/Footer";
-
 export default function About() {
-  const location = useLocation();
   return (
-    <>
-      <Navbar activePath={location.pathname} />
+    <main>
       <div className="pt-28 px-32 dark:bg-gray-900 dark:text-white">
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-10">
@@ -172,8 +167,6 @@ export default function About() {
           </Accordion>
         </div>
       </div>
-
-      <Footer />
-    </>
+    </main>
   );
 }

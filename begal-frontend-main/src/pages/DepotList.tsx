@@ -1,6 +1,4 @@
-import { useEffect } from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import { useEffect, useState } from "react";
 import "../styles/globals.css";
 import heroIcon from "@/assets/hero-icon.png";
 import ellipse from "@/assets/ellipse.png";
@@ -10,35 +8,33 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
-import { useLocation } from "react-router-dom";
 import CardDepot from "@/components/CardDepot";
-import { carouselItems, depotListData } from "@/lib/DummyData";
+import { carouselItems } from "@/lib/DummyData";
+import instance from "@/lib/axios";
+import depotType from "@/types/depotType";
 
 function DepotList() {
-  const location = useLocation();
+  const [depotList, setDepotList] = useState<depotType[]>([]);
+  const token: string | null = localStorage.getItem("authToken");
+
+  const getDepotList = async () => {
+    try {
+      const response = await instance.get("sellers/nearby", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      setDepotList(response.data.data);
+      console.log(response.data.data);
+    } catch (error) {
+      console.error("Error fetching depot list:", error);
+    }
+  };
 
   useEffect(() => {
-    const savedMode = localStorage.getItem("dark-mode");
-    if (savedMode) {
-      if (savedMode === "enabled") {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
-    } else {
-      const systemPreference = window.matchMedia(
-        "(prefers-color-scheme: dark)"
-      ).matches;
-      if (systemPreference) {
-        document.documentElement.classList.add("dark");
-      }
-    }
+    getDepotList();
   }, []);
-
   return (
-    <>
-      <Navbar activePath={location.pathname} />
-
+    <main>
       <div className="py-10 dark:bg-gray-900">
         <Carousel
           className="w-full"
@@ -86,20 +82,18 @@ function DepotList() {
       </div>
 
       <div className="grid xl:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 gap-2 px-24 py-10 dark:bg-gray-900">
-        {depotListData.map((depot) => (
+        {depotList.map((depot) => (
           <CardDepot
             key={depot.id}
             id={depot.id}
-            imageUrl={depot.imageUrl}
+            profile_picture_url={depot.profile_picture_url}
             name={depot.name}
-            location={depot.address.province}
-            ratings={depot.ratings}
+            address={depot.address}
+            rating={depot.rating}
           />
         ))}
       </div>
-
-      <Footer />
-    </>
+    </main>
   );
 }
 

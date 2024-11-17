@@ -4,13 +4,10 @@ import { Separator } from "@/components/ui/separator";
 import { depotData } from "@/lib/DummyData";
 import { products } from "@/lib/DummyData";
 import CardProduct from "@/components/CardProduct";
-import Navbar from "@/components/Navbar";
 
 export default function DepotDetail() {
   const params = useParams();
   const depot = depotData.find((d) => d.id === params.depotId?.toString());
-  console.log("Params ID:", params);
-  console.log("Depot Data:", depotData);
 
   if (!depot) {
     return <p className="text-center mt-20">Depot not found.</p>;
@@ -18,7 +15,6 @@ export default function DepotDetail() {
 
   return (
     <>
-      <Navbar activePath={location.pathname} />
       <div className="dark:bg-gray-900 mt-24 pt-20">
         <div className=" bg-white dark:bg-gray-950 dark:text-white dark:border-none shadow-lg w-2/3 p-10 rounded-xl border mx-auto flex justify-between items-center">
           <div className="flex flex-row">
