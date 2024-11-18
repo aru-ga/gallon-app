@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export default function login() {
   return (
     <>
-      <div className="flex flex-row h-screen">
+      <div className="flex flex-row h-screen mt-20">
         <div>
           <img src={Illustration} className="h-screen" alt="" />
         </div>

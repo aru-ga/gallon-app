@@ -9,6 +9,7 @@ interface productType {
   image_url: "string";
   created_at: "string";
   updated_at: "string";
+  quantity: "string";
 }
 
 export default productType;
