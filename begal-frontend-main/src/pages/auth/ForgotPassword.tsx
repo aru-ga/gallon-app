@@ -24,12 +24,12 @@ export default function ForgotPassword() {
   const prevStep = () => setStep((prevStep) => Math.max(prevStep - 1, 0));
 
   return (
-    <div className="flex items-center justify-center h-screen relative overflow-hidden">
+    <div className="flex dark:bg-gray-900 text-white items-center justify-center h-screen relative overflow-hidden">
       <Link to="/login" className="absolute top-4 left-4 text-gray-500">
         <ChevronLeft />
       </Link>
 
-      <div className="relative w-full max-w-md bg-white rounded-lg  overflow-hidden">
+      <div className="relative w-full max-w-md dark:bg-gray-800 bg-white rounded-lg  overflow-hidden">
         <div
           className="flex transition-transform duration-500"
           style={{ transform: `translateX(-${step * 100}%)` }}
@@ -69,30 +69,30 @@ export default function ForgotPassword() {
               <InputOTP maxLength={6}>
                 <InputOTPGroup className="flex">
                   <InputOTPSlot
-                    className="rounded-none border-black"
+                    className="rounded-none dark:border-white border-black"
                     index={0}
                   />
                   <InputOTPSlot
-                    className="rounded-none border-black"
+                    className="rounded-none dark:border-white border-black"
                     index={1}
                   />
                   <InputOTPSlot
-                    className="rounded-none border-black"
+                    className="rounded-none dark:border-white border-black"
                     index={2}
                   />
                 </InputOTPGroup>
                 <InputOTPSeparator className="text-blue-600" />
                 <InputOTPGroup className="flex">
                   <InputOTPSlot
-                    className="rounded-none border-black"
+                    className="rounded-none dark:border-white border-black"
                     index={3}
                   />
                   <InputOTPSlot
-                    className="rounded-none border-black"
+                    className="rounded-none dark:border-white border-black"
                     index={4}
                   />
                   <InputOTPSlot
-                    className="rounded-none border-black"
+                    className="rounded-none dark:border-white border-black"
                     index={5}
                   />
                 </InputOTPGroup>
@@ -102,15 +102,8 @@ export default function ForgotPassword() {
               <Button onClick={prevStep} variant="ghost">
                 <ChevronLeft />
               </Button>
-              <Button
-                onClick={() => setSubmitOtp(true)}
-                className="bg-blue-500 text-white"
-              >
-                {submitOtp ? (
-                  <LoaderIcon className="animate-spin" />
-                ) : (
-                  <ChevronRightIcon />
-                )}
+              <Button onClick={nextStep} className="bg-blue-500 text-white">
+                <ChevronRightIcon />
               </Button>
             </div>
           </div>
@@ -142,17 +135,19 @@ export default function ForgotPassword() {
               </Button>
             </div>
           </div>
-          <div className="min-w-full p-6 space-y-4 text-center">
+          <div className="min-w-full py-10 p-6 space-y-4 justify-between flex flex-col text-center">
             <div className="w-1/2 mx-auto">
               <AnimChecklist />
             </div>
-            <h2 className="text-xl font-semibold">Set new password</h2>
-            <h2 className="text-gray-500 font-extralight">
-              Password has been reset successfully
-            </h2>
-            <Button className="bg-blue-500 text-white">
-              <Link to="/login">Login</Link>
-            </Button>
+            <div>
+              <h2 className="text-xl font-semibold">Set new password</h2>
+              <h2 className="text-gray-500 font-extralight">
+                Password has been reset successfully
+              </h2>
+            </div>
+            <Link to="/login">
+              <Button className="bg-blue-500 w-full text-white">Login</Button>
+            </Link>
           </div>
         </div>
       </div>

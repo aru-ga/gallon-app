@@ -17,14 +17,21 @@ import CatalogueEdit from "@/pages/seller/CatalogueEdit";
 import ForgotPassword from "@/pages/auth/ForgotPassword";
 import Transaction from "@/pages/Transaction";
 import Footer from "@/components/Footer";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import ProductDetail from "@/pages/seller/ProductDetail";
 
 const App = () => {
+  const location = useLocation();
+
+  const hideNavbarPaths = ["/seller", "/login", "/register"];
+
   return (
     <>
-      <Navbar />
+      {!hideNavbarPaths.some((path) => location.pathname.startsWith(path)) && (
+        <Navbar />
+      )}
+
       <Routes>
         <Route path="/" Component={Home} />
         <Route path="/transaction" Component={Transaction} />
@@ -60,7 +67,10 @@ const App = () => {
         <Route path="/cart" Component={Cart} />
         <Route path="/*" Component={NotFound} />
       </Routes>
-      <Footer />
+
+      {!hideNavbarPaths.some((path) => location.pathname.startsWith(path)) && (
+        <Footer />
+      )}
     </>
   );
 };

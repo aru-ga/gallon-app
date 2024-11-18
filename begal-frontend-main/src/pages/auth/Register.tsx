@@ -231,7 +231,7 @@ const Register = () => {
                   {selectedAddress.village?.name}
                 </div>
                 <Label htmlFor="detail" className="mb-3">
-                  Phone
+                  Detail
                 </Label>
                 <Input
                   id="detail"

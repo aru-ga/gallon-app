@@ -4,109 +4,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import transactionType from "@/types/transactionType";
 
-const dummyOrders: transactionType[] = [
-  {
-    _id: "673a2750477815bfaf589783",
-    user_id: "6739899b13379cc207e5b9df",
-    seller_id: "671d3d9a928bd15c1420e343",
-    created_at: "2024-11-17T17:26:40.447Z",
-    delivery_address: {
-      province: "DI YOGYAKARTA",
-      regency: "KABUPATEN SLEMAN",
-      district: "NGEMPLAK",
-    },
-    payment_method: "transfer",
-    payment_response: {
-      token: "1a9f9ce7-9014-4469-bce2-d15dbaa430c4",
-      redirect_url:
-        "https://app.sandbox.midtrans.com/snap/v4/redirection/1a9f9ce7-9014-4469-bce2-d15dbaa430c4",
-    },
-    payment_status: "pending",
-    products: [
-      {
-        product_id: "672abd55e7d8123bd3cf4fe3",
-        name: "Aqua Botol 600ml",
-        image_url:
-          "https://res.cloudinary.com/dftnz5baq/image/upload/v1730854587/uploads/wzi1jn3ct3btsvczjgql.png",
-        price: 18000,
-        quantity: 1,
-      },
-      {
-        product_id: "671da472fddde61ed5ad45ad",
-        name: "Galon Air Mineral 19L",
-        image_url: null,
-        price: 20000,
-        quantity: 1,
-      },
-    ],
-    status: "pending",
-    total_price: 38000,
-    transaction_id: "",
-    updated_at: "2024-11-17T17:26:42.225Z",
-  },
-  {
-    _id: "673a2795477815bfaf589792",
-    user_id: "6739899b13379cc207e5b9df",
-    seller_id: "671d3d9a928bd15c1420e343",
-    created_at: "2024-11-17T17:27:49.123Z",
-    delivery_address: {
-      province: "DI YOGYAKARTA",
-      regency: "KOTA YOGYAKARTA",
-      district: "GONDOKUSUMAN",
-    },
-    payment_method: "cash",
-    payment_response: {
-      token: "",
-      redirect_url: "",
-    },
-    payment_status: "paid",
-    products: [
-      {
-        product_id: "671da472fddde61ed5ad45ad",
-        name: "Galon Air Mineral 19L",
-        image_url: null,
-        price: 20000,
-        quantity: 2,
-      },
-    ],
-    status: "processing",
-    total_price: 40000,
-    transaction_id: "TRX123456",
-    updated_at: "2024-11-17T17:28:00.000Z",
-  },
-  {
-    _id: "673a2b0f0d7586d70c319b34",
-    user_id: "6739899b13379cc207e5b9df",
-    seller_id: "671d3d9a928bd15c1420e343",
-    created_at: "2024-11-17T17:30:15.789Z",
-    delivery_address: {
-      province: "DI YOGYAKARTA",
-      regency: "KABUPATEN BANTUL",
-      district: "SEWON",
-    },
-    payment_method: "transfer",
-    payment_response: {
-      token: "2b0f9ce7-9014-4469-bce2-d15dbaa430c5",
-      redirect_url:
-        "https://app.sandbox.midtrans.com/snap/v4/redirection/2b0f9ce7-9014-4469-bce2-d15dbaa430c5",
-    },
-    payment_status: "pending",
-    products: [
-      {
-        product_id: "672abd55e7d8123bd3cf4fe3",
-        name: "Aqua Botol 600ml",
-        image_url:
-          "https://res.cloudinary.com/dftnz5baq/image/upload/v1730854587/uploads/wzi1jn3ct3btsvczjgql.png",
-        price: 18000,
-        quantity: "3",
-      },
-    ],
-    status: "pending",
-    total_price: 54000,
-    transaction_id: "",
-    updated_at: "2024-11-17T17:30:20.000Z",
-  },
-];
 function CardTransaction({ order }: { order: transactionType }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -196,7 +93,7 @@ function CardTransaction({ order }: { order: transactionType }) {
             {order.payment_status === "pending" &&
               order.payment_method === "transfer" && (
                 <Button
-                  className="mt-2 w-full"
+                  className="mt-2 w-full bg-blue-600"
                   onClick={() =>
                     window.open(order.payment_response.redirect_url, "_blank")
                   }
@@ -211,13 +108,4 @@ function CardTransaction({ order }: { order: transactionType }) {
   );
 }
 
-export default function Component() {
-  return (
-    <div className="space-y-4 p-4">
-      <h1 className="text-2xl font-bold mb-4">Your Orders</h1>
-      {dummyOrders.map((order) => (
-        <CardTransaction key={order._id} order={order} />
-      ))}
-    </div>
-  );
-}
+export default CardTransaction;

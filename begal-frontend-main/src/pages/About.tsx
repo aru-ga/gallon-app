@@ -25,8 +25,8 @@ export default function About() {
               <h3 className="text-5xl font-bold w-min whitespace-nowrap rounded">
                 Beli galon
               </h3>
-              <h3 className="text-5xl font-bold from-blue-600 via-gray-50 to-white bg-gradient-to-r bg-clip-text text-transparent">
-                A Lebih Cepat
+              <h3 className="text-5xl animate-pulse duration-75 font-bold from-blue-600 via-gray-50 to-white bg-gradient-to-r bg-clip-text text-transparent">
+                Lebih Cepat
               </h3>
             </div>
             <h3 className="text-4xl w-1/2">
