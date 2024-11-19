@@ -13,7 +13,6 @@ export default function LoginUser() {
   const navigate = useNavigate();
 
   const {
-    register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginData>({
@@ -64,7 +63,6 @@ export default function LoginUser() {
               <Input
                 id="email"
                 type="email"
-                {...register("email")}
                 className="w-full text-black dark:text-white"
                 placeholder="Enter your email"
               />
@@ -79,7 +77,6 @@ export default function LoginUser() {
               <Input
                 id="password"
                 type="password"
-                {...register("password")}
                 className="w-full text-black dark:text-white"
                 placeholder="Enter your password"
               />
