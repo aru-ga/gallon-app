@@ -56,7 +56,7 @@ function Home() {
   }, []);
 
   return (
-    <main className="px-20 mt-24 dark:bg-gray-900 dark:text-white">
+    <main className="px-20 mt-24 dark:bg-gray-900  dark:text-white">
       <div className="my-10">
         <Carousel
           className="w-full"
@@ -109,12 +109,9 @@ function Home() {
           Produk yang <br /> ditawarkan
         </h3>
 
-        <Carousel className="z-20 max-w-screen-md">
+        <Carousel className="z-20 flex-1 min-w-[75%] max-w-screen-md">
           <CarouselNext className="p-10 text-white bg-black text-9xl dark:bg-gray-700 -top-14 right-0" />
-          <CarouselPrevious
-            variant="ghost"
-            className="p-10 text-white bg-black dark:bg-gray-700  -top-14 translate-x-[650px] right-44"
-          />
+          <CarouselPrevious className="p-10 text-white bg-black dark:bg-gray-700  -top-14 translate-x-[1000px] right-44" />
           <CarouselContent className="flex flex-row gap-10">
             {products.map((product) => (
               <CardProduct
@@ -199,30 +196,45 @@ function Home() {
         </Carousel>
       </div> */}
 
-      <div className="flex flex-col gap-20 mt-20 mb-52">
-        <div className="bg-blue-600 h-80 w-full flex flex-col p-20 justify-between dark:bg-gray-800">
-          <h3 className="text-4xl text-white dark:text-gray-200">
-            Lorem ipsum dolor sit amet, consectetur.
+      <section className="relative min-h-[400px] w-full bg-white dark:bg-gray-950 rounded-lg pb-20 overflow-hidden">
+        <div className="container relative z-10 mx-auto px-4 py-16 text-center">
+          <h2 className="mb-2 text-3xl font-bold sm:text-4xl md:text-5xl">
+            Pesan Galon
+          </h2>
+          <h3 className="mb-6 text-xl font-semibold sm:text-2xl md:text-3xl">
+            Lebih Mudah dengan Kami
           </h3>
-          <div className="flex justify-between">
-            <div className="flex flex-row items-center">
-              <p className="text-white p-2 bg-black dark:bg-gray-700">icon</p>
-              <p>Lorem ipsum dolor</p>
-            </div>
-            <div className="flex flex-row items-center">
-              <p className="text-white p-2 bg-black dark:bg-gray-700">icon</p>
-              <p>Lorem ipsum dolor</p>
-            </div>
-            <div className="flex flex-row items-center">
-              <p className="text-white p-2 bg-black dark:bg-gray-700">icon</p>
-              <p>Lorem ipsum dolor</p>
-            </div>
-            <div className="flex flex-row items-center">
-              <Button className="w-56 rounded">Order Now</Button>
-            </div>
-          </div>
+          <p className="mx-auto max-w-2xl text-base sm:text-lg">
+            Nikmati kemudahan dalam memenuhi kebutuhan air harian Anda dengan
+            layanan antar galon air kami yang cepat dan praktis
+          </p>
         </div>
-      </div>
+
+        <div className="absolute bottom-0 left-0 w-full">
+          <svg
+            viewBox="0 0 1440 320"
+            className="w-full"
+            preserveAspectRatio="none"
+            height="160"
+          >
+            <path
+              fill="#E1F5FE"
+              fillOpacity="1"
+              d="M0,128L48,138.7C96,149,192,171,288,165.3C384,160,480,128,576,128C672,128,768,160,864,170.7C960,181,1056,171,1152,149.3C1248,128,1344,96,1392,80L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+            ></path>
+            <path
+              fill="#81D4FA"
+              fillOpacity="0.8"
+              d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,213.3C672,224,768,224,864,213.3C960,203,1056,181,1152,181.3C1248,181,1344,203,1392,213.3L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+            ></path>
+            <path
+              fill="#03A9F4"
+              fillOpacity="1"
+              d="M0,256L48,261.3C96,267,192,277,288,277.3C384,277,480,267,576,245.3C672,224,768,192,864,181.3C960,171,1056,181,1152,192C1248,203,1344,213,1392,218.7L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+            ></path>
+          </svg>
+        </div>
+      </section>
 
       {/* <div className="flex flex-col  gap-20 pt-20 pb-52">
         <div className="flex justify-between dark:text-white">

@@ -19,7 +19,7 @@ interface depotType {
     open: string;
     close: string;
   };
-  rating: string;
+  rating: number;
   reviews_count: string;
   created_at: string;
   updated_at: string;

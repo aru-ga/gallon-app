@@ -24,7 +24,7 @@ import ProductDetail from "@/pages/seller/ProductDetail";
 const App = () => {
   const location = useLocation();
 
-  const hideNavbarPaths = ["/seller", "/login", "/register"];
+  const hideNavbarPaths = ["/seller", "/login", "/register", "/profile-user"];
 
   return (
     <>
@@ -63,6 +63,19 @@ const App = () => {
         <Route
           path="/seller/order"
           Component={() => <Layout children={<Order />} />}
+        />
+        <Route
+          path="/profile-user/"
+          Component={() => <Layout children={<Dashboard />} />}
+        />
+        <Route path="/profile-user/address" Component={CatalogueEdit} />
+        <Route
+          path="/profile-user/transaction"
+          Component={() => <Layout children={<SellerProfile />} />}
+        />
+        <Route
+          path="/profile-user/change-password"
+          Component={() => <Layout children={<SellerTransaction />} />}
         />
         <Route path="/cart" Component={Cart} />
         <Route path="/*" Component={NotFound} />

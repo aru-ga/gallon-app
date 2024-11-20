@@ -3,12 +3,13 @@ import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
 import { StarIcon } from "lucide-react";
 import depotType from "@/types/depotType";
+import dummyImg from "@/assets/feature-slider.png";
 
 export default function CardDepot({
   id = "",
   name = "Depot Name",
-  rating = "",
-  profile_picture_url,
+  rating = 0,
+  profile_picture_url = dummyImg,
   address = {
     province: "",
     regency: "",
@@ -21,45 +22,43 @@ export default function CardDepot({
 }: depotType) {
   return (
     <Card
-      className={`rounded flex w-80 border-blue-600 flex-col items-center ${className}`}
+      className={`rounded flex w-80 border-blue-600 flex-col min-w-[200px] m-0 min-h-[300px] items-center ${className}`}
       key={id}
     >
       <CardHeader className="flex flex-col items-center">
         <img
-          src={profile_picture_url}
+          src={profile_picture_url ? profile_picture_url : dummyImg}
           alt={name}
           className="bg-center object-cover"
         />
-        <div className="flex flex-row justify-between w-full">
-          <p className="text-blue-600 text-xl font-semibold">{name}</p>
+        <p className="text-blue-600 text-xl font-semibold">{name}</p>
 
-          <p className="flex flex-row items-center justify-center">
-            {[...Array(Math.floor(rating))].map((_, index) => (
-              <StarIcon
-                key={index}
-                className="h-5 w-5 fill-yellow-500 text-transparent"
-              />
-            ))}
+        <p className="flex flex-row items-center justify-center">
+          {[...Array(Math.floor(rating))].map((_, index) => (
+            <StarIcon
+              key={index}
+              className="h-5 w-5 fill-yellow-500 text-transparent"
+            />
+          ))}
 
-            {rating % 1 !== 0 && (
-              <StarIcon
-                key="half"
-                className="h-5 w-5 fill-yellow-500 text-transparent opacity-50"
-              />
-            )}
+          {rating % 1 !== 0 && (
+            <StarIcon
+              key="half"
+              className="h-5 w-5 fill-yellow-500 text-transparent opacity-50"
+            />
+          )}
 
-            {[...Array(5 - Math.ceil(rating))].map((_, index) => (
-              <StarIcon
-                key={Math.floor(rating) + index + 1}
-                className="h-5 w-5 fill-gray-300 text-transparent"
-              />
-            ))}
+          {[...Array(5 - Math.ceil(rating))].map((_, index) => (
+            <StarIcon
+              key={Math.floor(rating) + index + 1}
+              className="h-5 w-5 fill-gray-300 text-transparent"
+            />
+          ))}
 
-            <span className="ml-2">{rating}/5</span>
-          </p>
-        </div>
+          <span className="ml-2">{rating}/5</span>
+        </p>
       </CardHeader>
-      <CardContent className="w-full">
+      <CardContent className="w-full text-sm">
         <p className="text-left">{address.province}</p>
         <p className="text-left">{address.detail}</p>
       </CardContent>
