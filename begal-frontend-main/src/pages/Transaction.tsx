@@ -31,7 +31,7 @@ export default function Transaction() {
   return (
     <>
       {token ? (
-        <div className="min-h-screen flex items-center justify-center">
+        <div className="min-h-screen flex items-center justify-center mt-40">
           <div className="space-y-4 p-4">
             <h1 className="text-2xl font-bold mb-4">Your Orders</h1>
             <div className="flex flex-col">

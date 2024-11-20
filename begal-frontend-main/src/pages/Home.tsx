@@ -61,6 +61,7 @@ function Home() {
         <Carousel
           className="w-full"
           plugins={[
+            //@ts-ignore
             Autoplay({
               delay: 2000,
             }),
@@ -104,41 +105,25 @@ function Home() {
       </div>
 
       <div className="flex justify-between items-center gap-20 mt-20 dark:text-white">
-        <h3 className="text-2xl flex items-center justify-center -mr-40 rounded-lg z-10 p-24 w-1/2 bg-blue-600 dark:bg-red text-white dark:text-gray-100">
+        <h3 className="text-2xl flex min-h-[300px] items-center justify-center -mr-40 rounded-lg z-10 p-24 w-1/2 bg-blue-600 dark:bg-red text-white dark:text-gray-100">
           Produk yang <br /> ditawarkan
         </h3>
 
-        <Carousel
-          orientation="horizontal"
-          opts={{
-            align: "start",
-          }}
-          className="z-10"
-        >
+        <Carousel className="z-20 max-w-screen-md">
+          <CarouselNext className="p-10 text-white bg-black text-9xl dark:bg-gray-700 -top-14 right-0" />
           <CarouselPrevious
             variant="ghost"
-            className="p-9 text-white bg-black dark:bg-gray-700 right-80 -top-14 translate-x-96 left-40"
+            className="p-10 text-white bg-black dark:bg-gray-700  -top-14 translate-x-[650px] right-44"
           />
-          <CarouselNext
-            variant="ghost"
-            className="p-9 text-white bg-black dark:bg-gray-700 -top-14 right-0"
-          />
-          <CarouselContent className="w-full -ml-1">
+          <CarouselContent className="flex flex-row gap-10">
             {products.map((product) => (
-              <CarouselItem
-                key={product.id}
-                className="pl-1 md:basis-1/2 lg:basis-1/3"
-              >
-                <div className="p-1">
-                  <CardProduct
-                    id={product.id}
-                    image_url={product.image_url}
-                    name={product.name}
-                    price={product.price}
-                    className="mx-auto"
-                  />
-                </div>
-              </CarouselItem>
+              <CardProduct
+                id={product.id}
+                image_url={product.image_url}
+                name={product.name}
+                price={product.price}
+                className=""
+              />
             ))}
           </CarouselContent>
         </Carousel>

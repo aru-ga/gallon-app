@@ -1,25 +1,31 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Illustration from "@/assets/img-sign.png";
+import Illustration from "@/assets/img-sign.png"; // Use `/assets/img-sign.png` if moved to public folder.
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, LoginData } from "@/schemas/userSchema";
 import { login } from "@/api/auth";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
 export default function LoginUser() {
-  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const {
     handleSubmit,
+    register,
     formState: { errors },
   } = useForm<LoginData>({
     resolver: zodResolver(loginSchema),
   });
 
   const handleLogin = async (data: LoginData) => {
+    setLoading(true);
     setError(null);
     const { email, password } = data;
 
@@ -27,19 +33,22 @@ export default function LoginUser() {
       console.log("Attempting login with:", { email, password });
       const response = await login(email, password);
 
-      const token = response.token;
+      const token = response?.token;
       if (token) {
         localStorage.setItem("authToken", token);
         navigate("/");
       } else {
-        setError("Login failed. Token not received from server.");
+        setError("Invalid server response. Token not found.");
       }
     } catch (error: any) {
       console.error("Login failed", error);
       setError(
         error.response?.data?.message ||
-          "Login failed. Please check your credentials."
+          error.message ||
+          "An unexpected error occurred. Please try again later."
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -61,8 +70,10 @@ export default function LoginUser() {
                 Email
               </label>
               <Input
+                {...register("email")}
                 id="email"
                 type="email"
+                aria-invalid={!!errors.email}
                 className="w-full text-black dark:text-white"
                 placeholder="Enter your email"
               />
@@ -75,11 +86,20 @@ export default function LoginUser() {
                 Password
               </label>
               <Input
+                {...register("password")}
                 id="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
+                aria-invalid={!!errors.password}
                 className="w-full text-black dark:text-white"
                 placeholder="Enter your password"
               />
+              <div className="flex items-center mt-2 mb-5 space-x-2">
+                <Checkbox
+                  id="show-password"
+                  onCheckedChange={(checked) => setShowPassword(!!checked)}
+                />
+                <Label htmlFor="show-password">Show password</Label>
+              </div>
               {errors.password && (
                 <p className="text-red-500">{errors.password.message}</p>
               )}
@@ -87,9 +107,10 @@ export default function LoginUser() {
             {error && <p className="text-red-500">{error}</p>}
             <Button
               type="submit"
+              disabled={loading}
               className="w-full bg-white text-blue-600 hover:bg-blue-100"
             >
-              Login
+              {loading ? "Logging in..." : "Login"}
             </Button>
             <Button type="button" variant="link" className="text-white">
               <Link to="/forgot-password">Forgot password</Link>
