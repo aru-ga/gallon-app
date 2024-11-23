@@ -12,49 +12,24 @@ import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import DarkModeToggle from "./DarkToggle";
-import { userProfile } from "@/api/auth";
-import { UserProfile } from "@/types/userTypes";
+import { useSelector } from "react-redux";
 
 export default function Navbar() {
   const location = useLocation();
   const activePath = location.pathname;
   const [loggedIn, setLoggedIn] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [profile, setProfile] = useState<UserProfile>({
-    name: "",
-    email: "",
-    role: "",
-    password: "",
-    address: {
-      detail: "",
-      district: "",
-      province: "",
-      regency: "",
-      street: "",
-      village: "",
-    },
-    phone: "",
-    profile_picture_url: "",
-  });
+
+  const userSelector = useSelector((state) => state.user);
 
   useEffect(() => {
+    console.log(userSelector);
     const token = localStorage.getItem("authToken");
     if (token) {
       setLoggedIn(true);
     } else {
       setLoggedIn(false);
     }
-
-    const fetchProfile = async () => {
-      try {
-        const profile = await userProfile();
-        console.log(profile);
-        setProfile(profile.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchProfile();
   }, []);
 
   const toggleMenu = () => {
@@ -144,9 +119,13 @@ export default function Navbar() {
                   <NavigationMenuLink>
                     <Link to="/profile">
                       <div className="flex flex-col-reverse gap-2 items-center">
-                        <p className="dark:text-white">{profile.name}</p>
+                        <p className="dark:text-white">
+                          {userSelector.user.name}
+                        </p>
                         <Avatar className="w-9 h-9">
-                          <AvatarImage src="https://github.com/shadcn.png" />
+                          <AvatarImage
+                            src={userSelector.user.profile_picture_url}
+                          />
                           <AvatarFallback>user</AvatarFallback>
                         </Avatar>
                       </div>

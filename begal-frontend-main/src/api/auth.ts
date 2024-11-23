@@ -25,9 +25,8 @@ const register = async (userData: UserProfile) => {
 
 
 
-const userProfile = async () => {
+const userProfile = async (token: string) => {
   try {
-    const token = localStorage.getItem("authToken");
     const response = await axios.get(`${API_URL}/profile`, {
       headers: {
         Authorization: `Bearer ${token}`,

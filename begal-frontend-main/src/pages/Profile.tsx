@@ -3,9 +3,8 @@ import { Link } from "react-router-dom";
 import dummyImg from "../assets/hero-slider.png";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect } from "react";
-import userProfile from "@/api/auth";
-import { UserProfile } from "@/types/userTypes";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Input } from "@/components/ui/input";
 import {
   Popover,
@@ -25,36 +24,8 @@ import {
 import { Label } from "@/components/ui/label";
 
 export default function Profile() {
-  const [profile, setProfile] = useState<UserProfile>({
-    name: "",
-    email: "",
-    role: "",
-    password: "",
-    address: {
-      detail: "",
-      district: "",
-      province: "",
-      regency: "",
-      street: "",
-      village: "",
-    },
-    phone: "",
-    profile_picture_url: "",
-  });
-  useEffect(() => {
-    if (localStorage.getItem("authToken")) {
-      const fetchProfile = async () => {
-        try {
-          const profile = await userProfile();
-          setProfile(profile.data);
-          console.log(profile.data);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-      fetchProfile();
-    }
-  }, []);
+  const userSelector = useSelector((state) => state.user);
+
   return (
     <>
       <div className="dark:bg-gray-900 h-screen">
@@ -75,11 +46,11 @@ export default function Profile() {
             <div className="-mt-28 ml-20">
               <Avatar className="w-40 h-40">
                 <AvatarImage
-                  src={profile.profile_picture_url}
-                  alt={`${profile.name}'s img`}
+                  src={userSelector.user.profile_picture_url || dummyImg} // Fallback to dummy image if not available
+                  alt={`${userSelector.user.name}'s img`}
                 />
                 <AvatarFallback>
-                  <p className="text-sm text-gray-400 ">{`${profile.name}'s img`}</p>
+                  <p className="text-sm text-gray-400 ">{`${userSelector.user.name}'s img`}</p>
                 </AvatarFallback>
               </Avatar>
               <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -103,9 +74,9 @@ export default function Profile() {
                 </Popover>
               </div>
               <div>
-                <h2 className="text-2xl font-bold">{profile.name}</h2>
-                <h2>{profile.address.detail}</h2>
-                <h2>{profile.phone}</h2>
+                <h2 className="text-2xl font-bold">{userSelector.user.name}</h2>
+                <h2>{userSelector.user.address?.detail}</h2>
+                <h2>{userSelector.user.phone}</h2>
               </div>
             </div>
 

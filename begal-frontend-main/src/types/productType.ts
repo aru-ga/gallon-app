@@ -4,7 +4,7 @@ interface productType {
   seller_id: string;
   name: string;
   description: "string";
-  price: "string";
+  price: "number";
   stock: "string";
   image_url: "string";
   created_at: "string";

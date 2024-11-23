@@ -1,139 +1,156 @@
-import { useState } from "react";
-import { ChevronLeftCircle } from "lucide-react";
-import CardProductCart from "../components/CardProductCart";
-import dummyImg from "../assets/feature-slider.png";
+import { useDispatch, useSelector } from "react-redux";
+import { Separator } from "@/components/ui/separator";
 import { Link } from "react-router-dom";
+import { removeFromCart, updateCartItem } from "../store/cartActions";
+import CartItem from "@/components/CartItem";
+import instance from "@/lib/axios";
+import { useState } from "react";
 
 export default function Cart() {
-  const products = [
-    { id: "1", name: "Air isi ulang", price: 6000, depot: "RO. Sejahtera" },
-    { id: "2", name: "Air Mineral", price: 21000, depot: "RO. Sejahtera" },
-    { id: "3", name: "Air isi ulang", price: 6000, depot: "RO. Segar Water" },
-    { id: "4", name: "Air Mineral", price: 21000, depot: "RO. Segar Water" },
-  ];
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.items);
+  const token = localStorage.getItem("authToken");
 
-  const [cart, setCart] = useState(
-    products.map((product) => ({ ...product, quantity: 1, selected: false }))
-  );
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedProductIds, setSelectedProductIds] = useState<string[]>([]);
 
-  const toggleSelect = (id: string) => {
-    setCart((prevCart) =>
-      prevCart.map((item) =>
-        item.id === id ? { ...item, selected: !item.selected } : item
-      )
-    );
+  const handleQuantityChange = (id: string, quantity: number) => {
+    dispatch(updateCartItem({ id, quantity }));
   };
 
-  const updateQuantity = (id: string, delta: number) => {
-    setCart((prevCart) =>
-      prevCart.map((item) =>
-        item.id === id
-          ? { ...item, quantity: Math.max(1, item.quantity + delta) }
-          : item
-      )
-    );
+  const handleRemoveItem = (id: string) => {
+    dispatch(removeFromCart(id));
   };
 
-  const handleCheckout = async () => {
-    console.log("Checkout button clicked");
-    const selectedItems = cart.filter((item) => item.selected);
-    const totalAmount = selectedItems.reduce(
-      (sum, item) => sum + item.price * item.quantity,
-      0
+  const handleProductCheckboxChange = (id: string) => {
+    setSelectedProductIds((prev) => {
+      if (prev.includes(id)) {
+        return prev.filter((itemId) => itemId !== id);
+      } else {
+        return [...prev, id];
+      }
+    });
+  };
+
+  const buyItemsFromCart = async () => {
+    const selectedProductData = cartItems
+      .filter((item) => selectedProductIds.includes(item.id))
+      .map((item) => ({
+        product_id: item.id,
+        quantity: item.quantity,
+      }));
+
+    if (selectedProductData.length === 0) {
+      setError("Please select at least one product to purchase.");
+      return;
+    }
+
+    const sellerId = cartItems.find((item) =>
+      selectedProductIds.includes(item.id)
+    )?.seller_id;
+
+    const allItemsFromSameSeller = selectedProductData.every(
+      (item) =>
+        cartItems.find((cartItem) => cartItem.id === item.product_id)
+          ?.seller_id === sellerId
     );
 
-    const checkoutData = {
-      items: selectedItems,
-      total: totalAmount,
+    if (!allItemsFromSameSeller) {
+      setError("You can only buy items from a single seller at a time.");
+      return;
+    }
+
+    const payload = {
+      seller_id: sellerId,
+      products: selectedProductData,
+      payment_method: "transfer",
     };
 
-    console.log("Checkout data:", checkoutData);
+    console.log("Order Payload:", payload);
 
     try {
-      const response = await fetch("/api/checkout", {
-        method: "POST",
+      setLoading(true);
+      const response = await instance.post("orders", payload, {
         headers: {
-          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(checkoutData),
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to checkout");
+      if (response.data.success && response.status === 201) {
+        const { order_id, redirect_url, payment_method } = response.data.data;
+        console.log(
+          `Transaction Successful!\nOrder ID: ${order_id}\nPayment Method: ${payment_method}\nRedirect URL: ${redirect_url}`
+        );
+      } else {
+        setError("Transaction failed. Please try again.");
       }
-
-      const result = await response.json();
-      console.log("Order placed:", result);
     } catch (error) {
-      console.error("Checkout error:", error);
+      console.error("Error creating Order:", error);
+      setError("Failed to order product. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const total = cart
-    .filter((item) => item.selected)
-    .reduce((sum, item) => sum + item.price * item.quantity, 0);
-
   return (
-    <>
-      <div className="h-screen w-screen bg-gray-100 absolute">
-        <Link
-          to="/"
-          className="flex flex-row hover:text-gray-500 items-center gap-5 m-20 w-min"
-        >
-          <ChevronLeftCircle size="40" />
-          <h1 className="text-2xl">Keranjang</h1>
-        </Link>
-
-        <div className="flex flex-row justify-between bg-white p-20 rounded-lg gap-10  mx-20">
-          <div className="w-1/2">
-            {["RO. Sejahtera", "RO. Segar Water"].map((depot) => (
-              <div key={depot}>
-                <h3 className="font-bold text-lg my-3">{depot}</h3>
-                {cart
-                  .filter((item) => item.depot === depot)
-                  .map((item) => (
-                    <CardProductCart
-                      key={item.id}
-                      imageUrl={dummyImg}
-                      item={item}
-                      onToggleSelect={() => toggleSelect(item.id)}
-                      onIncrement={() => updateQuantity(item.id, 1)}
-                      onDecrement={() => updateQuantity(item.id, -1)}
-                    />
-                  ))}
-              </div>
-            ))}
-          </div>
-
-          <div className="bg-blue-600 text-white rounded-lg p-5 w-1/3">
-            <h3 className="text-xl font-bold mb-3">Total</h3>
-            {cart
-              .filter((item) => item.selected)
-              .map((item) => (
-                <div
-                  key={item.id}
-                  className="flex justify-between items-center"
-                >
-                  <div>
-                    <p>{item.name}</p>
-                    <p className="text-sm">Rp{item.price.toLocaleString()}</p>
-                  </div>
-                  <p>{item.quantity} item</p>
+    <main className="min-h-screen max-w-screen-lg dark:text-white mx-auto px-4 mt-40">
+      <h1 className="text-3xl font-bold">Cart</h1>
+      <div className="mt-10">
+        <Separator />
+        {cartItems.length === 0 ? (
+          <p className="text-center mt-8">
+            Your cart is empty, start <Link to="/">shopping</Link>
+          </p>
+        ) : (
+          <div className="grid grid-cols-2 gap-8 my-8">
+            <div className="col-span-7 gap-6 flex flex-col">
+              {cartItems.map((item) => (
+                <div key={item.id} className="flex items-center space-x-4">
+                  <CartItem
+                    id={item.id}
+                    name={item.name}
+                    price={item.price}
+                    stock={item.stock}
+                    quantity={item.quantity}
+                    imgUrl={item.image_url}
+                    onRemove={handleRemoveItem}
+                    onQuantityChange={handleQuantityChange}
+                  />
+                  <input
+                    type="checkbox"
+                    checked={selectedProductIds.includes(item.id)}
+                    onChange={() => handleProductCheckboxChange(item.id)}
+                    className="h-5 w-5"
+                  />
                 </div>
               ))}
-            <div className="flex justify-between items-center mt-5 font-bold">
-              <p>Total</p>
-              <p>Rp{total.toLocaleString()}</p>
             </div>
-            <button
-              className="mt-5 w-full bg-white text-blue-600 py-2 rounded-lg"
-              onClick={handleCheckout}
-            >
-              Checkout
-            </button>
           </div>
+        )}
+
+        {loading && (
+          <div className="text-center mt-8">
+            <p className="text-lg font-semibold text-primary">Processing...</p>
+          </div>
+        )}
+
+        {error && (
+          <div className="text-center mt-8 text-destructive">
+            <p className="text-lg font-semibold">{error}</p>
+          </div>
+        )}
+
+        <div className="mt-10 text-center">
+          <button
+            onClick={buyItemsFromCart}
+            className="px-8 py-2 bg-primary text-white rounded-md hover:bg-primary-dark disabled:bg-gray-400"
+            disabled={loading || selectedProductIds.length === 0}
+          >
+            {loading ? "Processing..." : "Buy Selected Items"}
+          </button>
         </div>
       </div>
-    </>
+    </main>
   );
 }

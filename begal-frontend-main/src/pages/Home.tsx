@@ -21,6 +21,7 @@ import CardProduct from "@/components/CardProduct";
 
 function Home() {
   const [nearbyDepotList, setNearbyDepotList] = useState<depotType[]>([]);
+  const [depotListData, setDepotListData] = useState<depotType[]>([]);
   const [products, setProducts] = useState<productType[]>([]);
   const token: string | null = localStorage.getItem("authToken");
 
@@ -37,7 +38,7 @@ function Home() {
     }
   };
 
-  const getDepotList = async () => {
+  const getNearbyDepot = async () => {
     try {
       const response = await instance.get("sellers/nearby", {
         headers: { Authorization: `Bearer ${token}` },
@@ -50,9 +51,23 @@ function Home() {
     }
   };
 
+  const getDepotList = async () => {
+    try {
+      const response = await instance.get("sellers/", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      setDepotListData(response.data.data);
+      console.error("Invalid response:", response);
+    } catch (error) {
+      console.error("Error fetching depot list:", error);
+    }
+  };
+
   useEffect(() => {
-    getDepotList();
+    getNearbyDepot();
     getProducts();
+    getDepotList();
   }, []);
 
   return (
@@ -126,44 +141,9 @@ function Home() {
         </Carousel>
       </div>
 
-      <div className="flex flex-col  gap-20 mt-20 mb-52">
+      <div className="flex flex-col gap-20 mt-20 mb-52">
         <div className="flex justify-between dark:text-white">
           <h3 className="text-3xl">Daftar Depot</h3>
-          <Link to="/depot-list">
-            <div className="text-xl">lihat semua depot</div>
-          </Link>
-        </div>
-
-        <Carousel
-          opts={{
-            align: "start",
-          }}
-          className="w-full mt-5 justify-between"
-        >
-          <CarouselPrevious
-            variant="ghost"
-            className="p-10 text-white bg-black dark:bg-gray-700  -top-14 translate-x-96 left-96"
-          />
-          <CarouselNext className="p-10 text-white bg-black text-9xl dark:bg-gray-700 -top-14 right-0" />
-          <CarouselContent>
-            {nearbyDepotList.map((depot) => (
-              <CarouselItem key={depot.id} className="basis-1/4">
-                <CardDepot
-                  id={depot.id}
-                  profile_picture_url={depot.profile_picture_url}
-                  name={depot.name}
-                  address={depot.address}
-                  rating={depot.rating}
-                />
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
-      </div>
-
-      {/* <div className="flex flex-col gap-20 mt-20 mb-52">
-        <div className="flex justify-between dark:text-white">
-          <h3 className="text-3xl">Depot Terdekat</h3>
           <Link to="/depot-list">
             <div className="text-xl">lihat semua depot</div>
           </Link>
@@ -181,20 +161,66 @@ function Home() {
           />
           <CarouselNext className="p-10 text-white bg-black text-9xl dark:bg-gray-700 -top-14 right-0" />
           <CarouselContent>
-            {nearbyDepotList.map((depot) => (
+            {depotListData.map((depot) => (
               <CarouselItem key={depot.id} className="basis-1/4">
                 <CardDepot
                   id={depot.id}
                   profile_picture_url={depot.profile_picture_url}
                   name={depot.name}
-                  address={depot.owner_name} // Replace with correct field (e.g., `depot.address.province`)
-                  ratings={depot.ratings || 0} // Replace with correct field if available
+                  address={depot.address}
+                  rating={depot.rating}
                 />
               </CarouselItem>
             ))}
           </CarouselContent>
         </Carousel>
-      </div> */}
+      </div>
+
+      <div className="flex flex-col  gap-20 mt-20 mb-52">
+        <div className="flex justify-between dark:text-white">
+          <h3 className="text-3xl">Depot Terdekat</h3>
+          <Link to="/depot-list">
+            <div className="text-xl">lihat semua depot</div>
+          </Link>
+        </div>
+
+        {token ? (
+          <Carousel
+            opts={{
+              align: "start",
+            }}
+            className="w-full mt-5 justify-between"
+          >
+            <CarouselPrevious
+              variant="ghost"
+              className="p-10 text-white bg-black dark:bg-gray-700  -top-14 translate-x-96 left-96"
+            />
+            <CarouselNext className="p-10 text-white bg-black text-9xl dark:bg-gray-700 -top-14 right-0" />
+            <CarouselContent>
+              {nearbyDepotList.map((depot) => (
+                <CarouselItem key={depot.id} className="basis-1/4">
+                  <CardDepot
+                    id={depot.id}
+                    profile_picture_url={depot.profile_picture_url}
+                    name={depot.name}
+                    address={depot.address}
+                    rating={depot.rating}
+                  />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+        ) : (
+          <div className="flex justify-center items-center h-96">
+            <p className="text-2xl">
+              <Link to="/login-user" className="underline">
+                Login
+              </Link>{" "}
+              untuk melihat depot terdekat
+            </p>
+          </div>
+        )}
+      </div>
 
       <section className="relative min-h-[400px] w-full bg-white dark:bg-gray-950 rounded-lg pb-20 overflow-hidden">
         <div className="container relative z-10 mx-auto px-4 py-16 text-center">

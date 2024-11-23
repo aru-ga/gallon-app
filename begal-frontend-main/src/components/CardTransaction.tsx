@@ -1,11 +1,18 @@
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import transactionType from "@/types/transactionType";
 
-function CardTransaction({ order }: { order: transactionType }) {
-  const [isExpanded, setIsExpanded] = useState(false);
+function CardTransaction({
+  order,
+  isExpanded,
+  toggleExpand,
+}: {
+  order: transactionType;
+  isExpanded: boolean;
+  toggleExpand: () => void;
+}) {
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -29,7 +36,7 @@ function CardTransaction({ order }: { order: transactionType }) {
   };
 
   return (
-    <Card className="w-full max-w-md border-2 border-blue-500 rounded-2xl overflow-hidden mb-4">
+    <Card className="relative w-full max-w-md border-2 border-blue-500 rounded-2xl overflow-visible mb-4">
       <CardContent className="p-4 space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-bold">Order ID: {order._id.slice(-6)}</h2>
@@ -54,7 +61,7 @@ function CardTransaction({ order }: { order: transactionType }) {
         <Button
           variant="ghost"
           className="w-full flex items-center justify-between p-0 h-auto hover:bg-transparent"
-          onClick={() => setIsExpanded(!isExpanded)}
+          onClick={toggleExpand}
           aria-expanded={isExpanded}
           aria-controls={`order-details-${order._id}`}
         >
@@ -69,31 +76,39 @@ function CardTransaction({ order }: { order: transactionType }) {
         <div
           id={`order-details-${order._id}`}
           ref={contentRef}
-          className="overflow-hidden transition-[max-height] duration-300 ease-in-out"
-          style={{ maxHeight: "0px" }}
+          className={`transition-[max-height] duration-300 ease-in-out overflow-hidden ${
+            isExpanded ? "bg-white border-t border-gray-200" : ""
+          }`}
+          style={{
+            maxHeight: isExpanded
+              ? `${contentRef.current?.scrollHeight}px`
+              : "0px",
+          }}
         >
-          <div className="space-y-2 pt-2 border-t border-gray-200">
+          <div className="p-4 space-y-2">
             <h3 className="font-semibold">Detail Pesanan:</h3>
             {order.products.map((product, index) => (
-              <p key={index}>
+              <p key={index} className="text-sm">
                 {index + 1}. {product.name} - {product.quantity}x - Rp
                 {product.price.toLocaleString("id-ID")} each
               </p>
             ))}
-            <p>Subtotal: Rp{order.total_price.toLocaleString("id-ID")}</p>
-            <p>Biaya Pengiriman: Included in total</p>
-            <p className="font-semibold">
+            <p className="text-sm">
+              Subtotal: Rp{order.total_price.toLocaleString("id-ID")}
+            </p>
+            <p className="text-sm">Biaya Pengiriman: Included in total</p>
+            <p className="font-semibold text-sm">
               Total: Rp{order.total_price.toLocaleString("id-ID")}
             </p>
-            <p>Metode Pembayaran: {order.payment_method}</p>
-            <p>
+            <p className="text-sm">Metode Pembayaran: {order.payment_method}</p>
+            <p className="text-sm">
               Alamat Pengiriman:{" "}
               {`${order.delivery_address.district}, ${order.delivery_address.regency}, ${order.delivery_address.province}`}
             </p>
             {order.payment_status === "pending" &&
               order.payment_method === "transfer" && (
                 <Button
-                  className="mt-2 w-full bg-blue-600"
+                  className="mt-2 w-full bg-blue-600 text-white"
                   onClick={() =>
                     window.open(order.payment_response.redirect_url, "_blank")
                   }

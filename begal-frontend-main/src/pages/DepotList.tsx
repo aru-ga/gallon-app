@@ -19,7 +19,7 @@ function DepotList() {
 
   const getDepotList = async () => {
     try {
-      const response = await instance.get("sellers/nearby", {
+      const response = await instance.get("sellers/", {
         headers: { Authorization: `Bearer ${token}` },
       });
 

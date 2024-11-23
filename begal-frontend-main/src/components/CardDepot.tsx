@@ -29,9 +29,9 @@ export default function CardDepot({
         <img
           src={profile_picture_url ? profile_picture_url : dummyImg}
           alt={name}
-          className="bg-center object-cover"
+          className="bg-center object-cover h-[200px] w-full"
         />
-        <p className="text-blue-600 text-xl font-semibold">{name}</p>
+        <p className="text-blue-600 text-lg pt-5 font-semibold">{name}</p>
 
         <p className="flex flex-row items-center justify-center">
           {[...Array(Math.floor(rating))].map((_, index) => (
