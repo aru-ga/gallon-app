@@ -7,7 +7,7 @@ import Register from "@/pages/auth/Register";
 import LoginUser from "@/pages/auth/LoginUser";
 import DepotDetail from "@/pages/DepotDetail";
 import Dashboard from "@/pages/seller/Dashboard";
-import Profile from "@/pages/Profile";
+import Profile from "@/pages/user-profile/Profile";
 import SellerTransaction from "@/pages/seller/SellerTransaction";
 import SellerProfile from "@/pages/seller/SellerProfile";
 import Order from "@/pages/seller/Order";
@@ -19,12 +19,15 @@ import Transaction from "@/pages/Transaction";
 import Footer from "@/components/Footer";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "@/components/Navbar";
-import ProductDetail from "@/pages/seller/ProductDetail";
+import Address from "@/pages/user-profile/Address";
+import ChangePassword from "@/pages/user-profile/ChangePassword";
+import UserTransaction from "@/pages/user-profile/UserTransaction";
+import ProductDetail from "@/pages/ProductDetail";
 
 const App = () => {
   const location = useLocation();
 
-  const hideNavbarPaths = ["/seller", "/login", "/register", "/profile-user"];
+  const hideNavbarPaths = ["/seller", "/login", "/register", "/user-profile"];
 
   return (
     <>
@@ -64,18 +67,22 @@ const App = () => {
           path="/seller/order"
           Component={() => <Layout children={<Order />} />}
         />
+
         <Route
-          path="/profile-user/"
-          Component={() => <Layout children={<Dashboard />} />}
-        />
-        <Route path="/profile-user/address" Component={CatalogueEdit} />
-        <Route
-          path="/profile-user/transaction"
-          Component={() => <Layout children={<SellerProfile />} />}
+          path="/user-profile/profile"
+          Component={() => <Layout children={<Profile />} />}
         />
         <Route
-          path="/profile-user/change-password"
-          Component={() => <Layout children={<SellerTransaction />} />}
+          path="/user-profile/Address"
+          Component={() => <Layout children={<Address />} />}
+        />
+        <Route
+          path="/user-profile/transaction"
+          Component={() => <Layout children={<UserTransaction />} />}
+        />
+        <Route
+          path="/user-profile/change-password"
+          Component={() => <Layout children={<ChangePassword />} />}
         />
         <Route path="/cart" Component={Cart} />
         <Route path="/*" Component={NotFound} />

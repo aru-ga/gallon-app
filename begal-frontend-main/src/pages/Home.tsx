@@ -1,5 +1,4 @@
 import "../styles/globals.css";
-import { carouselItems, featureItems } from "@/lib/DummyData";
 import heroIcon from "@/assets/hero-icon.png";
 import CardDepot from "@/components/CardDepot";
 import ellipse from "@/assets/ellipse.png";
@@ -11,19 +10,36 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
-import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import instance from "@/lib/axios";
 import { useEffect, useState } from "react";
 import depotType from "@/types/depotType";
 import productType from "@/types/productType";
 import CardProduct from "@/components/CardProduct";
+import heroSlider1 from "@/assets/heroslider1.png";
+import heroSlider2 from "@/assets/heroslider2.png";
+import heroSlider3 from "@/assets/heroslider3.png";
 
 function Home() {
   const [nearbyDepotList, setNearbyDepotList] = useState<depotType[]>([]);
   const [depotListData, setDepotListData] = useState<depotType[]>([]);
   const [products, setProducts] = useState<productType[]>([]);
   const token: string | null = localStorage.getItem("authToken");
+
+  const carouselItems = [
+    {
+      id: 1,
+      image: heroSlider1,
+    },
+    {
+      id: 2,
+      image: heroSlider2,
+    },
+    {
+      id: 3,
+      image: heroSlider3,
+    },
+  ];
 
   const getProducts = async () => {
     try {
@@ -153,7 +169,7 @@ function Home() {
           opts={{
             align: "start",
           }}
-          className="w-full mt-5 justify-between"
+          className="w-full pl-10 mt-5 justify-between"
         >
           <CarouselPrevious
             variant="ghost"

@@ -9,11 +9,27 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import CardDepot from "@/components/CardDepot";
-import { carouselItems } from "@/lib/DummyData";
 import instance from "@/lib/axios";
 import depotType from "@/types/depotType";
+import heroSlider1 from "@/assets/heroslider1.png";
+import heroSlider2 from "@/assets/heroslider2.png";
+import heroSlider3 from "@/assets/heroslider3.png";
 
 function DepotList() {
+  const carouselItems = [
+    {
+      id: 1,
+      image: heroSlider1,
+    },
+    {
+      id: 2,
+      image: heroSlider2,
+    },
+    {
+      id: 3,
+      image: heroSlider3,
+    },
+  ];
   const [depotList, setDepotList] = useState<depotType[]>([]);
   const token: string | null = localStorage.getItem("authToken");
 
@@ -33,6 +49,7 @@ function DepotList() {
   useEffect(() => {
     getDepotList();
   }, []);
+
   return (
     <main>
       <div className="py-10 dark:bg-gray-900">

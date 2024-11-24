@@ -1,6 +1,5 @@
 import { DepotType } from "@/lib/Interface";
 import dummyImg from "../assets/feature-slider.png";
-import heroImg from "../assets/hero-slider.png";
 import featureSlider from "../assets/feature-slider.png";
 
 export const depotData: DepotType[] = [
@@ -98,20 +97,7 @@ export const depotData: DepotType[] = [
 
 
 
-export const carouselItems = [
-  {
-    id: 1,
-    image: heroImg,
-  },
-  {
-    id: 2,
-    image: heroImg,
-  },
-  {
-    id: 3,
-    image: heroImg,
-  },
-];
+
 
 export const featureItems = [
   {

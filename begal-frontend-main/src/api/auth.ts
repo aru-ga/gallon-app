@@ -24,7 +24,6 @@ const register = async (userData: UserProfile) => {
 };
 
 
-
 const userProfile = async (token: string) => {
   try {
     const response = await axios.get(`${API_URL}/profile`, {

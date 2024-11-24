@@ -23,7 +23,6 @@ export default function Navbar() {
   const userSelector = useSelector((state) => state.user);
 
   useEffect(() => {
-    console.log(userSelector);
     const token = localStorage.getItem("authToken");
     if (token) {
       setLoggedIn(true);
@@ -37,8 +36,8 @@ export default function Navbar() {
   };
 
   return (
-    <NavigationMenu className="py-5 fixed top-0 left-0 w-full bg-white dark:bg-gray-900 z-50">
-      <NavigationMenuList className="flex flex-row items-center px-5 w-screen justify-between">
+    <NavigationMenu className="py-5 fixed top-0 left-0 w-full bg-white dark:bg-gray-900 z-50 border-b">
+      <NavigationMenuList className="flex flex-row items-center w-screen px-20 justify-between">
         <NavigationMenuItem>
           <NavigationMenuLink>
             <Link to="/">
@@ -117,7 +116,7 @@ export default function Navbar() {
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <NavigationMenuLink>
-                    <Link to="/profile">
+                    <Link to="/user-profile/profile">
                       <div className="flex flex-col-reverse gap-2 items-center">
                         <p className="dark:text-white">
                           {userSelector.user.name}

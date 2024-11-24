@@ -14,11 +14,9 @@ import AnimSetNew from "@/components/AnimSetNew";
 import AnimPlane from "@/components/AnimPlane";
 import AnimChecklist from "@/components/AnimChecklist";
 import { ChevronRightIcon } from "lucide-react";
-import { LoaderIcon } from "lucide-react";
 
 export default function ForgotPassword() {
   const [step, setStep] = useState(0);
-  const [submitOtp, setSubmitOtp] = useState(false);
 
   const nextStep = () => setStep((prevStep) => prevStep + 1);
   const prevStep = () => setStep((prevStep) => Math.max(prevStep - 1, 0));

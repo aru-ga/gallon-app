@@ -5,6 +5,7 @@ import { removeFromCart, updateCartItem } from "../store/cartActions";
 import CartItem from "@/components/CartItem";
 import instance from "@/lib/axios";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 export default function Cart() {
   const dispatch = useDispatch();
@@ -35,8 +36,8 @@ export default function Cart() {
 
   const buyItemsFromCart = async () => {
     const selectedProductData = cartItems
-      .filter((item) => selectedProductIds.includes(item.id))
-      .map((item) => ({
+      .filter((item: { id: string }) => selectedProductIds.includes(item.id))
+      .map((item: { id: string; quantity: string }) => ({
         product_id: item.id,
         quantity: item.quantity,
       }));
@@ -46,14 +47,15 @@ export default function Cart() {
       return;
     }
 
-    const sellerId = cartItems.find((item) =>
+    const sellerId = cartItems.find((item: { id: string }) =>
       selectedProductIds.includes(item.id)
     )?.seller_id;
 
     const allItemsFromSameSeller = selectedProductData.every(
-      (item) =>
-        cartItems.find((cartItem) => cartItem.id === item.product_id)
-          ?.seller_id === sellerId
+      (item: { product_id: string }) =>
+        cartItems.find(
+          (cartItem: { id: string }) => cartItem.id === item.product_id
+        )?.seller_id === sellerId
     );
 
     if (!allItemsFromSameSeller) {
@@ -105,26 +107,35 @@ export default function Cart() {
         ) : (
           <div className="grid grid-cols-2 gap-8 my-8">
             <div className="col-span-7 gap-6 flex flex-col">
-              {cartItems.map((item) => (
-                <div key={item.id} className="flex items-center space-x-4">
-                  <CartItem
-                    id={item.id}
-                    name={item.name}
-                    price={item.price}
-                    stock={item.stock}
-                    quantity={item.quantity}
-                    imgUrl={item.image_url}
-                    onRemove={handleRemoveItem}
-                    onQuantityChange={handleQuantityChange}
-                  />
-                  <input
-                    type="checkbox"
-                    checked={selectedProductIds.includes(item.id)}
-                    onChange={() => handleProductCheckboxChange(item.id)}
-                    className="h-5 w-5"
-                  />
-                </div>
-              ))}
+              {cartItems.map(
+                (item: {
+                  id: string | null | undefined;
+                  name: string;
+                  price: number;
+                  stock: number;
+                  quantity: number;
+                  image_url: string;
+                }) => (
+                  <div key={item.id} className="flex items-center space-x-4">
+                    <CartItem
+                      id={item.id}
+                      name={item.name}
+                      price={item.price}
+                      stock={item.stock}
+                      quantity={item.quantity}
+                      imgUrl={item.image_url}
+                      onRemove={handleRemoveItem}
+                      onQuantityChange={handleQuantityChange}
+                    />
+                    <input
+                      type="checkbox"
+                      checked={selectedProductIds.includes(item.id)}
+                      onChange={() => handleProductCheckboxChange(item.id)}
+                      className="h-5 w-5"
+                    />
+                  </div>
+                )
+              )}
             </div>
           </div>
         )}
@@ -142,13 +153,13 @@ export default function Cart() {
         )}
 
         <div className="mt-10 text-center">
-          <button
+          <Button
             onClick={buyItemsFromCart}
-            className="px-8 py-2 bg-primary text-white rounded-md hover:bg-primary-dark disabled:bg-gray-400"
+            className="px-8 py-2 bg-blue-400 hover:bg-blue-600 rounded-md hover:bg-primary-dark disabled:bg-gray-400"
             disabled={loading || selectedProductIds.length === 0}
           >
             {loading ? "Processing..." : "Buy Selected Items"}
-          </button>
+          </Button>
         </div>
       </div>
     </main>

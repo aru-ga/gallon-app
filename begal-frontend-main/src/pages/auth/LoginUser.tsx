@@ -63,20 +63,25 @@ export default function LoginUser() {
       } else {
         setError("Invalid server response. Token not found.");
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error("Login failed", error);
-      setError(
-        error.response?.data?.message ||
-          error.message ||
-          "An unexpected error occurred. Please try again later."
-      );
+      if (error instanceof Error) {
+        setError(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (error as any).response?.data?.message ||
+            error.message ||
+            "An unexpected error occurred. Please try again later."
+        );
+      } else {
+        setError("An unexpected error occurred. Please try again later.");
+      }
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="flex flex-row h-screen">
+    <div className="flex flex-row h-screen dark:text-white">
       <div className="w-1/2">
         <img
           src={Illustration}

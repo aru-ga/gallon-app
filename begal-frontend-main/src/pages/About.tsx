@@ -14,6 +14,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import whyChooseUsIllustration from "@/assets/whychooseus.png";
+import TextSlider from "@/components/TextSliderUp";
 
 export default function About() {
   return (
@@ -21,18 +22,13 @@ export default function About() {
       <div className="pt-28 px-32 dark:bg-gray-900 dark:text-white">
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-10">
-            <div>
-              <h3 className="text-5xl font-bold w-min whitespace-nowrap rounded">
-                Beli galon
-              </h3>
-              <h3 className="text-5xl animate-pulse duration-75 font-bold from-blue-600 via-gray-50 to-white bg-gradient-to-r bg-clip-text text-transparent">
-                Lebih Cepat
-              </h3>
-            </div>
-            <h3 className="text-4xl w-1/2">
-              Solusi Praktis untuk Kebutuhan Air Anda Dapatkan air galon dengan
-              mudah tanpa perlu repot.
+            <h3 className="text-5xl font-bold w-min whitespace-nowrap rounded">
+              Beli galon
             </h3>
+            <TextSlider
+              words={["Lebih Mudah", "Lebih Hemat", "Lebih Cepat"]}
+              interval={2000}
+            />
             <div className="flex flex-row gap-5">
               <Link
                 to="/nearest-depot"
