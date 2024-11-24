@@ -23,6 +23,7 @@ import Address from "@/pages/user-profile/Address";
 import ChangePassword from "@/pages/user-profile/ChangePassword";
 import UserTransaction from "@/pages/user-profile/UserTransaction";
 import ProductDetail from "@/pages/ProductDetail";
+import LoginSeller from "@/pages/auth/LoginSeller";
 
 const App = () => {
   const location = useLocation();
@@ -46,6 +47,7 @@ const App = () => {
         <Route path="/profile" Component={Profile} />
         <Route path="/register" Component={Register} />
         <Route path="/login-user" Component={LoginUser} />
+        <Route path="/login-seller" Component={LoginSeller} />
         <Route path="/forgot-password" Component={ForgotPassword} />
         <Route
           path="/seller/dashboard"
