@@ -7,6 +7,8 @@ import instance from "@/lib/axios";
 import dummyImg from "@/assets/hero-slider.png";
 import { Badge } from "@/components/ui/badge";
 import { addToCart } from "../store/cartActions";
+import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 
 interface ProductType {
   id: string;
@@ -26,6 +28,7 @@ export default function ProductDetail() {
   const [error, setError] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
+  const { toast } = useToast();
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -76,6 +79,16 @@ export default function ProductDetail() {
       };
       dispatch(addToCart(cartItem));
     }
+
+    toast({
+      title: "Berhasil ditambahkan!",
+      description: "Silakan cek keranjang Anda.",
+      action: (
+        <ToastAction altText="Try again">
+          <Link to="/cart">Lanjut Checkout </Link>
+        </ToastAction>
+      ),
+    });
   };
 
   if (loading) {

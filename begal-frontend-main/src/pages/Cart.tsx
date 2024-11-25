@@ -6,11 +6,13 @@ import CartItem from "@/components/CartItem";
 import instance from "@/lib/axios";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Cart() {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
   const token = localStorage.getItem("authToken");
+  const { toast } = useToast();
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -69,8 +71,6 @@ export default function Cart() {
       payment_method: "transfer",
     };
 
-    console.log("Order Payload:", payload);
-
     try {
       setLoading(true);
       const response = await instance.post("orders", payload, {
@@ -81,11 +81,21 @@ export default function Cart() {
 
       if (response.data.success && response.status === 201) {
         const { order_id, redirect_url, payment_method } = response.data.data;
-        console.log(
-          `Transaction Successful!\nOrder ID: ${order_id}\nPayment Method: ${payment_method}\nRedirect URL: ${redirect_url}`
-        );
+        toast({
+          title: "Order created successfully",
+          description: `Thank You!`,
+          action: (
+            <Link className="bg-blue-400" to="/transaction">
+              Check Transaction
+            </Link>
+          ),
+        });
       } else {
         setError("Transaction failed. Please try again.");
+        toast({
+          title: "Transaction failed",
+          description: "Please try again.",
+        });
       }
     } catch (error) {
       console.error("Error creating Order:", error);

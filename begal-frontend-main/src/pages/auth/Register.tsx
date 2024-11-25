@@ -10,12 +10,15 @@ import { register } from "@/api/auth";
 import { Button } from "@/components/ui/button";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 type ErrorData = {
   [key in keyof UserProfile]?: string;
 };
 
 const Register = () => {
+  const [loading, setLoading] = useState(false);
   const [step, setStep] = useState<number>(0);
   const [formData, setFormData] = useState<UserProfile>({
     name: "",
@@ -34,6 +37,8 @@ const Register = () => {
     phone: "",
     profile_picture_url: "",
   });
+  const { toast } = useToast();
+  const navigate = useNavigate();
 
   const [errors, setErrors] = useState<ErrorData>({});
   const [selectedAddress, setSelectedAddress] = React.useState<{
@@ -102,13 +107,14 @@ const Register = () => {
       }
     };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    setLoading(true);
+
     const result = userRegisterSchemas[step].safeParse(formData);
 
+    // Validate schema and passwords
     if (result.success && formData.password === formData.confirmPassword) {
       setErrors({});
-      console.log("in");
-      console.log("form data", formData);
     } else {
       console.log("Validation errors:", result.error?.flatten().fieldErrors);
       if (formData.password !== formData.confirmPassword) {
@@ -128,10 +134,37 @@ const Register = () => {
       );
     }
 
+    setErrors({});
+
     try {
-      register(formData);
+      const res = await register(formData);
+
+      if (res.success) {
+        console.log("Register success");
+        toast({
+          title: "Thank you for registering!",
+          description: "You have successfully registered.",
+          duration: 3000,
+        });
+
+        setTimeout(() => {
+          navigate("/login");
+        }, 3000);
+      } else {
+        console.error("Register failed", res.error);
+        toast({
+          title: "Error",
+          description: res.errors || "Failed to register.",
+        });
+      }
     } catch (error) {
-      console.error(error);
+      console.error("Unexpected error during registration", error);
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred. Please try again later.",
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -310,7 +343,7 @@ const Register = () => {
                   onClick={handleSubmit}
                   className="px-4 py-2 bg-blue-500 text-white rounded"
                 >
-                  Submit
+                  {loading ? "Submitting..." : "Submit"}
                 </Button>
               </div>
             </div>

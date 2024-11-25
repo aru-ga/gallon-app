@@ -2,13 +2,14 @@ import React from "react";
 import { Button } from "./ui/button";
 import { MinusIcon, PlusIcon, CheckIcon } from "lucide-react";
 import { Link } from "react-router-dom";
+import { TrashIcon } from "lucide-react";
 
 type CartItemProps = {
   id: string;
   name: string;
   price: number;
   quantity: number;
-  stock: number; // Add stock prop
+  stock: number;
   imgUrl: string;
   onRemove: (id: string) => void;
   onQuantityChange: (id: string, quantity: number) => void;
@@ -80,7 +81,7 @@ export default function CartItem({
             <span className="text-sm text-gray-500">Ready to ship</span>
           </div>
           <Button className="text-red" variant="link" onClick={handleRemove}>
-            Remove Item
+            <TrashIcon size="24" className="w-6 h-6" />
           </Button>
         </div>
       </div>
