@@ -17,12 +17,26 @@ const login = async (email: string, password: string) => {
 const loginSeller = async (email: string, password: string) => {
   try {
     const response = await axios.post(`${API_URL_SELLER}/login`, { email, password });
-    return console.log(response.data);
+    return response.data
   } catch (error) {
     console.error("Error in login API call:", error);
     throw new Error("Login failed");
   }
 };
+
+const sellerProfile = async (token: string) => {
+  try {
+    const response = await axios.get(`${API_URL_SELLER}/profile`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error in register API call:", error); 
+    throw new Error("Failed to fetch user profile");
+  }
+}
 
 const register = async (userData: UserProfile) => {
   try {
@@ -50,4 +64,4 @@ const userProfile = async (token: string) => {
 };
 export default userProfile;
 
-export { login, register, userProfile, loginSeller };
+export { login, register, userProfile, loginSeller, sellerProfile };

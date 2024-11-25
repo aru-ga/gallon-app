@@ -1,17 +1,36 @@
 import axios from 'axios';
 import { UserProfile } from '@/types/userTypes';
 
-const API_URL = "https://api-beli-galon.vercel.app/api/users";
+const API_URL = "https://api-beli-galon.vercel.app/api/sellers";
+const GLOBAL_API_URL = "https://api-beli-galon.vercel.app/api";
 
-const login = async (email: string, password: string) => {
+const fetchProducts = async (token: string) => {
   try {
-    const response = await axios.post(`${API_URL}/login`, { email, password });
+    const response = await axios.get(`${API_URL}/products`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
-    console.error("Error in login API call:", error);
-    throw new Error("Login failed");
+    console.error("Error in fetchProducts API call:", error);
+    throw new Error("Failed to fetch products");
   }
-};
+}
+
+const fetchOrders = async (token: string) => {
+  try {
+    const response = await axios.get(`${GLOBAL_API_URL}/orders`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error in fetchOrders API call:", error);
+    throw new Error("Failed to fetch orders");
+  }
+}
 
 const register = async (userData: UserProfile) => {
   try {
@@ -39,4 +58,4 @@ const userProfile = async (token: string) => {
 };
 export default userProfile;
 
-export { login, register, userProfile };
+export { fetchProducts, register, userProfile, fetchOrders };

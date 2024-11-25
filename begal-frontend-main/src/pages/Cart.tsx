@@ -80,7 +80,6 @@ export default function Cart() {
       });
 
       if (response.data.success && response.status === 201) {
-        const { order_id, redirect_url, payment_method } = response.data.data;
         toast({
           title: "Order created successfully",
           description: `Thank You!`,

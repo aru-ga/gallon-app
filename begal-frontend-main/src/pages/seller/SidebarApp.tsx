@@ -14,6 +14,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { useSelector } from "react-redux";
 import { useLocation, Link } from "react-router-dom";
 import DarkModeToggle from "@/components/DarkToggle";
 interface SidebarAppProps {
@@ -22,6 +23,7 @@ interface SidebarAppProps {
 
 export default function SidebarApp({ comps }: SidebarAppProps) {
   const location = useLocation();
+  const sellerSelector = useSelector((state) => state.seller);
 
   const links = {
     navMain: [
@@ -57,7 +59,7 @@ export default function SidebarApp({ comps }: SidebarAppProps) {
       <Sidebar>
         <SidebarContent>
           <SidebarHeader>
-            <h1 className="text-2xl font-semibold">Seller Dashboard</h1>
+            <h1 className="font-semibold">{sellerSelector.seller.name}</h1>
             <DarkModeToggle />
           </SidebarHeader>
           {links.navMain.map((group) => (

@@ -20,6 +20,7 @@ import { useSelector } from "react-redux";
 export default function SidebarUser({ comps }: SidebarAppProps) {
   const location = useLocation();
   const userSelector = useSelector((state) => state.user);
+  console.log("userSelector", userSelector);
 
   const links = {
     navMain: [
