@@ -86,7 +86,7 @@ export default function Navbar() {
             <NavigationMenuLink className="flex">
               <Input
                 placeholder="Search"
-                className="rounded xl:w-72 md:w-36 dark:text-white"
+                className="rounded xl:w-40 md:w-36 dark:text-white"
               />
               <Button variant="ghost" type="submit" className="-ml-12">
                 <SearchIcon className="text-blue-600" />

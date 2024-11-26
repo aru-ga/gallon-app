@@ -142,7 +142,7 @@ function Home() {
 
         <Carousel className="z-20 flex-1 min-w-[75%] max-w-screen-md">
           <CarouselNext className="p-10 text-white bg-black text-9xl dark:bg-gray-700 -top-14 right-0" />
-          <CarouselPrevious className="p-10 text-white bg-black dark:bg-gray-700  -top-14 translate-x-[1000px] right-44" />
+          <CarouselPrevious className="p-10 text-white bg-black dark:bg-gray-700  -top-14 xl:translate-x-[750px] translate-x-[1000px] right-44" />
           <CarouselContent className="flex flex-row gap-10">
             {products.map((product) => (
               <CardProduct
@@ -151,6 +151,12 @@ function Home() {
                 name={product.name}
                 price={product.price}
                 className=""
+                seller_id={""}
+                description={"string"}
+                stock={"string"}
+                created_at={"string"}
+                updated_at={"string"}
+                quantity={"string"}
               />
             ))}
           </CarouselContent>
@@ -185,6 +191,18 @@ function Home() {
                   name={depot.name}
                   address={depot.address}
                   rating={depot.rating}
+                  className={""}
+                  owner_name={""}
+                  email={""}
+                  phone={""}
+                  role={""}
+                  operational_hours={{
+                    open: "",
+                    close: "",
+                  }}
+                  reviews_count={""}
+                  created_at={""}
+                  updated_at={""}
                 />
               </CarouselItem>
             ))}
@@ -221,6 +239,18 @@ function Home() {
                     name={depot.name}
                     address={depot.address}
                     rating={depot.rating}
+                    className={""}
+                    owner_name={""}
+                    email={""}
+                    phone={""}
+                    role={""}
+                    operational_hours={{
+                      open: "",
+                      close: "",
+                    }}
+                    reviews_count={""}
+                    created_at={""}
+                    updated_at={""}
                   />
                 </CarouselItem>
               ))}
