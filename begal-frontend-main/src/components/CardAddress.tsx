@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Component } from "react";
 
 interface AddressCardProps {
   name: string;
@@ -13,6 +14,7 @@ interface AddressCardProps {
     detail: string;
   };
   onChangeAddress?: () => void;
+  buttonTag?: Component;
 }
 
 export default function CardAddress({
@@ -20,6 +22,7 @@ export default function CardAddress({
   phone,
   address,
   onChangeAddress,
+  buttonTag,
 }: AddressCardProps) {
   return (
     <Card className="w-full max-w-md border-2 border-blue-500">
@@ -40,10 +43,10 @@ export default function CardAddress({
       <CardFooter>
         <Button
           variant="outline"
-          className="w-full border-2 border-blue-500 text-blue-500 hover:bg-blue-50"
+          className="w-full border-2  hover:bg-blue-50"
           onClick={onChangeAddress}
         >
-          Ubah Alamat
+          {buttonTag}
         </Button>
       </CardFooter>
     </Card>

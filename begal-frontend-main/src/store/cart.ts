@@ -7,6 +7,8 @@ const DEFAULT_STATE = {
       stock: number;
       image_url: string;
       quantity: number;
+      seller_id: string;
+      seller_name: string;
     }>,
   };
   

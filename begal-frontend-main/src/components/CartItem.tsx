@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "./ui/button";
-import { MinusIcon, PlusIcon, CheckIcon } from "lucide-react";
+import { MinusIcon, PlusIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { TrashIcon } from "lucide-react";
 
@@ -13,6 +13,8 @@ type CartItemProps = {
   imgUrl: string;
   onRemove: (id: string) => void;
   onQuantityChange: (id: string, quantity: number) => void;
+  seller_id: string;
+  seller_name: string;
 };
 
 export default function CartItem({
@@ -24,6 +26,8 @@ export default function CartItem({
   imgUrl,
   onRemove,
   onQuantityChange,
+  seller_id,
+  seller_name,
 }: CartItemProps) {
   const [addDisabled, setAddDisabled] = React.useState(false);
   const handleIncrease = () => {
@@ -33,6 +37,7 @@ export default function CartItem({
       setAddDisabled(true);
     }
   };
+  console.log({ id, name, price, quantity, stock, imgUrl, seller_id });
 
   const handleDecrease = () => {
     if (quantity > 1) {
@@ -76,12 +81,13 @@ export default function CartItem({
         </div>
 
         <div className="flex justify-between w-full">
-          <div className="flex gap-2 items-center">
-            <CheckIcon size="24" className="w-6 h-6 text-blue-600" />
-            <span className="text-sm text-gray-500">Ready to ship</span>
+          <div className="flex w-full text-blue-400 font-bold gap-2 items-center">
+            <Link className="" to={`/depot-detail/${seller_id}`}>
+              {seller_name}
+            </Link>
           </div>
           <Button className="text-red" variant="link" onClick={handleRemove}>
-            <TrashIcon size="24" className="w-6 h-6" />
+            Remove Item <TrashIcon size="24" className="w-6 h-6" />
           </Button>
         </div>
       </div>

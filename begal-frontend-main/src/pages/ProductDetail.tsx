@@ -14,6 +14,7 @@ interface ProductType {
   id: string;
   name: string;
   seller_id: string;
+  seller_name: string;
   description: string;
   price: number;
   stock: number;
@@ -48,6 +49,7 @@ export default function ProductDetail() {
           }
         );
         setProduct(response.data.data);
+        console.log(response.data.data);
       } catch (error) {
         console.error("Error fetching product:", error);
         setError("Failed to load product. Please try again.");
@@ -76,7 +78,9 @@ export default function ProductDetail() {
         stock: product.stock,
         quantity,
         image_url: product.image_url,
+        seller_name: product.seller_name,
       };
+      console.log("cartItem", cartItem);
       dispatch(addToCart(cartItem));
     }
 
@@ -169,7 +173,7 @@ export default function ProductDetail() {
                 className="text-blue-500 hover:text-blue-400 font-bold"
                 to={`/depot-detail/${product.seller_id}`}
               >
-                Kunjungi Toko
+                {product.seller_name}
               </Link>
             </div>
           ) : (

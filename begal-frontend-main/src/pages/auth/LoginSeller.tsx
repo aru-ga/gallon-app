@@ -144,12 +144,18 @@ export default function LoginSeller() {
             >
               {loading ? "Logging in..." : "Login"}
             </Button>
-            <Button type="button" variant="link" className="text-white">
-              <Link to="/forgot-password">Forgot password</Link>
-            </Button>
+            <div className="w-full flex flex-row justify-between">
+              <Button type="button" variant="link" className="text-white">
+                <Link to="/forgot-password">Forgot password?</Link>
+              </Button>
+              <Button type="button" variant="link" className="text-white">
+                <Link to="/register-seller">Register Instead</Link>
+              </Button>
+            </div>
           </form>
         </div>
       </div>
     </div>
   );
 }
+//depot@gmail.com

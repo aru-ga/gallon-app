@@ -150,51 +150,5 @@ export const featureItems = [
   },
 ];
 
-export const products = [
-  {
-    id: "671da472fddde61ed5ad45ad",
-    seller_id: "671d3d9a928bd15c1420e343",
-    name: "Galon Air Mineral 19L",
-    description: "Galon air mineral ukuran 19 liter, segar dan aman untuk diminum sehari-hari.",
-    price: 20000,
-    stock: 50,
-    image_url: dummyImg,
-  },
-  {
-    id: "671da482fddde61ed5ad45b0",
-    seller_id: "671d3d9a928bd15c1420e343",
-    name: "Air Mineral Botol 1L",
-    description: "Air mineral ukuran botol 1 liter, mudah dibawa dan siap dikonsumsi.",
-    price: 5000,
-    stock: 100,
-    image_url: dummyImg,
-  },
-  {
-    id: "671da493fddde61ed5ad45ae",
-    seller_id: "671d3d9a928bd15c1420e343",
-    name: "Galon Air Teh Manis 19L",
-    description: "Galon air teh manis ukuran 19 liter, nikmat untuk menemani suasana.",
-    price: 25000,
-    stock: 30,
-    image_url: dummyImg,
-  },
-  {
-    id: "671da49cfddde61ed5ad45af",
-    seller_id: "671d3d9a928bd15c1420e343",
-    name: "Air Mineral Botol 500ml",
-    description: "Air mineral ukuran botol 500 ml, praktis dan siap dibawa kemana saja.",
-    price: 3000,
-    stock: 200,
-    image_url: dummyImg,
-  },
-  {
-    id: "671da4a3fddde61ed5ad45b0",
-    seller_id: "671d3d9a928bd15c1420e343",
-    name: "Galon Air Kelapa 19L",
-    description: "Galon air kelapa ukuran 19 liter, segar dan menyehatkan.",
-    price: 30000,
-    stock: 20,
-    image_url: dummyImg,
-  },
-];
+
 

@@ -1,27 +1,44 @@
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
-import { ChevronLeft, ChevronRightIcon, Link } from "lucide-react";
-import AnimChecklist from "@/components/AnimChecklist";
-import AnimForgotPassword from "@/components/AnimForgotPassword";
-import AnimPlane from "@/components/AnimPlane";
-import AnimSetNew from "@/components/AnimSetNew";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { reqChangePassword } from "@/api/user";
 import { Button } from "@/components/ui/button";
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSlot,
-  InputOTPSeparator,
-} from "@/components/ui/input-otp";
-import { useSelector } from "react-redux";
-import { useState } from "react";
+import { Label } from "@/components/ui/label";
+import { Eye, EyeOff } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function ChangePassword() {
-  const [step, setStep] = useState(0);
+  const [showOldPassword, setShowOldPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const { toast } = useToast();
 
-  const userSelector = useSelector((state) => state.user);
-  const nextStep = () => setStep((prevStep) => prevStep + 1);
-  const prevStep = () => setStep((prevStep) => Math.max(prevStep - 1, 0));
+  useEffect(() => {
+    setPasswordsMatch(newPassword === confirmPassword);
+  }, [newPassword, confirmPassword]);
+  const navigate = useNavigate();
+
+  const goLogin = () => {
+    navigate("/login");
+  };
+  const requestResetPassword = async () => {
+    const req = await reqChangePassword(oldPassword, newPassword);
+    console.log(req);
+    if (req) {
+      toast({
+        title: "Berhasil diubah!",
+        description: "Silakan login kembali.",
+      });
+      goLogin();
+    }
+  };
+
   return (
     <>
       <SidebarInset className="dark:bg-gray-900 dark:text-white">
@@ -31,123 +48,112 @@ export default function ChangePassword() {
           <h1>Change Password</h1>
         </div>
 
-        <div className="flex dark:bg-gray-900 text-white items-center justify-center h-screen relative overflow-hidden">
-          <div className="relative w-full max-w-md dark:bg-gray-800 bg-white rounded-lg  overflow-hidden">
-            <div
-              className="flex transition-transform duration-500"
-              style={{ transform: `translateX(-${step * 100}%)` }}
-            >
-              <div className="min-w-full h-max p-6  text-center flex items-center flex-col">
-                <div className="w-1/2 mx-auto">
-                  <AnimForgotPassword />
+        <div className="flex dark:bg-gray-900 text-black dark:text-white items-center justify-center h-screen relative overflow-hidden">
+          <div className="w-full max-w-md p-6 mx-auto">
+            <div className="space-y-6 border border-blue-500 rounded-2xl p-8">
+              <div className="space-y-2">
+                <Label htmlFor="old-password">Enter old password</Label>
+                <div className="relative">
+                  <Input
+                    id="old-password"
+                    type={showOldPassword ? "text" : "password"}
+                    className="pr-10 border-blue-500"
+                    value={oldPassword}
+                    onChange={(e) => setOldPassword(e.target.value)}
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                    onClick={() => setShowOldPassword(!showOldPassword)}
+                  >
+                    {showOldPassword ? (
+                      <EyeOff className="h-4 w-4 text-blue-500" />
+                    ) : (
+                      <Eye className="h-4 w-4 text-blue-500" />
+                    )}
+                    <span className="sr-only">
+                      {showOldPassword ? "Hide password" : "Show password"}
+                    </span>
+                  </Button>
                 </div>
-                <div>
-                  <h2 className="text-gray-500 font-extralight">
-                    this email will be use to send code:{" "}
-                    {userSelector.user.email}
-                  </h2>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="new-password">Enter new password</Label>
+                <div className="relative">
+                  <Input
+                    id="new-password"
+                    type={showNewPassword ? "text" : "password"}
+                    className="pr-10 border-blue-500"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                    onClick={() => setShowNewPassword(!showNewPassword)}
+                  >
+                    {showNewPassword ? (
+                      <EyeOff className="h-4 w-4 text-blue-500" />
+                    ) : (
+                      <Eye className="h-4 w-4 text-blue-500" />
+                    )}
+                    <span className="sr-only">
+                      {showNewPassword ? "Hide password" : "Show password"}
+                    </span>
+                  </Button>
                 </div>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="confirm-password">Confirm password</Label>
+                <div className="relative">
+                  <Input
+                    id="confirm-password"
+                    type={showConfirmPassword ? "text" : "password"}
+                    className={`pr-10 border-blue-500 ${
+                      !passwordsMatch ? "border-red-500" : ""
+                    }`}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
+                    {showConfirmPassword ? (
+                      <EyeOff className="h-4 w-4 text-blue-500" />
+                    ) : (
+                      <Eye className="h-4 w-4 text-blue-500" />
+                    )}
+                    <span className="sr-only">
+                      {showConfirmPassword ? "Hide password" : "Show password"}
+                    </span>
+                  </Button>
+                </div>
+                {!passwordsMatch && (
+                  <p className="text-sm text-red-500">Passwords do not match</p>
+                )}
+              </div>
+              <div className="flex flex-col space-y-4">
                 <Button
-                  onClick={nextStep}
-                  className="bg-blue-800 mt-20 rounded-full px-16 text-white hover:bg-blue-700"
+                  onClick={requestResetPassword}
+                  type="submit"
+                  className="w-32 ml-auto rounded-full bg-white dark:bg-blue-500 text-black dark:text-white border-2 border-blue-500 hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={
+                    !passwordsMatch ||
+                    !oldPassword ||
+                    !newPassword ||
+                    !confirmPassword
+                  }
                 >
-                  Send Code
+                  Change
                 </Button>
-              </div>
-
-              <div className="min-w-full p-6 space-y-4 text-center ">
-                <div className="w-1/2 mx-auto">
-                  <AnimPlane />
-                </div>
-                <h2 className="text-xl font-semibold">Enter your code</h2>
-                <h2 className="text-gray-500 font-extralight">
-                  {`We sent a code to ${userSelector.user.email}`}
-                </h2>
-                <div className="w-min mx-auto">
-                  <InputOTP maxLength={6}>
-                    <InputOTPGroup className="flex">
-                      <InputOTPSlot
-                        className="rounded-none dark:border-white border-black"
-                        index={0}
-                      />
-                      <InputOTPSlot
-                        className="rounded-none dark:border-white border-black"
-                        index={1}
-                      />
-                      <InputOTPSlot
-                        className="rounded-none dark:border-white border-black"
-                        index={2}
-                      />
-                    </InputOTPGroup>
-                    <InputOTPSeparator className="text-blue-600" />
-                    <InputOTPGroup className="flex">
-                      <InputOTPSlot
-                        className="rounded-none dark:border-white border-black"
-                        index={3}
-                      />
-                      <InputOTPSlot
-                        className="rounded-none dark:border-white border-black"
-                        index={4}
-                      />
-                      <InputOTPSlot
-                        className="rounded-none dark:border-white border-black"
-                        index={5}
-                      />
-                    </InputOTPGroup>
-                  </InputOTP>
-                </div>
-                <div className="flex justify-between">
-                  <Button onClick={prevStep} variant="ghost">
-                    <ChevronLeft />
-                  </Button>
-                  <Button onClick={nextStep} className="bg-blue-500 text-white">
-                    <ChevronRightIcon />
-                  </Button>
-                </div>
-              </div>
-
-              <div className="min-w-full p-6 space-y-4 text-center">
-                <div className="w-1/2 mx-auto">
-                  <AnimSetNew />
-                </div>
-                <h2 className="text-xl font-semibold">Set new password</h2>
-                <h2 className="text-gray-500 font-extralight">
-                  Must be al least 8 characters.
-                </h2>
-                <Input
-                  type="password"
-                  className="border p-2 w-full rounded-md"
-                  placeholder="New password"
-                />
-                <Input
-                  type="password"
-                  className="border p-2 w-full rounded-md"
-                  placeholder="Confirm your new password"
-                />
-                <div className="flex justify-between">
-                  <Button onClick={prevStep} variant="ghost">
-                    <ChevronLeft />
-                  </Button>
-                  <Button onClick={nextStep} className="bg-blue-500 text-white">
-                    <ChevronRightIcon />
-                  </Button>
-                </div>
-              </div>
-              <div className="min-w-full py-10 p-6 space-y-4 justify-between flex flex-col text-center">
-                <div className="w-1/2 mx-auto">
-                  <AnimChecklist />
-                </div>
-                <div>
-                  <h2 className="text-xl font-semibold">Set new password</h2>
-                  <h2 className="text-gray-500 font-extralight">
-                    Password has been reset successfully
-                  </h2>
-                </div>
-                <Link to="/login">
-                  <Button className="bg-blue-500 w-full text-white">
-                    Login
-                  </Button>
-                </Link>
               </div>
             </div>
           </div>

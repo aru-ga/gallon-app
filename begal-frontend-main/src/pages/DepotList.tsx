@@ -54,7 +54,7 @@ function DepotList() {
     <main>
       <div className="py-10 dark:bg-gray-900">
         <Carousel
-          className="w-full"
+          className="w-full mt-28"
           plugins={[
             Autoplay({
               delay: 2000,
@@ -67,7 +67,11 @@ function DepotList() {
                 key={item.id}
                 className="flex items-center justify-center"
               >
-                <img src={item.image} alt="" className="w-full" />
+                <img
+                  src={item.image}
+                  alt="depotHeroImages"
+                  className="w-[1000px] h-[500px] object-cover"
+                />
               </CarouselItem>
             ))}
           </CarouselContent>
@@ -107,6 +111,18 @@ function DepotList() {
             name={depot.name}
             address={depot.address}
             rating={depot.rating}
+            className={""}
+            owner_name={""}
+            email={""}
+            phone={""}
+            role={""}
+            operational_hours={{
+              open: "",
+              close: "",
+            }}
+            reviews_count={""}
+            created_at={""}
+            updated_at={""}
           />
         ))}
       </div>

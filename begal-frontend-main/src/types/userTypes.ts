@@ -40,5 +40,26 @@ interface UserProfile {
   profile_picture_url: string;
 }
 
+interface SellerProfile {
+  owner_name: string,
+  name: string,
+  email: string,
+  password: string,
+  phone: string,
+  role: string,
+  address: {
+    province: string,
+    regency: string,
+    district: string,
+    village: string,
+    street: string,
+    detail: string
+  },
+  operational_hours: {
+    open: string,
+    close: string
+  }
+}
 
-export type { LoginData, UserProfile, UserProfileWithConfirmPassword };
+
+export type { LoginData, UserProfile, UserProfileWithConfirmPassword, SellerProfile };

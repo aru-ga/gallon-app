@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { UserProfile } from '@/types/userTypes';
+import { UserProfile, SellerProfile } from '@/types/userTypes';
 
 const API_URL = "https://api-beli-galon.vercel.app/api/users";
 const API_URL_SELLER = "https://api-beli-galon.vercel.app/api/sellers";
@@ -48,6 +48,16 @@ const register = async (userData: UserProfile) => {
   }
 };
 
+const registerSeller = async (userData: SellerProfile) => {
+  console.log("userData form api==========", userData);
+  try {
+    const response = await axios.post(`${API_URL_SELLER}/register`, userData);
+    return (response.data);
+  } catch (error) {
+    console.error("Error in register API call:", error); 
+    throw new Error("Registration failed");
+  }
+};
 
 const userProfile = async (token: string) => {
   try {
@@ -62,6 +72,7 @@ const userProfile = async (token: string) => {
     throw new Error("Failed to fetch user profile");
   }
 };
-export default userProfile;
 
-export { login, register, userProfile, loginSeller, sellerProfile };
+
+
+export { login, register, userProfile, loginSeller, sellerProfile, registerSeller };

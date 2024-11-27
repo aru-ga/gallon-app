@@ -46,7 +46,7 @@ export default function Profile() {
             <div className="-mt-28 ml-20">
               <Avatar className="w-40 h-40">
                 <AvatarImage
-                  src={userSelector.user.profile_picture_url || dummyImg} // Fallback to dummy image if not available
+                  src={userSelector.user.profile_picture_url || dummyImg}
                   alt={`${userSelector.user.name}'s img`}
                 />
                 <AvatarFallback>

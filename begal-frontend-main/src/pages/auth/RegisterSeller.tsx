@@ -1,320 +1,235 @@
-import Illustration from "@/assets/img-sign.png";
-import { useState, KeyboardEvent, ChangeEvent } from "react";
-import { Input } from "@/components/ui/input";
-import { UserProfile } from "@/types/userTypes";
-import { userRegisterSchemas } from "@/schemas/userSchema";
-import { ComboxAddress } from "@/components/ComboxAddress";
-import React from "react";
-import { Location } from "@/types/locationTypes";
-import { register } from "@/api/auth";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
-type ErrorData = {
-  [key in keyof UserProfile]?: string;
-};
+import { registerSeller } from "@/api/auth";
 
 const RegisterSeller = () => {
-  const [step, setStep] = useState<number>(0);
-  const [formData, setFormData] = useState<UserProfile>({
+  const [formData, setFormData] = useState({
+    owner_name: "",
     name: "",
     email: "",
     password: "",
-    confirmPassword: "",
+    phone: "",
+    role: "seller", // Default role is 'seller'
     address: {
-      detail: "",
-      district: "",
       province: "",
       regency: "",
-      street: "",
+      district: "",
       village: "",
+      street: "",
+      detail: "",
     },
-    role: "user",
-    phone: "",
-    profile_picture_url: "",
+    operational_hours: {
+      open: "",
+      close: "",
+    },
   });
 
-  const [errors, setErrors] = useState<ErrorData>({});
-  const [selectedAddress, setSelectedAddress] = React.useState<{
-    province: Location | null;
-    regency: Location | null;
-    district: Location | null;
-    village: Location | null;
-  }>({
-    province: null,
-    regency: null,
-    district: null,
-    village: null,
-  });
-
-  const handleAddressChange = (addressData: {
-    province: Location | null;
-    regency: Location | null;
-    district: Location | null;
-    village: Location | null;
-  }) => {
-    setSelectedAddress(addressData);
-    setFormData((prevData) => ({
-      ...prevData,
-      address: {
-        ...prevData.address,
-        province: addressData.province?.name || "",
-        regency: addressData.regency?.name || "",
-        district: addressData.district?.name || "",
-        village: addressData.village?.name || "",
-      },
-    }));
-  };
-
-  const nextStep = () => {
-    const result = userRegisterSchemas[step].safeParse(formData);
-    if (result.success) {
-      setErrors({});
-      setStep((prev) => prev + 1);
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    field: string
+  ) => {
+    const [mainKey, subKey] = field.split(".");
+    if (subKey) {
+      setFormData((prev) => ({
+        ...prev,
+        [mainKey]: {
+          ...prev[mainKey],
+          [subKey]: e.target.value,
+        },
+      }));
     } else {
-      setErrors(result.error.flatten().fieldErrors as ErrorData);
+      setFormData((prev) => ({
+        ...prev,
+        [field]: e.target.value,
+      }));
     }
   };
 
-  const prevStep = () => setStep((prev) => (prev > 0 ? prev - 1 : prev));
-
-  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") nextStep();
-  };
-
-  const handleChange =
-    (field: keyof UserProfile | `address.${keyof UserProfile["address"]}`) =>
-    (event: ChangeEvent<HTMLInputElement>) => {
-      if (field.startsWith("address.")) {
-        const addressField = field.split(
-          "."
-        )[1] as keyof UserProfile["address"];
-        setFormData((prevData) => ({
-          ...prevData,
-          address: {
-            ...prevData.address,
-            [addressField]: event.target.value,
-          },
-        }));
-      } else {
-        setFormData({ ...formData, [field]: event.target.value });
-      }
-    };
-
-  const handleSubmit = () => {
-    const result = userRegisterSchemas[step].safeParse(formData);
-
-    if (result.success && formData.password === formData.confirmPassword) {
-      setErrors({});
-      console.log("in");
-      console.log("form data", formData);
-    } else {
-      console.log("Validation errors:", result.error?.flatten().fieldErrors);
-      if (formData.password !== formData.confirmPassword) {
-        console.log("Password error: Passwords do not match");
-      }
-
-      setErrors(
-        (prevErrors) =>
-          ({
-            ...prevErrors,
-            ...result.error?.flatten().fieldErrors,
-            confirmPassword:
-              formData.password !== formData.confirmPassword
-                ? "Passwords do not match"
-                : prevErrors.confirmPassword,
-          } as ErrorData)
-      );
-    }
-
+  const handleSubmit = async () => {
     try {
-      register(formData);
+      const sendData = await registerSeller(formData);
+      console.log("Register SEND=========:", sendData);
     } catch (error) {
-      console.error(error);
+      console.error("Error in register API call:", error);
+      throw new Error("Registration failed");
     }
   };
 
   return (
-    <div className="flex h-screen dark:bg-gray-900 dark:text-white">
-      <div className="w-1/2 flex items-center ">
-        <img
-          src={Illustration}
-          alt="Illustration"
-          className="h-full object-contain"
-        />
-      </div>
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg">
+        <h2 className="text-2xl font-semibold text-center mb-6">Register</h2>
+        <div className="space-y-4">
+          <div>
+            <Label htmlFor="owner_name">Owner Name</Label>
+            <Input
+              id="owner_name"
+              type="text"
+              value={formData.owner_name}
+              onChange={(e) => handleChange(e, "owner_name")}
+              required
+            />
+          </div>
 
-      <div className="w-1/2 flex flex-col  justify-center pr-28">
-        <h1 className="text-3xl font-bold mb-8">Lengkapi data diri Anda</h1>
+          <div>
+            <Label htmlFor="name">Depot Name</Label>
+            <Input
+              id="name"
+              type="text"
+              value={formData.name}
+              onChange={(e) => handleChange(e, "name")}
+              required
+            />
+          </div>
 
-        <div className="relative w-full overflow-hidden">
-          <div
-            className="flex transition-transform duration-500 ease-in-out"
-            style={{ transform: `translateX(-${step * 100}%)` }}
-          >
-            {/* Step 1 */}
-            <div className="w-full flex-shrink-0 flex p-5 flex-col items-start">
-              <Label htmlFor="name" className="mb-3">
-                Name
-              </Label>
-              {errors.name && <p className="text-red-500">{errors.name}</p>}
-              <Input
-                id="name"
-                type="text"
-                placeholder="Masukkan Nama"
-                value={formData.name}
-                onChange={handleChange("name")}
-                onKeyDown={handleKeyDown}
-                className="w-1/2 p-2 border rounded mb-4"
-              />
-              <Button
-                className="bg-blue-600 rounded-full h-10 w-10 p-0 hover:bg-blue-700 text-white"
-                onClick={nextStep}
-              >
-                <ChevronRightIcon />
-              </Button>
-            </div>
+          <div>
+            <Label htmlFor="email">Email</Label>
+            <Input
+              id="email"
+              type="email"
+              value={formData.email}
+              onChange={(e) => handleChange(e, "email")}
+              required
+            />
+          </div>
 
-            {/* Step 2 */}
-            <div className="w-full flex-shrink-0 flex p-5 flex-col items-start">
-              <Label htmlFor="email" className="mb-3">
-                Email
-              </Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="Masukkan Email"
-                value={formData.email}
-                onChange={handleChange("email")}
-                onKeyDown={handleKeyDown}
-                className="w-1/2 p-2 border rounded mb-4"
-              />
-              {errors.email && <p className="text-red-500">{errors.email}</p>}
-              <div className="flex flex-row gap-2">
-                <Button
-                  className="bg-blue-600 rounded-full h-10 w-10 p-0 hover:bg-blue-700 text-white"
-                  onClick={prevStep}
-                >
-                  <ChevronLeftIcon />
-                </Button>
-                <Button
-                  className="bg-blue-600 rounded-full h-10 w-10 p-0 hover:bg-blue-700 text-white"
-                  onClick={nextStep}
-                >
-                  <ChevronRightIcon />
-                </Button>
-              </div>
-            </div>
+          <div>
+            <Label htmlFor="password">Password</Label>
+            <Input
+              id="password"
+              type="password"
+              value={formData.password}
+              onChange={(e) => handleChange(e, "password")}
+              required
+            />
+          </div>
 
-            {/* Step 3 */}
-            <div className="w-full flex-shrink-0 flex p-5 flex-col items-start">
-              <Label htmlFor="email" className="mb-3">
-                Phone
-              </Label>
-              {errors.phone && <p className="text-red-500">{errors.phone}</p>}
-              <Input
-                type="phone"
-                placeholder="Phone no"
-                value={formData.phone}
-                onChange={handleChange("phone")}
-                onKeyDown={handleKeyDown}
-                className="w-1/2 p-2 border rounded mb-4"
-              />
-              <div className="address-form">
-                <h2>Select Address</h2>
-                <ComboxAddress onChange={handleAddressChange} />
-                <div className="hidden">
-                  {selectedAddress.province?.name}
-                  {selectedAddress.regency?.name}
-                  {selectedAddress.district?.name}
-                  {selectedAddress.village?.name}
-                </div>
-                <Label htmlFor="detail" className="mb-3">
-                  Phone
-                </Label>
-                <Input
-                  id="detail"
-                  type="text"
-                  placeholder="Masukkan Detail"
-                  value={formData.address.detail}
-                  onChange={handleChange("address.detail")}
-                  onKeyDown={handleKeyDown}
-                  className="w-full p-2 border border-gray-300 rounded mb-4"
-                />
-                <Label htmlFor="email" className="mb-3">
-                  Street
-                </Label>
-                <Input
-                  id="street"
-                  type="text"
-                  placeholder="Masukkan Street"
-                  value={formData.address.street}
-                  onChange={handleChange("address.street")}
-                  onKeyDown={handleKeyDown}
-                  className="w-full p-2 border border-gray-300 rounded mb-4"
-                />
-                {errors.address && (
-                  <p className="text-red-500">{errors.address}</p>
-                )}
-              </div>
+          <div>
+            <Label htmlFor="phone">Phone</Label>
+            <Input
+              id="phone"
+              type="tel"
+              value={formData.phone}
+              onChange={(e) => handleChange(e, "phone")}
+              required
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="role">Role</Label>
+            <Input
+              id="role"
+              type="text"
+              value={formData.role}
+              disabled
+              readOnly
+              className="bg-gray-200"
+            />
+          </div>
+
+          <div>
+            <h3 className="text-lg font-medium">Address</h3>
+            <div className="space-y-2">
               <div>
-                <Button
-                  onClick={prevStep}
-                  className="px-4 py-2 bg-gray-300 rounded mr-2"
-                >
-                  <ChevronLeftIcon />
-                </Button>
-                <Button
-                  onClick={nextStep}
-                  className="px-4 py-2 bg-blue-500 text-white rounded"
-                >
-                  <ChevronRightIcon />
-                </Button>
+                <Label htmlFor="address.province">Province</Label>
+                <Input
+                  id="address.province"
+                  type="text"
+                  value={formData.address.province}
+                  onChange={(e) => handleChange(e, "address.province")}
+                  required
+                />
               </div>
-            </div>
 
-            {/* Step 4 */}
-            <div className="w-full flex-shrink-0 flex p-5 flex-col items-start">
-              <Input
-                type="password"
-                placeholder="Masukkan Password"
-                value={formData.password}
-                onChange={handleChange("password")}
-                onKeyDown={handleKeyDown}
-                className="w-1/2 p-2 border rounded mb-4"
-              />
-              <Input
-                type="password"
-                placeholder="Confirm Password"
-                value={formData.confirmPassword}
-                onChange={handleChange("confirmPassword")}
-                onKeyDown={handleKeyDown}
-                className="w-1/2 p-2 border rounded mb-4"
-              />
-              {errors.confirmPassword && (
-                <p className="text-red-500">{errors.confirmPassword}</p>
-              )}
+              <div>
+                <Label htmlFor="address.regency">Regency</Label>
+                <Input
+                  id="address.regency"
+                  type="text"
+                  value={formData.address.regency}
+                  onChange={(e) => handleChange(e, "address.regency")}
+                  required
+                />
+              </div>
 
-              {errors.password && (
-                <p className="text-red-500">{errors.password}</p>
-              )}
-              <div className="flex">
-                <Button
-                  onClick={prevStep}
-                  className="px-4 py-2 bg-gray-300 rounded mr-2"
-                >
-                  <ChevronLeftIcon />
-                </Button>
-                <Button
-                  onClick={handleSubmit}
-                  className="px-4 py-2 bg-blue-500 text-white rounded"
-                >
-                  Submit
-                </Button>
+              <div>
+                <Label htmlFor="address.district">District</Label>
+                <Input
+                  id="address.district"
+                  type="text"
+                  value={formData.address.district}
+                  onChange={(e) => handleChange(e, "address.district")}
+                  required
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="address.village">Village</Label>
+                <Input
+                  id="address.village"
+                  type="text"
+                  value={formData.address.village}
+                  onChange={(e) => handleChange(e, "address.village")}
+                  required
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="address.street">Street</Label>
+                <Input
+                  id="address.street"
+                  type="text"
+                  value={formData.address.street}
+                  onChange={(e) => handleChange(e, "address.street")}
+                  required
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="address.detail">Detail</Label>
+                <Input
+                  id="address.detail"
+                  type="text"
+                  value={formData.address.detail}
+                  onChange={(e) => handleChange(e, "address.detail")}
+                  required
+                />
               </div>
             </div>
           </div>
+
+          <div>
+            <h3 className="text-lg font-medium">Operational Hours</h3>
+            <div className="space-y-2">
+              <div>
+                <Label htmlFor="operational_hours.open">Open Time</Label>
+                <Input
+                  id="operational_hours.open"
+                  type="time"
+                  value={formData.operational_hours.open}
+                  onChange={(e) => handleChange(e, "operational_hours.open")}
+                  required
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="operational_hours.close">Close Time</Label>
+                <Input
+                  id="operational_hours.close"
+                  type="time"
+                  value={formData.operational_hours.close}
+                  onChange={(e) => handleChange(e, "operational_hours.close")}
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          <Button onClick={handleSubmit} className="w-full mt-6">
+            Register
+          </Button>
         </div>
       </div>
     </div>

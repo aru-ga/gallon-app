@@ -117,7 +117,7 @@ export default function Navbar() {
                 <NavigationMenuItem>
                   <NavigationMenuLink>
                     <Link to="/user-profile/profile">
-                      <div className="flex flex-col-reverse gap-2 items-center">
+                      <div className="flex flex-row-reverse gap-2 items-center">
                         <p className="dark:text-white">
                           {userSelector.user.name}
                         </p>

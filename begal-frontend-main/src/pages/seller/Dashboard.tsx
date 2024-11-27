@@ -16,14 +16,18 @@ export default function Dashboard() {
 
   const fetchCatalogue = async () => {
     const token = localStorage.getItem("authToken");
-    const data = await fetchProducts(token);
-    setProducts(data.data);
+    if (!token) {
+      const data = await fetchProducts(token);
+      setProducts(data.data);
+    }
   };
 
   const fetchOrder = async () => {
     const token = localStorage.getItem("authToken");
-    const data = await fetchOrders(token);
-    setOrders(data.data);
+    if (!token) {
+      const data = await fetchOrders(token);
+      setOrders(data.data);
+    }
   };
 
   // Calculate total quantities

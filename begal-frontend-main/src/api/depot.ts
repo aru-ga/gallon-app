@@ -43,7 +43,7 @@ const register = async (userData: UserProfile) => {
 };
 
 
-const userProfile = async (token: string) => {
+const sellerProfile = async (token: string) => {
   try {
     const response = await axios.get(`${API_URL}/profile`, {
       headers: {
@@ -56,6 +56,37 @@ const userProfile = async (token: string) => {
     throw new Error("Failed to fetch user profile");
   }
 };
-export default userProfile;
 
-export { fetchProducts, register, userProfile, fetchOrders };
+const addProduct = async (token: string, productData: any) => {
+  try {
+    // Create a new FormData instance
+    const formData = new FormData();
+
+    // Append the fields to FormData
+    formData.append("name", productData.name);
+    formData.append("description", productData.description);
+    formData.append("price", productData.price);
+    formData.append("stock", productData.stock);
+
+    // If there's an image, append it to the FormData
+    if (productData.image) {
+      formData.append("image", productData.image);
+    }
+
+    // Send the FormData to the server
+    const response = await axios.post(`${API_URL}/products`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data', // Set content type for file uploads
+      },
+    });
+
+    return response.data; // Return the response data
+  } catch (error) {
+    console.error("Error in addProduct API call:", error);
+    throw new Error("Failed to add product");
+  }
+}
+
+
+export { fetchProducts, register, sellerProfile, fetchOrders, addProduct };

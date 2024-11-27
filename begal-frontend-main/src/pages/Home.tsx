@@ -87,7 +87,7 @@ function Home() {
   }, []);
 
   return (
-    <main className="px-20 mt-24 dark:bg-gray-900  dark:text-white">
+    <main className="px-20 mt-28 dark:bg-gray-900  dark:text-white">
       <div className="my-10">
         <Carousel
           className="w-full"
@@ -104,7 +104,11 @@ function Home() {
                 key={item.id}
                 className="flex items-center justify-center"
               >
-                <img src={item.image} alt="" className="w-full" />
+                <img
+                  src={item.image}
+                  alt="carousel-images"
+                  className="w=[1000px] h-[500px] object-cover"
+                />
               </CarouselItem>
             ))}
           </CarouselContent>

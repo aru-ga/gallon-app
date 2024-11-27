@@ -79,6 +79,8 @@ export default function Cart() {
         },
       });
 
+      console.log("Order response:", response);
+
       if (response.data.success && response.status === 201) {
         toast({
           title: "Order created successfully",
@@ -118,12 +120,14 @@ export default function Cart() {
             <div className="col-span-7 gap-6 flex flex-col">
               {cartItems.map(
                 (item: {
+                  seller_name: string;
                   id: string | null | undefined;
                   name: string;
                   price: number;
                   stock: number;
                   quantity: number;
                   image_url: string;
+                  seller_id: string;
                 }) => (
                   <div key={item.id} className="flex items-center space-x-4">
                     <CartItem
@@ -135,6 +139,8 @@ export default function Cart() {
                       imgUrl={item.image_url}
                       onRemove={handleRemoveItem}
                       onQuantityChange={handleQuantityChange}
+                      seller_id={item.seller_id}
+                      seller_name={item.seller_name}
                     />
                     <input
                       type="checkbox"

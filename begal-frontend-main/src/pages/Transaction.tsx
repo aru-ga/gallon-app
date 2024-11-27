@@ -8,7 +8,12 @@ import AnimTransUnlog from "@/components/AnimTransactionUnlog";
 import AnimNoTrans from "@/components/AnimNoTrans";
 
 export default function Transaction() {
-  const [transaction, setTransaction] = useState([]);
+  interface Order {
+    _id: string;
+  }
+
+  const [transaction, setTransaction] = useState<Order[]>([]);
+
   const token = localStorage.getItem("authToken");
 
   const getTransaction = async () => {
@@ -40,16 +45,22 @@ export default function Transaction() {
       {token ? (
         <div className="min-h-screen flex justify-center mt-40">
           <div className="space-y-4 p-4">
-            <h1 className="text-2xl font-bold mb-4">Your Orders</h1>
+            <h1 className="text-2xl font-bold mb-4 dark:text-white">
+              Your Orders
+            </h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-start auto-rows-auto">
-              {transaction.map((order) => (
-                <CardTransaction
-                  key={order._id}
-                  order={order}
-                  isExpanded={expandedId === order._id}
-                  toggleExpand={() => toggleExpand(order._id)}
-                />
-              ))}
+              {transaction.length === 0 ? (
+                <AnimNoTrans />
+              ) : (
+                transaction.map((order) => (
+                  <CardTransaction
+                    key={order._id}
+                    order={order}
+                    isExpanded={expandedId === order._id}
+                    toggleExpand={() => toggleExpand(order._id)}
+                  />
+                ))
+              )}
             </div>
           </div>
         </div>

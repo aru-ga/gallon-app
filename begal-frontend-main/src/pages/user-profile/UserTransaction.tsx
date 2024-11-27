@@ -34,7 +34,7 @@ export default function UserTransaction() {
 
   return (
     <>
-      <SidebarInset>
+      <SidebarInset className="dark:bg-gray-900 dark:text-white">
         <div className="flex flex-row items-center space-x-2 p-3">
           <SidebarTrigger />
           <Separator orientation="vertical" />

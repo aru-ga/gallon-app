@@ -3,7 +3,7 @@ import NotFound from "@/pages/NotFound";
 import DepotList from "@/pages/DepotList";
 import About from "@/pages/About";
 import Login from "@/pages/auth/Login";
-import Register from "@/pages/auth/Register";
+import RegisterUser from "@/pages/auth/RegisterUser";
 import LoginUser from "@/pages/auth/LoginUser";
 import DepotDetail from "@/pages/DepotDetail";
 import Dashboard from "@/pages/seller/Dashboard";
@@ -24,11 +24,19 @@ import ChangePassword from "@/pages/user-profile/ChangePassword";
 import UserTransaction from "@/pages/user-profile/UserTransaction";
 import ProductDetail from "@/pages/ProductDetail";
 import LoginSeller from "@/pages/auth/LoginSeller";
+import Register from "@/pages/auth/Register";
+import RegisterSeller from "@/pages/auth/RegisterSeller";
 
 const App = () => {
   const location = useLocation();
 
-  const hideNavbarPaths = ["/seller", "/login", "/register", "/user-profile"];
+  const hideNavbarPaths = [
+    "/seller",
+    "/login",
+    "/register",
+    "/user-profile",
+    "/forgot-password",
+  ];
 
   return (
     <>
@@ -46,6 +54,8 @@ const App = () => {
         <Route path="/login" Component={Login} />
         <Route path="/profile" Component={Profile} />
         <Route path="/register" Component={Register} />
+        <Route path="/register-seller" Component={RegisterSeller} />
+        <Route path="/register-user" Component={RegisterUser} />
         <Route path="/login-user" Component={LoginUser} />
         <Route path="/login-seller" Component={LoginSeller} />
         <Route path="/forgot-password" Component={ForgotPassword} />

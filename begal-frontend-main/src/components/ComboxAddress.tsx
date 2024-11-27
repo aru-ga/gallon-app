@@ -166,7 +166,7 @@ export function ComboxAddress({ onChange }: ComboboxAddressProps) {
   );
 
   return (
-    <div className="space-y-4 flex flex-col py-4">
+    <div className="space-y-4 flex flex-col py-4 dark:text-white text-black">
       {renderDropdown(
         "Select Province",
         provinces,

@@ -140,9 +140,16 @@ export default function LoginUser() {
             >
               {loading ? "Logging in..." : "Login"}
             </Button>
-            <Button type="button" variant="link" className="text-white">
-              <Link to="/forgot-password">Forgot password</Link>
-            </Button>
+            <div className="w-full flex flex-row justify-between">
+              <Button type="button" variant="link" className="text-white">
+                <Link to="/forgot-password">Forgot password?</Link>
+              </Button>
+              <Button type="button" variant="link" className="text-white">
+                <Link to="/register" className="underline">
+                  Register Instead?
+                </Link>
+              </Button>
+            </div>
           </form>
         </div>
       </div>
