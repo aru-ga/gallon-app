@@ -21,8 +21,10 @@ import { UserProfile } from "@/types/userTypes";
 import { Location } from "@/types/locationTypes";
 import { reqChangeAddress } from "@/api/user";
 import { toast } from "@/hooks/use-toast";
+import { set } from "zod";
 
 export default function Address() {
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     address: {
       detail: "",
@@ -86,6 +88,7 @@ export default function Address() {
     };
 
   const handleSubmit = async () => {
+    setLoading(true);
     try {
       const payload = {
         address: {
@@ -107,6 +110,8 @@ export default function Address() {
       }
     } catch (error) {
       console.error("Failed to update address:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -126,7 +131,9 @@ export default function Address() {
                 buttonTag={
                   <Dialog>
                     <DialogTrigger asChild>
-                      <Button variant="ghost">Edit Adress</Button>
+                      <Button className="w-full" variant="ghost">
+                        Edit Adress
+                      </Button>
                     </DialogTrigger>
                     <DialogContent className="">
                       <DialogHeader>
@@ -169,8 +176,12 @@ export default function Address() {
                         />
                       </div>
                       <DialogFooter>
-                        <Button onClick={handleSubmit} type="submit">
-                          Save changes
+                        <Button
+                          disabled={loading}
+                          onClick={handleSubmit}
+                          type="submit"
+                        >
+                          {loading ? "Loading..." : "Save"}
                         </Button>
                       </DialogFooter>
                     </DialogContent>

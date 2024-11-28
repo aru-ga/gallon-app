@@ -8,8 +8,10 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { set } from "zod";
 
 export default function ChangePassword() {
+  const [loading, setLoading] = useState(false);
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -28,14 +30,27 @@ export default function ChangePassword() {
     navigate("/login");
   };
   const requestResetPassword = async () => {
-    const req = await reqChangePassword(oldPassword, newPassword);
-    console.log(req);
-    if (req) {
+    setLoading(true);
+
+    try {
+      const req = await reqChangePassword(oldPassword, newPassword);
+      console.log(req);
+      if (req.success === true) {
+        toast({
+          title: "Berhasil mengubah password!",
+          description: "Silakan login kembali.",
+        });
+        goLogin();
+      }
+      console.log(req);
+    } catch (error) {
+      console.error("Error changing password:", error);
       toast({
-        title: "Berhasil diubah!",
-        description: "Silakan login kembali.",
+        title: "Gagal mengubah password!",
+        description: error,
       });
-      goLogin();
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -152,7 +167,7 @@ export default function ChangePassword() {
                     !confirmPassword
                   }
                 >
-                  Change
+                  {loading ? "Loading..." : "Save"}
                 </Button>
               </div>
             </div>

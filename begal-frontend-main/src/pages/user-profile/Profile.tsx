@@ -1,24 +1,25 @@
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { Label } from "@radix-ui/react-label";
-import { Camera } from "lucide-react";
 import { useSelector } from "react-redux";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { updateProfile, updateProfilePicture } from "@/api/user";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Profile() {
   const userSelector = useSelector((state) => state.user);
   const [isEditing, setIsEditing] = useState(false);
+  const [img, setImg] = useState(null);
   const [editableUser, setEditableUser] = useState({
     name: userSelector.user.name,
     phone: userSelector.user.phone,
     email: userSelector.user.email,
   });
-  const [saveStatus, setSaveStatus] = useState("");
 
-  // Sync editableUser with userSelector when it changes
+  const { toast } = useToast();
+
   useEffect(() => {
     setEditableUser({
       name: userSelector.user.name,
@@ -38,30 +39,50 @@ export default function Profile() {
 
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
-    setSaveStatus(""); // Reset status when toggling edit mode
   };
 
   const handleSave = async () => {
-    // Collect only the fields that need to be updated
     const userDataToSend = {
       name: editableUser.name,
       email: editableUser.email,
       phone: editableUser.phone,
     };
 
-    console.log("Data to send:", userDataToSend); // Check what you're sending
-
     try {
-      setSaveStatus("Saving...");
-      const updatedProfile = await updateProfile(userDataToSend); // Send the partial data
-      console.log("API Response:", updatedProfile);
+      toast({
+        title: "Saving...",
+        description: "Please wait...",
+      });
+      await updateProfile(userDataToSend);
+      toast({
+        title: "Profile updated successfully!",
+        description: "Your profile has been updated.",
+      });
 
-      // Handle successful save
-      setSaveStatus("Profile updated successfully!");
       setIsEditing(false);
     } catch (error) {
-      console.error("Error saving profile:", error);
-      setSaveStatus("Failed to update profile. Please try again.");
+      toast({
+        title: "Failed to update profile.",
+        description: "Please try again.",
+      });
+    }
+  };
+
+  const saveImg = async () => {
+    try {
+      const data = new FormData();
+      data.append("image", img);
+      const response = await updateProfilePicture(data);
+      console.log("Save Image========", response);
+      toast({
+        title: "Profile picture updated successfully!",
+        description: "Your profile picture has been updated.",
+      });
+    } catch (error) {
+      toast({
+        title: "Failed to update profile picture.",
+        description: "Please try again.",
+      });
     }
   };
 
@@ -87,10 +108,15 @@ export default function Profile() {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <Button className="absolute bottom-0 right-0 p-2 bg-white rounded-full shadow-lg">
-                  <Camera size={16} />
-                </Button>
+                <Input
+                  type="file"
+                  id="profile-picture"
+                  onChange={(e) => setImg(e.target.files[0])}
+                  accept="image/*"
+                  className="absolute bottom-0 right-0 p-2 bg-white rounded-full shadow-lg"
+                />
               </div>
+              <Button onClick={saveImg}>Save img</Button>
               <div>
                 <h1 className="text-xl font-semibold">
                   Welcome, {editableUser.name}
@@ -158,8 +184,6 @@ export default function Profile() {
                 <Button onClick={handleEditToggle}>Edit</Button>
               )}
             </div>
-
-            <p className="text-sm mt-4">{saveStatus}</p>
           </div>
         </div>
       </SidebarInset>
