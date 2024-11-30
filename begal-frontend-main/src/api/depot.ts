@@ -4,7 +4,7 @@ import { UserProfile } from '@/types/userTypes';
 const API_URL = "https://api-beli-galon.vercel.app/api/sellers";
 const GLOBAL_API_URL = "https://api-beli-galon.vercel.app/api";
 
-const fetchProducts = async (token: string) => {
+const fetchProducts = async (token: string | null) => {
   try {
     const response = await axios.get(`${API_URL}/products`, {
       headers: {
@@ -18,7 +18,7 @@ const fetchProducts = async (token: string) => {
   }
 }
 
-const fetchOrders = async (token: string) => {
+const fetchOrders = async (token: string | null) => {
   try {
     const response = await axios.get(`${GLOBAL_API_URL}/orders`, {
       headers: {
@@ -57,36 +57,47 @@ const sellerProfile = async (token: string) => {
   }
 };
 
-const addProduct = async (token: string, productData: any) => {
+const addProduct = async (token: string | null, productData: any) => {
   try {
-    // Create a new FormData instance
     const formData = new FormData();
 
-    // Append the fields to FormData
     formData.append("name", productData.name);
     formData.append("description", productData.description);
     formData.append("price", productData.price);
     formData.append("stock", productData.stock);
 
-    // If there's an image, append it to the FormData
     if (productData.image) {
       formData.append("image", productData.image);
     }
 
-    // Send the FormData to the server
     const response = await axios.post(`${API_URL}/products`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
-        'Content-Type': 'multipart/form-data', // Set content type for file uploads
+        'Content-Type': 'multipart/form-data',
       },
     });
 
-    return response.data; // Return the response data
+    return response.data; 
   } catch (error) {
     console.error("Error in addProduct API call:", error);
     throw new Error("Failed to add product");
   }
 }
 
+const confirmOrder = async (token: string | null, orderId: string) => {
+  try {
+    const response = await axios.patch(`${GLOBAL_API_URL}/orders/${orderId}`, {"status": "confirmed"}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error in confirmOrder API call:", error);
+    throw new Error("Failed to confirm order");
+  }
+}
 
-export { fetchProducts, register, sellerProfile, fetchOrders, addProduct };
+
+
+export { fetchProducts, register, sellerProfile, fetchOrders, addProduct, confirmOrder };

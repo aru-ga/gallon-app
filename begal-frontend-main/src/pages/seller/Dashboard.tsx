@@ -9,17 +9,16 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { fetchProducts, fetchOrders } from "@/api/depot";
 import { useSelector } from "react-redux";
+import productType from "@/types/productType";
 
 export default function Dashboard() {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<productType>([]);
   const [orders, setOrders] = useState([]);
 
   const fetchCatalogue = async () => {
     const token = localStorage.getItem("authToken");
-    if (!token) {
-      const data = await fetchProducts(token);
-      setProducts(data.data);
-    }
+    const data = await fetchProducts(token);
+    setProducts(data.data);
   };
 
   const fetchOrder = async () => {

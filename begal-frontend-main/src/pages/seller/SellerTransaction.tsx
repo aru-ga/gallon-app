@@ -1,8 +1,26 @@
-import { ClipboardCheckIcon } from "lucide-react";
-import { Hourglass } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import logo from "@/assets/logo.png";
+import { DataTable } from "./transactions/data-table";
+import { columns, Payment } from "./transactions/columns";
+import { fetchOrders } from "@/api/depot";
+import { OrderCardProps } from "@/types/depotType";
+
+const token = localStorage.getItem("token");
+
+async function getData(): Promise<OrderCardProps[]> {
+  const orders = await fetchOrders(token);
+  // Fetch data from your API here.
+  // return [
+  //   {
+  //     id: "728ed52f",
+  //     amount: 100,
+  //     status: "pending",
+  //     email: "m@example.com",
+  //   },
+  // ];
+}
+const data = await getData();
 
 export default function SellerTransaction() {
   return (
@@ -22,16 +40,8 @@ export default function SellerTransaction() {
               <img src={logo} alt="logo" />
             </div>
           </div>
-          <div className="flex flex-row bg-blue-800 text-white rounded-lg h-40 mx-auto p-10 space-x-5 items-center  justify-center">
-            <div className="flex flex-row items-center space-x-3">
-              <ClipboardCheckIcon size={70} />
-              <p>lorem</p>
-            </div>
-            <Separator orientation="vertical" />
-            <div className="flex flex-row items-center space-x-3">
-              <Hourglass size={70} />
-              <p>lorem</p>
-            </div>
+          <div className="container mx-auto py-10">
+            {/* <DataTable columns={columns} data={data} /> */}
           </div>
         </div>
       </SidebarInset>

@@ -12,9 +12,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 import { fetchProducts, addProduct } from "@/api/depot";
+import productType from "@/types/productType";
 
 export default function CatalogueEdit() {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<productType[]>([]);
   const [newProduct, setNewProduct] = useState<{
     name: string;
     description: string;
@@ -28,9 +29,9 @@ export default function CatalogueEdit() {
     stock: "",
     image: null,
   });
+  const token: string | null = localStorage.getItem("authToken");
 
   const fetchCatalogue = async () => {
-    const token = localStorage.getItem("authToken");
     const data = await fetchProducts(token);
     setProducts(data.data);
   };
@@ -46,13 +47,10 @@ export default function CatalogueEdit() {
 
   const handleSubmit = async () => {
     try {
-      const token = localStorage.getItem("authToken");
-
-      // Call the addProduct function, passing token and product data
       const response = await addProduct(token, newProduct);
 
-      console.log("Product added:", response); // Log the response
-      fetchCatalogue(); // Refresh the catalogue after adding the product
+      console.log("Product added:", response);
+      fetchCatalogue();
     } catch (error) {
       console.error("Error adding product:", error);
     }
@@ -160,6 +158,10 @@ export default function CatalogueEdit() {
               price={product.price}
               stock={product.stock}
               seller_id={""}
+              className={""}
+              created_at={"string"}
+              updated_at={"string"}
+              quantity={"string"}
             />
           ))}
         </div>

@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import transactionType from "@/types/transactionType";
-import PaymentModal from "@/components/PaymentModal"; // Import your custom PaymentModal
+import PaymentModal from "@/components/PaymentModal";
+import { formatDate } from "@/lib/utils";
 
 function CardTransaction({
   order,
@@ -14,8 +15,8 @@ function CardTransaction({
   isExpanded: boolean;
   toggleExpand: () => void;
 }) {
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
-  const [paymentUrl, setPaymentUrl] = useState(""); // State to store the payment URL
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [paymentUrl, setPaymentUrl] = useState("");
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -26,28 +27,14 @@ function CardTransaction({
     }
   }, [isExpanded]);
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleString("id-ID", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
-
-  // Function to handle opening of the modal and setting the payment URL
   const handlePaymentClick = () => {
-    setPaymentUrl(order.payment_response.redirect_url); // Store the payment URL
-    setIsModalOpen(true); // Open the modal
+    setPaymentUrl(order.payment_response.redirect_url);
+    setIsModalOpen(true);
   };
 
-  // Function to handle closing the modal
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setPaymentUrl(""); // Clear the payment URL
+    setPaymentUrl("");
   };
 
   return (

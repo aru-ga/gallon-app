@@ -1,10 +1,35 @@
-import { ClipboardCheckIcon } from "lucide-react";
-import { Hourglass } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import logo from "@/assets/logo.png";
+import { fetchOrders } from "@/api/depot";
+import { useEffect, useState } from "react";
+import { CardConfirmOrder } from "@/components/CardConfirmOrder";
+import { confirmOrder } from "@/api/depot";
 
 export default function Order() {
+  const [orders, setOrders] = useState([]);
+  const token: string | null = localStorage.getItem("authToken");
+  const fetchOrder = async () => {
+    if (token) {
+      const data = await fetchOrders(token);
+      setOrders(data.data);
+      console.log(data);
+    }
+  };
+
+  const handleConfirmOrder = async (orderId: string) => {
+    try {
+      await confirmOrder(token, orderId);
+      fetchOrder();
+    } catch (error) {
+      console.error("Error confirming order:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchOrder();
+  }, []);
+
   return (
     <>
       <SidebarInset>
@@ -22,16 +47,14 @@ export default function Order() {
               <img src={logo} alt="logo" />
             </div>
           </div>
-          <div className="flex flex-row bg-blue-800 text-white rounded-lg h-40 mx-auto p-10 space-x-5 items-center  justify-center">
-            <div className="flex flex-row items-center space-x-3">
-              <ClipboardCheckIcon size={70} />
-              <p>lorem</p>
-            </div>
-            <Separator orientation="vertical" />
-            <div className="flex flex-row items-center space-x-3">
-              <Hourglass size={70} />
-              <p>lorem</p>
-            </div>
+          <div className="flex flex-row">
+            {orders.map((order) => (
+              <CardConfirmOrder
+                key={order._id}
+                order={order}
+                onConfirm={() => handleConfirmOrder(order._id)}
+              />
+            ))}
           </div>
         </div>
       </SidebarInset>
