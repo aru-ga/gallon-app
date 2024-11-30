@@ -19,15 +19,25 @@ const fetchProducts = async (token: string | null) => {
 }
 
 const fetchOrders = async (token: string | null) => {
+  if (!token) {
+    throw new Error("Token is required for authentication");
+  }
+
   try {
     const response = await axios.get(`${GLOBAL_API_URL}/orders`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+    
+    console.log("response data from API=======", response.data);
     return response.data;
   } catch (error) {
-    console.error("Error in fetchOrders API call:", error);
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.response?.data || error.message);
+    } else {
+      console.error("Unexpected error:", error);
+    }
     throw new Error("Failed to fetch orders");
   }
 }
@@ -41,7 +51,6 @@ const register = async (userData: UserProfile) => {
     throw new Error("Registration failed");
   }
 };
-
 
 const sellerProfile = async (token: string) => {
   try {

@@ -23,30 +23,24 @@ export default function Dashboard() {
 
   const fetchOrder = async () => {
     const token = localStorage.getItem("authToken");
-    if (!token) {
-      const data = await fetchOrders(token);
-      setOrders(data.data);
+    if (token) {
+      const response = await fetchOrders(token);
+      if (response.success) {
+        // Set orders to the array of orders returned inside response.data
+        setOrders(response.data);
+      } else {
+        console.error("Failed to fetch orders", response);
+      }
+    } else {
+      console.error("No token found");
     }
   };
 
-  // Calculate total quantities
-  const completedOrders = orders.reduce((acc, order) => {
-    if (order.status === "completed") {
-      return (
-        acc + order.products.reduce((sum, product) => sum + product.quantity, 0)
-      );
-    }
-    return acc;
-  }, 0);
+  // Count completed transactions based on order status 'confirmed'
+  const completedTransactions = orders.filter((order) => order.status === "confirmed").length;
 
-  const pendingOrders = orders.reduce((acc, order) => {
-    if (order.status === "pending") {
-      return (
-        acc + order.products.reduce((sum, product) => sum + product.quantity, 0)
-      );
-    }
-    return acc;
-  }, 0);
+  // Count pending transactions based on order status 'pending'
+  const pendingTransactions = orders.filter((order) => order.status === "pending").length;
 
   const sellerSelector = useSelector((state) => state.seller);
 
@@ -81,7 +75,7 @@ export default function Dashboard() {
               <div className="flex flex-col">
                 <span className="text-xl font-semibold">Berhasil</span>
                 <span className="text-2xl font-bold">
-                  {completedOrders} Galon
+                  {completedTransactions} Transaksi
                 </span>
               </div>
             </div>
@@ -91,7 +85,7 @@ export default function Dashboard() {
               <div className="flex flex-col">
                 <span className="text-xl font-semibold">Proses</span>
                 <span className="text-2xl font-bold">
-                  {pendingOrders} Galon
+                  {pendingTransactions} Transaksi
                 </span>
               </div>
             </div>
