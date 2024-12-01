@@ -1,16 +1,19 @@
 import { Link } from "react-router-dom";
 import { Card } from "./ui/card";
 import dummyImg from "@/assets/feature-slider.png";
-import type { productType } from "@/types/productType";
+import { Button } from "./ui/button";
+import { productType } from "@/types/productType";
 
-export default function CardProduct({
-  id,
-  image_url,
-  name,
-  price,
-  originalPrice,
-  className = "",
-}: productType) {
+export default function CardProductCatalogue(props: productType) {
+  const {
+    id,
+    image_url,
+    name,
+    price,
+    className = "",
+    onClickEdit,
+    stock,
+  } = props;
   return (
     <Card
       className={`overflow-hidden bg-blue-600 dark:bg-blue-600 block border border-blue-600 rounded-t-[2rem] min-h-[300px]  min-w-[200px] max-w-[200px] ${className}`}
@@ -30,8 +33,15 @@ export default function CardProduct({
           {name}
         </Link>
         <div className="space-y-2">
-          <p className="text-white font-semibold">RP{price.toLocaleString()}</p>
+          <p className="text-gray-300 text-sm">Rp. {price.toLocaleString()}</p>
+          <p className="text-gray-300 text-sm">Stock: {stock}</p>
         </div>
+        <Button
+          className="w-full mt-4 bg-white text-black"
+          onClick={onClickEdit}
+        >
+          Edit
+        </Button>
       </div>
     </Card>
   );

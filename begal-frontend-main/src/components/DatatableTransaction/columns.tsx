@@ -10,6 +10,16 @@ export type Order = {
   total_price: number;
   transaction_id: string;
   created_at: string;
+  products: [
+    {
+      name: string;
+    }
+  ];
+  delivery_address: {
+    province: string;
+    regency: string;
+    district: string;
+  };
 };
 
 export const columns: ColumnDef<Order>[] = [
@@ -38,5 +48,5 @@ export const columns: ColumnDef<Order>[] = [
   {
     accessorFn: (row) => formatDate(row.created_at),
     header: "Date",
-  }
+  },
 ];

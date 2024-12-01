@@ -9,31 +9,25 @@ export default function DepotDetail() {
   const params = useParams();
   const depotId = params.depotId;
 
-  const [depot, setDepot] = useState<any>(null);
+  const [depot, setDepot] = useState(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const fetchDepotData = async () => {
+    try {
+      const response = await instance.get(
+        `https://api-beli-galon.vercel.app/api/sellers/${depotId}/products`
+      );
 
+      setDepot(response.data.data);
+    } catch (error) {
+      setError("Failed to fetch depot details.");
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchDepotData = async () => {
-      try {
-        const response = await instance.get(
-          `https://api-beli-galon.vercel.app/api/sellers/${depotId}/products`
-        );
-
-        if (response.data.status) {
-          setDepot(response.data.data);
-        } else {
-          setError("Depot not found.");
-        }
-      } catch (error) {
-        setError("Failed to fetch depot details.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchDepotData();
-  }, [depotId]);
+  }, []);
 
   if (loading) {
     return <p className="text-center mt-20">Loading...</p>;
@@ -48,7 +42,7 @@ export default function DepotDetail() {
   }
 
   return (
-    <>
+    <main className="flex flex-col justify-between items-center h-full">
       <div className="dark:bg-gray-900 mt-24 pt-20">
         <div className="bg-white dark:bg-gray-950 dark:text-white dark:border-none shadow-lg w-2/3 p-10 rounded-xl border mx-auto flex justify-between items-center">
           <div className="flex flex-row">
@@ -81,12 +75,12 @@ export default function DepotDetail() {
           </div>
         </div>
 
-        <div className="grid grid-cols-4 items-center justify-center gap-10 mx-24 py-10">
+        <div className="flex mt-10 gap-10 py-10">
           {depot.products.map((product: any) => (
             <CardProduct
               key={product.id}
               id={product.id}
-              image_url={product.image_url || "/default-product-image.jpg"}
+              image_url={product.image_url}
               name={product.name}
               description={product.description}
               price={product.price}
@@ -100,6 +94,6 @@ export default function DepotDetail() {
           ))}
         </div>
       </div>
-    </>
+    </main>
   );
 }

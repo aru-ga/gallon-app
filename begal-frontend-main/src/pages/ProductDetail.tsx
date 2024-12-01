@@ -152,7 +152,7 @@ export default function ProductDetail() {
                   <MinusIcon />
                 </Button>
                 <Button
-                  className="max-w-[300px]"
+                  className="max-w-[300px] dark:bg-blue-600 bg-blue-600 text-white dark:text-white hover:bg-blue-700 duration-300"
                   disabled={product.stock === 0}
                   onClick={addToCartHandler}
                 >

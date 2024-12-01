@@ -145,8 +145,8 @@ function Home() {
         </h3>
 
         <Carousel className="z-20 flex-1 min-w-[75%] max-w-screen-md">
-          <CarouselNext className="p-10 text-white bg-black text-9xl dark:bg-gray-700 -top-14 right-0" />
-          <CarouselPrevious className="p-10 text-white bg-black dark:bg-gray-700  -top-14 xl:translate-x-[750px] translate-x-[1000px] right-44" />
+          <CarouselNext className="p-10 text-white bg-black text-9xl dark:bg-gray-700" />
+          <CarouselPrevious className="p-10 text-white bg-black dark:bg-gray-700  " />
           <CarouselContent className="flex flex-row gap-10">
             {products.map((product) => (
               <CardProduct

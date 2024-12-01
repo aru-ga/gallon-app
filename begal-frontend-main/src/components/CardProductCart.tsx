@@ -17,7 +17,6 @@ export default function CardProductCart({
         className="mr-3"
       />
 
-      {/* <img src={item.image_url} alt={item.name} className="w-12 h-12" /> */}
       <img src={imageUrl} alt={item.name} className="w-20 h-20" />
 
       <div className="flex-1">
