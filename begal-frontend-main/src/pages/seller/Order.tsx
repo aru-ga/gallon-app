@@ -4,7 +4,7 @@ import logo from "@/assets/logo.png";
 import { fetchOrders } from "@/api/depot";
 import { useEffect, useState } from "react";
 import { CardConfirmOrder } from "@/components/CardConfirmOrder";
-import { confirmOrder } from "@/api/depot";
+import { confirmOrder, confirmCashPayment } from "@/api/depot";
 
 export default function Order() {
   const [orders, setOrders] = useState([]);
@@ -18,11 +18,22 @@ export default function Order() {
   };
 
   const handleConfirmOrder = async (orderId: string) => {
+    console.log("confirming order by transfer", orderId);
     try {
       await confirmOrder(token, orderId);
       fetchOrder();
     } catch (error) {
       console.error("Error confirming order:", error);
+    }
+  };
+
+  const handleCashOrder = async (orderId: string) => {
+    console.log("confirming order by cash", orderId);
+    try {
+      await confirmCashPayment(token, orderId);
+      fetchOrder();
+    } catch (error) {
+      console.error("Error confirming cash order:", error);
     }
   };
 
@@ -47,12 +58,13 @@ export default function Order() {
               <img src={logo} alt="logo" />
             </div>
           </div>
-          <div className="flex flex-row">
+          <div className="grid grid-cols-3 gap-5">
             {orders.map((order) => (
               <CardConfirmOrder
                 key={order._id}
                 order={order}
                 onConfirm={() => handleConfirmOrder(order._id)}
+                onCash={() => handleCashOrder(order._id)}
               />
             ))}
           </div>

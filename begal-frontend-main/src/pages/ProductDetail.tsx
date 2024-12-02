@@ -88,7 +88,7 @@ export default function ProductDetail() {
       title: "Berhasil ditambahkan!",
       description: "Silakan cek keranjang Anda.",
       action: (
-        <ToastAction altText="Try again">
+        <ToastAction altText="cart">
           <Link to="/cart">Lanjut Checkout </Link>
         </ToastAction>
       ),

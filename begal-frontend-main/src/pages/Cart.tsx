@@ -5,11 +5,23 @@ import { removeFromCart, updateCartItem } from "../store/cartActions";
 import CartItem from "@/components/CartItem";
 import instance from "@/lib/axios";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 export default function Cart() {
   const dispatch = useDispatch();
+  const [payMethod, setPayMethod] = useState("");
   const cartItems = useSelector((state) => state.cart.items);
   const token = localStorage.getItem("authToken");
   const { toast } = useToast();
@@ -68,7 +80,7 @@ export default function Cart() {
     const payload = {
       seller_id: sellerId,
       products: selectedProductData,
-      payment_method: "transfer",
+      payment_method: payMethod,
     };
 
     try {
@@ -86,7 +98,7 @@ export default function Cart() {
           title: "Order created successfully",
           description: `Thank You!`,
           action: (
-            <Link className="bg-blue-400" to="/transaction">
+            <Link className="bg-blue-600" to="/transaction">
               Check Transaction
             </Link>
           ),
@@ -105,6 +117,22 @@ export default function Cart() {
       setLoading(false);
     }
   };
+
+  const setToCash = () => {
+    setPayMethod("cash");
+    console.log("setTocash");
+  };
+
+  // Check if all selected items have the same seller
+  const allItemsFromSameSeller =
+    selectedProductIds.length > 0 &&
+    selectedProductIds.every((id) => {
+      const sellerId = cartItems.find((item) => item.id === id)?.seller_id;
+      return (
+        sellerId ===
+        cartItems.find((item) => selectedProductIds[0] === item.id)?.seller_id
+      );
+    });
 
   return (
     <main className="min-h-screen max-w-screen-lg dark:text-white mx-auto px-4 mt-40">
@@ -168,13 +196,54 @@ export default function Cart() {
         )}
 
         <div className="mt-10 text-center">
-          <Button
-            onClick={buyItemsFromCart}
-            className="px-8 py-2 bg-blue-400 hover:bg-blue-600 rounded-md hover:bg-primary-dark disabled:bg-gray-400"
-            disabled={loading || selectedProductIds.length === 0}
-          >
-            {loading ? "Processing..." : "Buy Selected Items"}
-          </Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button
+                variant="outline"
+                disabled={
+                  loading ||
+                  selectedProductIds.length === 0 ||
+                  !allItemsFromSameSeller
+                }
+              >
+                Buy Selected Items
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Payment Method</DialogTitle>
+                <DialogDescription>
+                  Please select your payment method.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <RadioGroup
+                    value={payMethod} // Set the value to the state variable
+                    onValueChange={(value) => setPayMethod(value)} // Update state when radio is selected
+                  >
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="transfer" id="tf" />
+                      <Label htmlFor="tf">Transfer</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="cash" id="cash" />
+                      <Label htmlFor="cash">Cash</Label>
+                    </div>
+                  </RadioGroup>
+                </div>
+              </div>
+              <DialogFooter>
+                <Button
+                  className="bg-blue-600"
+                  type="submit"
+                  onClick={buyItemsFromCart}
+                >
+                  {loading ? "Processing..." : "Buy Selected Items"}
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
     </main>

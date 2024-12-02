@@ -107,6 +107,21 @@ const confirmOrder = async (token: string | null, orderId: string) => {
   }
 }
 
+const confirmCashPayment = async (token: string | null, orderId: string) => {
+  try{
+    const response = await axios.patch(`${GLOBAL_API_URL}/orders/${orderId}/payment-status`, {"status": "success"}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  }
+  catch (error) {
+    console.error("Error in confirmCashOrder API call:", error);
+    throw new Error("Failed to confirm cash order");
+  }
+}
 
 
-export { fetchProducts, register, sellerProfile, fetchOrders, addProduct, confirmOrder };
+
+export { fetchProducts, register, sellerProfile, fetchOrders, addProduct, confirmOrder, confirmCashPayment };

@@ -17,8 +17,7 @@ import {
 } from "@/components/ui/accordion";
 import { OrderCardProps } from "@/types/depotType";
 
-
-export function CardConfirmOrder({ order, onConfirm }: OrderCardProps) {
+export function CardConfirmOrder({ order, onConfirm, onCash }: OrderCardProps) {
   const formattedDate = formatDate(order.created_at);
   const formattedExpiryDate = formatDate(order.payment_expiry);
 
@@ -28,7 +27,9 @@ export function CardConfirmOrder({ order, onConfirm }: OrderCardProps) {
         <CardTitle className="flex justify-between items-center">
           <span>Order ID: {order._id.slice(0, 6)}</span>
           <Badge
-          className={order.status === "confirmed" ? "bg-green-400" : "bg-red-400"}
+            className={
+              order.status === "confirmed" ? "bg-green-400" : "bg-red-400"
+            }
             variant={order.status === "confirmed" ? "default" : "secondary"}
           >
             {order.status}
@@ -50,7 +51,7 @@ export function CardConfirmOrder({ order, onConfirm }: OrderCardProps) {
         <Accordion type="single" collapsible>
           <AccordionItem value="item-1">
             <AccordionTrigger>Delivery Address</AccordionTrigger>
-            <AccordionContent >
+            <AccordionContent>
               <div className="text-sm">
                 {order.delivery_address.street},{" "}
                 {order.delivery_address.village},{" "}
@@ -63,20 +64,26 @@ export function CardConfirmOrder({ order, onConfirm }: OrderCardProps) {
           </AccordionItem>
           <AccordionItem value="item-2">
             <AccordionTrigger>Payment Details</AccordionTrigger>
-            <AccordionContent >
+            <AccordionContent>
               <div className="text-sm">
                 Transaction ID: {order.transaction_id}
               </div>
-              {order.payment_response.va_numbers.map((va, index) => (
-                <div key={index} className="text-sm">
-                  {va.bank.toUpperCase()} VA: {va.va_number}
+              {/* {order.payment_response.va_numbers ? (
+                order.payment_response.va_numbers.map((va, index) => (
+                  <div key={index} className="text-sm">
+                    {va.bank.toUpperCase()} VA: {va.va_number}
+                  </div>
+                ))
+              ) : (
+                <div className="text-sm">
+                  Buyer not yet choose payment method
                 </div>
-              ))}
+              )} */}
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-3">
             <AccordionTrigger>Products</AccordionTrigger>
-            <AccordionContent >
+            <AccordionContent>
               {order.products.map((product) => (
                 <div
                   key={product.product_id}
@@ -93,13 +100,42 @@ export function CardConfirmOrder({ order, onConfirm }: OrderCardProps) {
         </Accordion>
       </CardContent>
       <CardFooter>
-        <Button
+        {order.payment_method === "transfer" ? (
+          <Button
+            className="w-full bg-blue-400"
+            onClick={() => onConfirm(order._id)}
+            disabled={order.status === "confirmed"}
+          >
+            {order.status === "confirmed" ? "Confirmed" : "Confirm Order"}
+          </Button>
+        ) : (
+          <div className="flex flex-col gap-2 w-full">
+            <Button
+              className="w-full bg-blue-400"
+              onClick={() => onConfirm(order._id)}
+              disabled={order.status === "confirmed"}
+            >
+              {order.status === "confirmed" ? "Confirmed" : "Confirm Order"}
+            </Button>
+            <Button
+              className="w-full bg-blue-400"
+              onClick={() => onCash(order._id)}
+              disabled={
+                order.payment_status === "pending" ||
+                order.payment_status === "success"
+              }
+            >
+              Sudah Dibayar
+            </Button>
+          </div>
+        )}
+        {/* <Button
           className="w-full bg-blue-400"
           onClick={() => onConfirm(order._id)}
           disabled={order.status === "confirmed"}
         >
           {order.status === "confirmed" ? "Confirmed" : "Confirm Order"}
-        </Button>
+        </Button> */}
       </CardFooter>
     </Card>
   );
