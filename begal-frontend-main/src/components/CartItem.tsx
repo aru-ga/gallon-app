@@ -3,19 +3,7 @@ import { Button } from "./ui/button";
 import { MinusIcon, PlusIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { TrashIcon } from "lucide-react";
-
-type CartItemProps = {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  stock: number;
-  imgUrl: string;
-  onRemove: (id: string) => void;
-  onQuantityChange: (id: string, quantity: number) => void;
-  seller_id: string;
-  seller_name: string;
-};
+import { CartItemProps } from "../types/cartType";
 
 export default function CartItem({
   id,
@@ -37,7 +25,6 @@ export default function CartItem({
       setAddDisabled(true);
     }
   };
-  console.log({ id, name, price, quantity, stock, imgUrl, seller_id });
 
   const handleDecrease = () => {
     if (quantity > 1) {

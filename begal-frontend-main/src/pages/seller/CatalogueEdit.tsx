@@ -210,8 +210,10 @@ export default function CatalogueEdit() {
           </Dialog>
         </div>
         <div className="flex gap-5 flex-wrap">
-          {products.map((product) => (
+          {products.map((product: any) => (
             <CardProductCatalogue
+              seller_name={undefined}
+              image_url={""}
               key={product.id}
               {...product}
               onClickEdit={() => handleEditProduct(product)}

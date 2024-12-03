@@ -21,7 +21,6 @@ import { UserProfile } from "@/types/userTypes";
 import { Location } from "@/types/locationTypes";
 import { reqChangeAddress } from "@/api/user";
 import { toast } from "@/hooks/use-toast";
-import { set } from "zod";
 
 export default function Address() {
   const [loading, setLoading] = useState(false);
@@ -47,7 +46,7 @@ export default function Address() {
     district: null,
     village: null,
   });
-  const userSelector = useSelector((state) => state.user);
+  const userSelector = useSelector((state: any) => state.user);
 
   const handleAddressChange = (addressData: {
     province: Location | null;

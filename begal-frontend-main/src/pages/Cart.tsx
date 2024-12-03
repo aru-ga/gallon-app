@@ -18,11 +18,13 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import CartType from "@/schemas/cartSchema";
+import { Input } from "@/components/ui/input";
 
 export default function Cart() {
   const dispatch = useDispatch();
   const [payMethod, setPayMethod] = useState("");
-  const cartItems = useSelector((state) => state.cart.items);
+  const cartItems = useSelector((state: any) => state.cart.items);
   const token = localStorage.getItem("authToken");
   const { toast } = useToast();
 
@@ -118,19 +120,16 @@ export default function Cart() {
     }
   };
 
-  const setToCash = () => {
-    setPayMethod("cash");
-    console.log("setTocash");
-  };
-
-  // Check if all selected items have the same seller
   const allItemsFromSameSeller =
     selectedProductIds.length > 0 &&
     selectedProductIds.every((id) => {
-      const sellerId = cartItems.find((item) => item.id === id)?.seller_id;
+      const sellerId = cartItems.find(
+        (item: CartType) => item.id === id
+      )?.seller_id;
       return (
         sellerId ===
-        cartItems.find((item) => selectedProductIds[0] === item.id)?.seller_id
+        cartItems.find((item: CartType) => selectedProductIds[0] === item.id)
+          ?.seller_id
       );
     });
 
@@ -149,7 +148,7 @@ export default function Cart() {
               {cartItems.map(
                 (item: {
                   seller_name: string;
-                  id: string | null | undefined;
+                  id: any;
                   name: string;
                   price: number;
                   stock: number;
@@ -170,10 +169,10 @@ export default function Cart() {
                       seller_id={item.seller_id}
                       seller_name={item.seller_name}
                     />
-                    <input
+                    <Input
                       type="checkbox"
-                      checked={selectedProductIds.includes(item.id)}
-                      onChange={() => handleProductCheckboxChange(item.id)}
+                      checked={selectedProductIds.includes(item?.id)}
+                      onChange={() => handleProductCheckboxChange(item?.id)}
                       className="h-5 w-5"
                     />
                   </div>
@@ -219,8 +218,8 @@ export default function Cart() {
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
                   <RadioGroup
-                    value={payMethod} // Set the value to the state variable
-                    onValueChange={(value) => setPayMethod(value)} // Update state when radio is selected
+                    value={payMethod}
+                    onValueChange={(value: string) => setPayMethod(value)}
                   >
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="transfer" id="tf" />

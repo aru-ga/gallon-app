@@ -23,7 +23,7 @@ interface SidebarAppProps {
 
 export default function SidebarApp({ comps }: SidebarAppProps) {
   const location = useLocation();
-  const sellerSelector = useSelector((state) => state.seller);
+  const sellerSelector = useSelector((state: any) => state.seller);
 
   const links = {
     navMain: [

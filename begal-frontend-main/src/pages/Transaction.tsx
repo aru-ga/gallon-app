@@ -55,6 +55,7 @@ export default function Transaction() {
                 transaction.map((order) => (
                   <CardTransaction
                     key={order._id}
+                    //@ts-ignore
                     order={order}
                     isExpanded={expandedId === order._id}
                     toggleExpand={() => toggleExpand(order._id)}

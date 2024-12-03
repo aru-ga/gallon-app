@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
 import { StarIcon } from "lucide-react";
-import depotType from "@/types/depotType";
+import { depotType } from "@/types/depotType";
 import dummyImg from "@/assets/feature-slider.png";
 
 export default function CardDepot({

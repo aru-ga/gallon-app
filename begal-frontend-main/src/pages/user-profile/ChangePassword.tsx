@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { set } from "zod";
 
 export default function ChangePassword() {
   const [loading, setLoading] = useState(false);
@@ -47,7 +46,7 @@ export default function ChangePassword() {
       console.error("Error changing password:", error);
       toast({
         title: "Gagal mengubah password!",
-        description: error,
+        description: "Silakan coba lagi.",
       });
     } finally {
       setLoading(false);

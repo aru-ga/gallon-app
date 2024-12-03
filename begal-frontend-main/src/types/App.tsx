@@ -26,6 +26,7 @@ import ProductDetail from "@/pages/ProductDetail";
 import LoginSeller from "@/pages/auth/LoginSeller";
 import Register from "@/pages/auth/Register";
 import RegisterSeller from "@/pages/auth/RegisterSeller";
+import Search from "@/pages/Search";
 
 const App = () => {
   const location = useLocation();
@@ -51,6 +52,7 @@ const App = () => {
         <Route path="/depot-list" Component={DepotList} />
         <Route path="/depot-detail/:depotId" Component={DepotDetail} />
         <Route path="/product-detail/:productId" Component={ProductDetail} />
+        <Route path="/search/:productName" Component={Search} />
         <Route path="/login" Component={Login} />
         <Route path="/profile" Component={Profile} />
         <Route path="/register" Component={Register} />

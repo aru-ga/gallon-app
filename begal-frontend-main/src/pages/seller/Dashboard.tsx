@@ -9,10 +9,10 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { fetchProducts, fetchOrders } from "@/api/depot";
 import { useSelector } from "react-redux";
-import productType from "@/types/productType";
+import { productType } from "@/types/productType";
 
 export default function Dashboard() {
-  const [products, setProducts] = useState<productType>([]);
+  const [products, setProducts] = useState<productType>();
   const [orders, setOrders] = useState([]);
 
   const fetchCatalogue = async () => {
@@ -37,12 +37,16 @@ export default function Dashboard() {
   };
 
   // Count completed transactions based on order status 'confirmed'
-  const completedTransactions = orders.filter((order) => order.status === "confirmed").length;
+  const completedTransactions = orders.filter(
+    (order: any) => order.status === "confirmed"
+  ).length;
 
   // Count pending transactions based on order status 'pending'
-  const pendingTransactions = orders.filter((order) => order.status === "pending").length;
+  const pendingTransactions = orders.filter(
+    (order: any) => order.status === "pending"
+  ).length;
 
-  const sellerSelector = useSelector((state) => state.seller);
+  const sellerSelector = useSelector((state: any) => state.seller);
 
   useEffect(() => {
     fetchCatalogue();
@@ -101,22 +105,25 @@ export default function Dashboard() {
               </Button>
             </div>
             <div className="grid grid-cols-3 gap-4">
-              {products.map((product) => (
-                <CardProduct
-                  key={product.id}
-                  id={product.id}
-                  image_url={product.image_url}
-                  name={product.name}
-                  description={product.description}
-                  price={product.price}
-                  stock={product.stock}
-                  seller_id={""}
-                  className={""}
-                  created_at={"string"}
-                  updated_at={"string"}
-                  quantity={"string"}
-                />
-              ))}
+              {products &&
+                Array.isArray(products) &&
+                products.map((product: productType) => (
+                  <CardProduct
+                    key={product.id}
+                    id={product.id}
+                    image_url={product.image_url}
+                    name={product.name}
+                    description={product.description}
+                    price={product.price}
+                    stock={product.stock}
+                    seller_id={""}
+                    className={""}
+                    created_at={"string"}
+                    updated_at={"string"}
+                    quantity={"string"}
+                    seller_name={undefined}
+                  />
+                ))}
             </div>
           </div>
         </div>

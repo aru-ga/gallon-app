@@ -12,7 +12,7 @@ const DEFAULT_STATE = {
     }>,
   };
   
-  export const cartReducer = (state = DEFAULT_STATE, action) => {
+  export const cartReducer = (state = DEFAULT_STATE, action: any) => {
     if (action.type === "ADD_TO_CART") {
       const existingItemIndex = state.items.findIndex(
         (item) => item.id === action.payload.id

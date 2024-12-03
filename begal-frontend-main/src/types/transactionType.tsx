@@ -1,4 +1,4 @@
-import productType from "./productType";
+import { productType } from "./productType";
 
 interface Order {
   _id: string;

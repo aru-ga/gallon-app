@@ -20,7 +20,7 @@ export default function Navbar() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const userSelector = useSelector((state) => state.user);
+  const userSelector = useSelector((state: any) => state.user);
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");

@@ -59,7 +59,7 @@ export default function Order() {
             </div>
           </div>
           <div className="grid grid-cols-3 gap-5">
-            {orders.map((order) => (
+            {orders.map((order: any) => (
               <CardConfirmOrder
                 key={order._id}
                 order={order}

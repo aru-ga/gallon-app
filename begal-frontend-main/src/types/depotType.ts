@@ -1,4 +1,5 @@
 interface depotType {
+  products: any;
   id: string;
   className: string;
   name: string;
@@ -25,7 +26,9 @@ interface depotType {
   updated_at: string;
 }
 
+interface depotListType {
+  depotList: depotType[];
+}
 
 
-
-export default depotType;
+export type { depotType, depotListType }

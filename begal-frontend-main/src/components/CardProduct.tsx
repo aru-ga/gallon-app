@@ -8,7 +8,6 @@ export default function CardProduct({
   image_url,
   name,
   price,
-  originalPrice,
   className = "",
 }: productType) {
   return (

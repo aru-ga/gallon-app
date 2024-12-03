@@ -4,12 +4,13 @@ import { Separator } from "@/components/ui/separator";
 import { useState, useEffect } from "react";
 import CardProduct from "@/components/CardProduct";
 import instance from "@/lib/axios";
+import { depotType } from "@/types/depotType";
 
 export default function DepotDetail() {
   const params = useParams();
   const depotId = params.depotId;
 
-  const [depot, setDepot] = useState(null);
+  const [depot, setDepot] = useState<depotType>();
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const fetchDepotData = async () => {
@@ -90,6 +91,7 @@ export default function DepotDetail() {
               created_at={"string"}
               updated_at={"string"}
               quantity={"string"}
+              seller_name={undefined}
             />
           ))}
         </div>

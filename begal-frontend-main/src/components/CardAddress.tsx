@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Component } from "react";
 
 interface AddressCardProps {
   name: string;
@@ -14,7 +13,7 @@ interface AddressCardProps {
     detail: string;
   };
   onChangeAddress?: () => void;
-  buttonTag?: Component;
+  buttonTag?: any;
 }
 
 export default function CardAddress({

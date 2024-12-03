@@ -13,8 +13,8 @@ import Autoplay from "embla-carousel-autoplay";
 import { Link } from "react-router-dom";
 import instance from "@/lib/axios";
 import { useEffect, useState } from "react";
-import depotType from "@/types/depotType";
-import productType from "@/types/productType";
+import { depotType } from "@/types/depotType";
+import { productType } from "@/types/productType";
 import CardProduct from "@/components/CardProduct";
 import heroSlider1 from "@/assets/heroslider1.png";
 import heroSlider2 from "@/assets/heroslider2.png";
@@ -157,10 +157,11 @@ function Home() {
                 className=""
                 seller_id={""}
                 description={"string"}
-                stock={"string"}
+                stock={0}
                 created_at={"string"}
                 updated_at={"string"}
                 quantity={"string"}
+                seller_name={undefined}
               />
             ))}
           </CarouselContent>
@@ -207,6 +208,7 @@ function Home() {
                   reviews_count={""}
                   created_at={""}
                   updated_at={""}
+                  products={undefined}
                 />
               </CarouselItem>
             ))}
@@ -255,6 +257,7 @@ function Home() {
                     reviews_count={""}
                     created_at={""}
                     updated_at={""}
+                    products={undefined}
                   />
                 </CarouselItem>
               ))}

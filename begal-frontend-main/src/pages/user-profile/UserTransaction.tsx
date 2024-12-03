@@ -44,7 +44,7 @@ export default function UserTransaction() {
           <div className="space-y-4 p-4">
             <h1 className="text-2xl font-bold mb-4">Your Transaction</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-start auto-rows-auto">
-              {transaction.map((order) => (
+              {transaction.map((order: any) => (
                 <CardTransaction
                   key={order._id}
                   order={order}

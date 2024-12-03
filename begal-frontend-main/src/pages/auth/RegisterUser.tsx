@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { UserProfile } from "@/types/userTypes";
 import { userRegisterSchemas } from "@/schemas/userSchema";
 import { ComboxAddress } from "@/components/ComboxAddress";
-import React from "react";
 import { Location } from "@/types/locationTypes";
 import { register } from "@/api/auth";
 import { Button } from "@/components/ui/button";
@@ -242,19 +241,19 @@ const RegisterUser = () => {
 
             {/* Step 3 */}
             <div className="w-full flex-shrink-0 flex p-5 flex-col items-start">
-              <Label htmlFor="email" className="mb-3">
-                Phone
-              </Label>
-              {errors.phone && <p className="text-red-500">{errors.phone}</p>}
-              <Input
-                type="phone"
-                placeholder="Phone no"
-                value={formData.phone}
-                onChange={handleChange("phone")}
-                onKeyDown={handleKeyDown}
-                className="w-1/2 p-2 border rounded mb-4"
-              />
               <div className="address-form">
+                <Label htmlFor="email" className="mb-3">
+                  Phone
+                </Label>
+                {errors.phone && <p className="text-red-500">{errors.phone}</p>}
+                <Input
+                  type="phone"
+                  placeholder="Phone no"
+                  value={formData.phone}
+                  onChange={handleChange("phone")}
+                  onKeyDown={handleKeyDown}
+                  className="w-full p-2 border border-gray-300 rounded mb-4"
+                />
                 <h2>Select Address</h2>
                 <ComboxAddress onChange={handleAddressChange} />
                 <div className="hidden">

@@ -10,7 +10,7 @@ import {
 import Autoplay from "embla-carousel-autoplay";
 import CardDepot from "@/components/CardDepot";
 import instance from "@/lib/axios";
-import depotType from "@/types/depotType";
+import { depotType } from "@/types/depotType";
 import heroSlider1 from "@/assets/heroslider1.png";
 import heroSlider2 from "@/assets/heroslider2.png";
 import heroSlider3 from "@/assets/heroslider3.png";
@@ -56,6 +56,7 @@ function DepotList() {
         <Carousel
           className="w-full mt-28"
           plugins={[
+            //@ts-ignore
             Autoplay({
               delay: 2000,
             }),
@@ -123,6 +124,7 @@ function DepotList() {
             reviews_count={""}
             created_at={""}
             updated_at={""}
+            products={undefined}
           />
         ))}
       </div>

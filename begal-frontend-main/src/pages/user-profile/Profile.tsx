@@ -9,7 +9,7 @@ import { updateProfile, updateProfilePicture } from "@/api/user";
 import { useToast } from "@/hooks/use-toast";
 
 export default function Profile() {
-  const userSelector = useSelector((state) => state.user);
+  const userSelector = useSelector((state: any) => state.user);
   const [isEditing, setIsEditing] = useState(false);
   const [img, setImg] = useState(null);
   const [editableUser, setEditableUser] = useState({
@@ -72,8 +72,7 @@ export default function Profile() {
     try {
       const data = new FormData();
       data.append("image", img);
-      const response = await updateProfilePicture(data);
-      console.log("Save Image========", response);
+      await updateProfilePicture(data);
       toast({
         title: "Profile picture updated successfully!",
         description: "Your profile picture has been updated.",
@@ -111,7 +110,7 @@ export default function Profile() {
                 <Input
                   type="file"
                   id="profile-picture"
-                  onChange={(e) => setImg(e.target.files[0])}
+                  onChange={(e: any) => setImg(e.target.files[0])}
                   accept="image/*"
                   className="absolute bottom-0 right-0 p-2 bg-white rounded-full shadow-lg"
                 />

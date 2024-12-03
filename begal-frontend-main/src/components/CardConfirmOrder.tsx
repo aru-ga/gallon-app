@@ -15,9 +15,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { OrderCardProps } from "@/types/depotType";
 
-export function CardConfirmOrder({ order, onConfirm, onCash }: OrderCardProps) {
+export function CardConfirmOrder({ order, onConfirm, onCash }: any) {
   const formattedDate = formatDate(order.created_at);
   const formattedExpiryDate = formatDate(order.payment_expiry);
 
@@ -84,7 +83,7 @@ export function CardConfirmOrder({ order, onConfirm, onCash }: OrderCardProps) {
           <AccordionItem value="item-3">
             <AccordionTrigger>Products</AccordionTrigger>
             <AccordionContent>
-              {order.products.map((product) => (
+              {order.products.map((product: any) => (
                 <div
                   key={product.product_id}
                   className="flex justify-between text-sm"

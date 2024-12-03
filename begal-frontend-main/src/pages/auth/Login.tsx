@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function login() {
   return (
-    <main className="flex flex-row h-screen mt-20 dark:text-white">
+    <main className="flex flex-row h-screen dark:text-white">
       <div>
         <img src={Illustration} className="h-screen" alt="" />
       </div>

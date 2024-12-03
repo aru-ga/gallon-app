@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import dummyImg from "../assets/hero-slider.png";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Input } from "@/components/ui/input";
 import {
@@ -24,7 +23,7 @@ import {
 import { Label } from "@/components/ui/label";
 
 export default function Profile() {
-  const userSelector = useSelector((state) => state.user);
+  const userSelector = useSelector((state: any) => state.user);
 
   return (
     <>

@@ -32,7 +32,7 @@ const RegisterSeller = () => {
   ) => {
     const [mainKey, subKey] = field.split(".");
     if (subKey) {
-      setFormData((prev) => ({
+      setFormData((prev: any) => ({
         ...prev,
         [mainKey]: {
           ...prev[mainKey],

@@ -33,7 +33,6 @@ interface ComboboxAddressProps {
 }
 
 export function ComboxAddress({ onChange }: ComboboxAddressProps) {
-  const [open, setOpen] = React.useState(false);
   const [selectedProvince, setSelectedProvince] =
     React.useState<Location | null>(null);
   const [selectedRegency, setSelectedRegency] = React.useState<Location | null>(
@@ -144,7 +143,6 @@ export function ComboxAddress({ onChange }: ComboboxAddressProps) {
                   value={option.name}
                   onSelect={() => {
                     onSelect(option);
-                    setOpen(false);
                   }}
                 >
                   {option.name}

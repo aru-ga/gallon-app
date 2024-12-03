@@ -9,22 +9,12 @@ import { Badge } from "@/components/ui/badge";
 import { addToCart } from "../store/cartActions";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
-
-interface ProductType {
-  id: string;
-  name: string;
-  seller_id: string;
-  seller_name: string;
-  description: string;
-  price: number;
-  stock: number;
-  image_url: string;
-}
+import { productType } from "@/types/productType";
 
 export default function ProductDetail() {
   const [loggedIn, setLoggedIn] = useState(false);
   const { productId } = useParams<{ productId: string }>();
-  const [product, setProduct] = useState<ProductType | null>(null);
+  const [product, setProduct] = useState<productType | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
@@ -42,7 +32,7 @@ export default function ProductDetail() {
       setLoading(true);
       setError(null);
       try {
-        const response = await instance.get<{ data: ProductType }>(
+        const response = await instance.get<{ data: productType }>(
           `products/${productId}`,
           {
             headers: { Authorization: `Bearer ${token}` },

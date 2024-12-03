@@ -11,7 +11,6 @@ import {
   InputOTPSlot,
   InputOTPSeparator,
 } from "@/components/ui/input-otp";
-import { useSelector } from "react-redux";
 import { useState } from "react";
 import {
   reqForgotPassword,
@@ -73,8 +72,6 @@ export default function ForgotPassword() {
     navigate("/login");
   };
 
-  const userSelector = useSelector((state) => state.user);
-  // const nextStep = () => setStep((prevStep) => prevStep + 1);
   const prevStep = () => setStep((prevStep) => Math.max(prevStep - 1, 0));
   return (
     <>
