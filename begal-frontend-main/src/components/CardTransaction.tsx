@@ -2,19 +2,17 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import transactionType from "@/types/transactionType";
 import PaymentModal from "@/components/PaymentModal";
 import { formatDate } from "@/lib/utils";
+import { productDelivered } from "@/api/user";
 
 function CardTransaction({
   order,
   isExpanded,
   toggleExpand,
-}: {
-  order: transactionType;
-  isExpanded: boolean;
-  toggleExpand: () => void;
-}) {
+  orderID,
+  onDelivered,
+}: any) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [paymentUrl, setPaymentUrl] = useState("");
   const contentRef = useRef<HTMLDivElement>(null);
@@ -62,6 +60,17 @@ function CardTransaction({
               Total Rp{order.total_price.toLocaleString("id-ID")}
             </p>
           </div>
+          {order.payment_status === "pending" ? (
+            <p>Payment status is pending</p>
+          ) : (
+            <Button
+              className="w-full my-3 bg-blue-600 text-white font-semibold"
+              onClick={() => onDelivered(order._id)}
+              disabled={order.status === "delivered"}
+            >
+              Delivered
+            </Button>
+          )}
 
           <Button
             variant="ghost"
@@ -92,7 +101,7 @@ function CardTransaction({
           >
             <div className="p-4 space-y-2 dark:bg-slate-950">
               <h3 className="font-semibold">Detail Pesanan:</h3>
-              {order.products.map((product, index) => (
+              {order.products.map((product: any, index: any) => (
                 <p key={index} className="text-sm">
                   {index + 1}. {product.name} - {product.quantity}x - Rp
                   {product.price.toLocaleString("id-ID")} each

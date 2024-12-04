@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const APIS_URL = "https://api-beli-galon.vercel.app/api/users";
+const API_URL = "https://api-beli-galon.vercel.app/api";
 
 const reqChangeAddress = async (address: object) => {
   const token = localStorage.getItem("authToken");
@@ -95,9 +96,27 @@ const updateProfile = async (profile: any) => {
   }
 };
 
+const productDelivered = async (orderId: string) => {
+  const token = localStorage.getItem("authToken");
+  try {
+    await axios.patch(
+      `${API_URL}/orders/${orderId}/status-delivered`,{},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  } catch (error) {
+    console.error("Error marking order as delivered:", error);
+    throw new Error("Failed to mark order as delivered");
+  }
+}
+
 export {
   reqChangePassword,
   reqChangeAddress,
   updateProfilePicture,
   updateProfile,
+  productDelivered
 };

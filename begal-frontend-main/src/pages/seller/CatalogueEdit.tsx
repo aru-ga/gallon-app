@@ -13,6 +13,7 @@ import { fetchProducts, addProduct } from "@/api/depot";
 import CardProductCatalogue from "@/components/CardProductCatalogue";
 import instance from "@/lib/axios";
 import { payloadProductType } from "@/types/productType";
+import { Label } from "@/components/ui/label";
 
 export default function CatalogueEdit() {
   const [products, setProducts] = useState<payloadProductType[]>([]);
@@ -181,27 +182,42 @@ export default function CatalogueEdit() {
                 </DialogDescription>
               </DialogHeader>
               <div className="space-y-4">
-                <Input
-                  id="name"
-                  value={newProduct.name}
-                  onChange={handleInputChange}
-                />
-                <Input
-                  id="description"
-                  value={newProduct.description}
-                  onChange={handleInputChange}
-                />
-                <Input
-                  id="price"
-                  value={newProduct.price}
-                  onChange={handleInputChange}
-                />
-                <Input
-                  id="stock"
-                  value={newProduct.stock}
-                  onChange={handleInputChange}
-                />
-                <Input id="image" type="file" onChange={handleInputChange} />
+                <div>
+                  <Label className="mt-2">Product Name</Label>
+                  <Input
+                    id="name"
+                    value={newProduct.name}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div>
+                  <Label className="mt-2">Description</Label>
+                  <Input
+                    id="description"
+                    value={newProduct.description}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div>
+                  <Label className="mt-2">Price</Label>
+                  <Input
+                    id="price"
+                    value={newProduct.price}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div>
+                  <Label className="mt-2">Stock</Label>
+                  <Input
+                    id="stock"
+                    value={newProduct.stock}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div>
+                  <Label className="mt-2">Image</Label>
+                  <Input id="image" type="file" onChange={handleInputChange} />
+                </div>
               </div>
               <DialogFooter>
                 <Button onClick={handleAddProduct}>Save</Button>

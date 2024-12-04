@@ -3,6 +3,8 @@ import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import instance from "@/lib/axios";
 import { useEffect, useState } from "react";
 import CardTransaction from "@/components/CardTransaction";
+import { productDelivered } from "@/api/user";
+import { Button } from "@/components/ui/button";
 
 export default function UserTransaction() {
   const [transaction, setTransaction] = useState([]);
@@ -20,6 +22,10 @@ export default function UserTransaction() {
     } catch (error) {
       console.error("Error fetching transaction:", error);
     }
+  };
+
+  const checkID = () => {
+    console.log(transaction[0]);
   };
 
   useEffect(() => {
@@ -43,6 +49,7 @@ export default function UserTransaction() {
         <div className="min-h-screen flex justify-center">
           <div className="space-y-4 p-4">
             <h1 className="text-2xl font-bold mb-4">Your Transaction</h1>
+            <Button onClick={checkID}>ID</Button>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-start auto-rows-auto">
               {transaction.map((order: any) => (
                 <CardTransaction
@@ -50,6 +57,7 @@ export default function UserTransaction() {
                   order={order}
                   isExpanded={expandedId === order._id}
                   toggleExpand={() => toggleExpand(order._id)}
+                  orderID={order._id}
                 />
               ))}
             </div>

@@ -3,6 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { registerSeller } from "@/api/auth";
+import { ComboxAddress } from "@/components/ComboxAddress";
+import { Location } from "@/types/locationTypes";
+import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 const RegisterSeller = () => {
   const [formData, setFormData] = useState({
@@ -11,7 +15,7 @@ const RegisterSeller = () => {
     email: "",
     password: "",
     phone: "",
-    role: "seller", // Default role is 'seller'
+    role: "seller",
     address: {
       province: "",
       regency: "",
@@ -25,6 +29,39 @@ const RegisterSeller = () => {
       close: "",
     },
   });
+  const [selectedAddress, setSelectedAddress] = useState<{
+    province: Location | null;
+    regency: Location | null;
+    district: Location | null;
+    village: Location | null;
+  }>({
+    province: null,
+    regency: null,
+    district: null,
+    village: null,
+  });
+  const [loading, setLoading] = useState(false);
+  const handleAddressChange = (addressData: {
+    province: Location | null;
+    regency: Location | null;
+    district: Location | null;
+    village: Location | null;
+  }) => {
+    setSelectedAddress(addressData);
+    setFormData((prevData) => ({
+      ...prevData,
+      address: {
+        ...prevData.address,
+        province: addressData.province?.name || "",
+        regency: addressData.regency?.name || "",
+        district: addressData.district?.name || "",
+        village: addressData.village?.name || "",
+      },
+    }));
+  };
+
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -49,17 +86,30 @@ const RegisterSeller = () => {
 
   const handleSubmit = async () => {
     try {
+      setLoading(true);
       const sendData = await registerSeller(formData);
-      console.log("Register SEND=========:", sendData);
+      if (sendData.success === true) {
+        toast({
+          title: "Thank you for registering!",
+          description: "You have successfully registered.",
+          duration: 3000,
+        });
+
+        setTimeout(() => {
+          navigate("/login");
+        }, 3000);
+      }
     } catch (error) {
       console.error("Error in register API call:", error);
       throw new Error("Registration failed");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg">
+    <main className="flex justify-center items-center min-h-screen dark:bg-gray-900 bg-gray-100">
+      <div className="w-full max-w-md p-8 bg-white dark:bg-gray-950 dark:text-white shadow-lg rounded-lg">
         <h2 className="text-2xl font-semibold text-center mb-6">Register</h2>
         <div className="space-y-4">
           <div>
@@ -118,64 +168,15 @@ const RegisterSeller = () => {
           </div>
 
           <div>
-            <Label htmlFor="role">Role</Label>
-            <Input
-              id="role"
-              type="text"
-              value={formData.role}
-              disabled
-              readOnly
-              className="bg-gray-200"
-            />
-          </div>
-
-          <div>
             <h3 className="text-lg font-medium">Address</h3>
+            <ComboxAddress onChange={handleAddressChange} />
+            <div className="hidden">
+              {selectedAddress.province?.name}
+              {selectedAddress.regency?.name}
+              {selectedAddress.district?.name}
+              {selectedAddress.village?.name}
+            </div>
             <div className="space-y-2">
-              <div>
-                <Label htmlFor="address.province">Province</Label>
-                <Input
-                  id="address.province"
-                  type="text"
-                  value={formData.address.province}
-                  onChange={(e) => handleChange(e, "address.province")}
-                  required
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="address.regency">Regency</Label>
-                <Input
-                  id="address.regency"
-                  type="text"
-                  value={formData.address.regency}
-                  onChange={(e) => handleChange(e, "address.regency")}
-                  required
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="address.district">District</Label>
-                <Input
-                  id="address.district"
-                  type="text"
-                  value={formData.address.district}
-                  onChange={(e) => handleChange(e, "address.district")}
-                  required
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="address.village">Village</Label>
-                <Input
-                  id="address.village"
-                  type="text"
-                  value={formData.address.village}
-                  onChange={(e) => handleChange(e, "address.village")}
-                  required
-                />
-              </div>
-
               <div>
                 <Label htmlFor="address.street">Street</Label>
                 <Input
@@ -227,12 +228,16 @@ const RegisterSeller = () => {
             </div>
           </div>
 
-          <Button onClick={handleSubmit} className="w-full mt-6">
-            Register
+          <Button
+            disabled={loading}
+            onClick={handleSubmit}
+            className="w-full mt-6"
+          >
+            {loading ? "Loading..." : "Register"}
           </Button>
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 

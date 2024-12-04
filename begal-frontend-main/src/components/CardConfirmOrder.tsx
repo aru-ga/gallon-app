@@ -15,8 +15,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { productType } from "@/types/productType";
 
-export function CardConfirmOrder({ order, onConfirm, onCash }: any) {
+export function CardConfirmOrder({ order, onConfirm, onCancel, onCash }: any) {
   const formattedDate = formatDate(order.created_at);
   const formattedExpiryDate = formatDate(order.payment_expiry);
 
@@ -83,7 +84,7 @@ export function CardConfirmOrder({ order, onConfirm, onCash }: any) {
           <AccordionItem value="item-3">
             <AccordionTrigger>Products</AccordionTrigger>
             <AccordionContent>
-              {order.products.map((product: any) => (
+              {order.products.map((product: productType) => (
                 <div
                   key={product.product_id}
                   className="flex justify-between text-sm"
@@ -100,13 +101,23 @@ export function CardConfirmOrder({ order, onConfirm, onCash }: any) {
       </CardContent>
       <CardFooter>
         {order.payment_method === "transfer" ? (
-          <Button
-            className="w-full bg-blue-400"
-            onClick={() => onConfirm(order._id)}
-            disabled={order.status === "confirmed"}
-          >
-            {order.status === "confirmed" ? "Confirmed" : "Confirm Order"}
-          </Button>
+          <div className="w-full flex flex-col gap-4">
+            <Button
+              className="w-full bg-blue-400"
+              onClick={() => onConfirm(order._id)}
+              disabled={order.payment_status != "success"}
+            >
+              {order.status === "confirmed" ? "Confirmed" : "Confirm Order"}
+            </Button>
+            <Button
+              className="w-full bg-red-400"
+              onClick={() => onCancel(order._id)}
+              disabled={order.status === "confirmed"}
+            >
+              Cancel
+              {/* {order.status === "confirmed" ? "Confirmed" : "Confirm Order"} */}
+            </Button>
+          </div>
         ) : (
           <div className="flex flex-col gap-2 w-full">
             <Button
@@ -128,13 +139,6 @@ export function CardConfirmOrder({ order, onConfirm, onCash }: any) {
             </Button>
           </div>
         )}
-        {/* <Button
-          className="w-full bg-blue-400"
-          onClick={() => onConfirm(order._id)}
-          disabled={order.status === "confirmed"}
-        >
-          {order.status === "confirmed" ? "Confirmed" : "Confirm Order"}
-        </Button> */}
       </CardFooter>
     </Card>
   );

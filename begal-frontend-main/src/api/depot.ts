@@ -107,6 +107,20 @@ const confirmOrder = async (token: string | null, orderId: string) => {
   }
 }
 
+const cancelOrder = async (token: string | null, orderId: string) => {
+  try {
+    const response = await axios.patch(`${GLOBAL_API_URL}/orders/${orderId}`, {"status": "cancelled"}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error in cancelOrder API call:", error);
+    throw new Error("Failed to cancel order");
+  }
+}
+
 const confirmCashPayment = async (token: string | null, orderId: string) => {
   try{
     const response = await axios.patch(`${GLOBAL_API_URL}/orders/${orderId}/payment-status`, {"status": "success"}, {
@@ -124,4 +138,4 @@ const confirmCashPayment = async (token: string | null, orderId: string) => {
 
 
 
-export { fetchProducts, register, sellerProfile, fetchOrders, addProduct, confirmOrder, confirmCashPayment };
+export { fetchProducts, register, sellerProfile, fetchOrders, addProduct,cancelOrder, confirmOrder, confirmCashPayment };

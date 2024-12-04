@@ -4,7 +4,7 @@ import logo from "@/assets/logo.png";
 import { fetchOrders } from "@/api/depot";
 import { useEffect, useState } from "react";
 import { CardConfirmOrder } from "@/components/CardConfirmOrder";
-import { confirmOrder, confirmCashPayment } from "@/api/depot";
+import { confirmOrder, confirmCashPayment, cancelOrder } from "@/api/depot";
 
 export default function Order() {
   const [orders, setOrders] = useState([]);
@@ -14,6 +14,16 @@ export default function Order() {
       const data = await fetchOrders(token);
       setOrders(data.data);
       console.log(data);
+    }
+  };
+
+  const handleCancelOrder = async (orderId: string) => {
+    console.log("cancelling order", orderId);
+    try {
+      await cancelOrder(token, orderId);
+      fetchOrder();
+    } catch (error) {
+      console.error("Error cancelling order:", error);
     }
   };
 
@@ -65,6 +75,7 @@ export default function Order() {
                 order={order}
                 onConfirm={() => handleConfirmOrder(order._id)}
                 onCash={() => handleCashOrder(order._id)}
+                onCancel={() => handleCancelOrder(order._id)}
               />
             ))}
           </div>

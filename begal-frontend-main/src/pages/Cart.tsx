@@ -148,7 +148,7 @@ export default function Cart() {
               {cartItems.map(
                 (item: {
                   seller_name: string;
-                  id: any;
+                  id: string;
                   name: string;
                   price: number;
                   stock: number;

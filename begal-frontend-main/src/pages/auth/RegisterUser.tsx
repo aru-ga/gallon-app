@@ -168,7 +168,7 @@ const RegisterUser = () => {
   };
 
   return (
-    <div className="flex h-screen dark:bg-gray-900 dark:text-white">
+    <main className="flex h-screen dark:bg-gray-900 dark:text-white">
       <div className="w-1/2 flex items-center ">
         <img
           src={Illustration}
@@ -349,7 +349,7 @@ const RegisterUser = () => {
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 

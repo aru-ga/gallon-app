@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import CardTransaction from "@/components/CardTransaction";
 import AnimTransUnlog from "@/components/AnimTransactionUnlog";
 import AnimNoTrans from "@/components/AnimNoTrans";
+import productDelivered from "@/api/user";
 
 export default function Transaction() {
   interface Order {
@@ -29,7 +30,6 @@ export default function Transaction() {
       console.error("Error fetching transaction:", error);
     }
   };
-
   useEffect(() => {
     getTransaction();
   }, []);
@@ -38,6 +38,17 @@ export default function Transaction() {
 
   const toggleExpand = (id: string) => {
     setExpandedId((prevId) => (prevId === id ? null : id));
+  };
+
+  const handleDelivered = async (orderID: any) => {
+    try {
+      const sendDelivered = await productDelivered(orderID);
+      console.log(sendDelivered);
+    } catch (error) {
+      console.error("Error marking order as delivered:", error);
+    } finally {
+      getTransaction();
+    }
   };
 
   return (
@@ -57,6 +68,7 @@ export default function Transaction() {
                     key={order._id}
                     //@ts-ignore
                     order={order}
+                    onDelivered={() => handleDelivered(order._id)}
                     isExpanded={expandedId === order._id}
                     toggleExpand={() => toggleExpand(order._id)}
                   />
