@@ -59,9 +59,11 @@ export default function Search() {
           )}
         </div>
       ) : (
-        <p className="text-lg">
-          Please enter a keyword to search for products.
-        </p>
+        <div>
+          <p className="text-lg">
+            Please enter a keyword to search for products.
+          </p>
+        </div>
       )}
     </main>
   );
