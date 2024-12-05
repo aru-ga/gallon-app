@@ -25,7 +25,7 @@ export default function Cart() {
   const dispatch = useDispatch();
   const [payMethod, setPayMethod] = useState("");
   const cartItems = useSelector((state: any) => state.cart.items);
-  const token = localStorage.getItem("authToken");
+  const token = sessionStorage.getItem("authToken");
   const { toast } = useToast();
 
   const [loading, setLoading] = useState(false);

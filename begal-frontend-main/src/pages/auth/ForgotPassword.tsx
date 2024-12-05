@@ -68,7 +68,7 @@ export default function ForgotPassword() {
   const navigate = useNavigate();
 
   const goLogin = () => {
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     navigate("/login");
   };
 

@@ -8,7 +8,7 @@ import { confirmOrder, confirmCashPayment, cancelOrder } from "@/api/depot";
 
 export default function Order() {
   const [orders, setOrders] = useState([]);
-  const token: string | null = localStorage.getItem("authToken");
+  const token: string | null = sessionStorage.getItem("authToken");
   const fetchOrder = async () => {
     if (token) {
       const data = await fetchOrders(token);

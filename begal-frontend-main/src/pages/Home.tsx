@@ -24,7 +24,7 @@ function Home() {
   const [nearbyDepotList, setNearbyDepotList] = useState<depotType[]>([]);
   const [depotListData, setDepotListData] = useState<depotType[]>([]);
   const [products, setProducts] = useState<productType[]>([]);
-  const token: string | null = localStorage.getItem("authToken");
+  const token: string | null = sessionStorage.getItem("authToken");
 
   const carouselItems = [
     {
@@ -48,22 +48,22 @@ function Home() {
       });
 
       setProducts(response.data.data);
-      console.error("Invalid response:", response);
     } catch (error) {
-      console.error("Error fetching depot list:", error);
+      console.error("Error fetching products:", error);
     }
   };
 
   const getNearbyDepot = async () => {
-    try {
-      const response = await instance.get("sellers/nearby", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+    if (token) {
+      try {
+        const response = await instance.get("sellers/nearby", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
-      setNearbyDepotList(response.data.data);
-      console.error("Invalid response:", response);
-    } catch (error) {
-      console.error("Error fetching depot list:", error);
+        setNearbyDepotList(response.data.data);
+      } catch (error) {
+        console.error("Error fetching nearby depot list:", error);
+      }
     }
   };
 
@@ -74,7 +74,6 @@ function Home() {
       });
 
       setDepotListData(response.data.data);
-      console.error("Invalid response:", response);
     } catch (error) {
       console.error("Error fetching depot list:", error);
     }
@@ -151,6 +150,7 @@ function Home() {
             {products.map((product) => (
               <CardProduct
                 id={product.id}
+                key={product.id}
                 image_url={product.image_url}
                 name={product.name}
                 price={product.price}
@@ -192,6 +192,7 @@ function Home() {
               <CarouselItem key={depot.id} className="basis-1/3">
                 <CardDepot
                   id={depot.id}
+                  key={depot.id}
                   profile_picture_url={depot.profile_picture_url}
                   name={depot.name}
                   address={depot.address}
@@ -241,6 +242,7 @@ function Home() {
                 <CarouselItem key={depot.id} className="basis-1/3">
                   <CardDepot
                     id={depot.id}
+                    key={depot.id}
                     profile_picture_url={depot.profile_picture_url}
                     name={depot.name}
                     address={depot.address}

@@ -39,7 +39,7 @@ export default function LoginSeller() {
       const token = response?.token;
       if (token) {
         const profile = await sellerProfile(token);
-        localStorage.setItem("authToken", token);
+        sessionStorage.setItem("authToken", token);
         console.log("Profile", profile);
 
         dispatch({

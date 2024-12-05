@@ -22,15 +22,12 @@ const fetchOrders = async (token: string | null) => {
   if (!token) {
     throw new Error("Token is required for authentication");
   }
-
   try {
     const response = await axios.get(`${GLOBAL_API_URL}/orders`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    
-    console.log("response data from API=======", response.data);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -69,7 +66,6 @@ const sellerProfile = async (token: string) => {
 const addProduct = async (token: string | null, productData: any) => {
   try {
     const formData = new FormData();
-
     formData.append("name", productData.name);
     formData.append("description", productData.description);
     formData.append("price", productData.price);

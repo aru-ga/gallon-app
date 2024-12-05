@@ -39,7 +39,7 @@ export default function LoginUser() {
       const token = response?.token;
       if (token) {
         const profile = await userProfile(token);
-        localStorage.setItem("authToken", token);
+        sessionStorage.setItem("authToken", token);
 
         dispatch({
           type: "SET_USER",

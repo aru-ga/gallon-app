@@ -15,18 +15,17 @@ export default function Dashboard() {
   const [products, setProducts] = useState<productType>();
   const [orders, setOrders] = useState([]);
 
+  const token = sessionStorage.getItem("authToken");
+
   const fetchCatalogue = async () => {
-    const token = localStorage.getItem("authToken");
     const data = await fetchProducts(token);
     setProducts(data.data);
   };
 
   const fetchOrder = async () => {
-    const token = localStorage.getItem("authToken");
     if (token) {
       const response = await fetchOrders(token);
       if (response.success) {
-        // Set orders to the array of orders returned inside response.data
         setOrders(response.data);
       } else {
         console.error("Failed to fetch orders", response);
@@ -36,12 +35,10 @@ export default function Dashboard() {
     }
   };
 
-  // Count completed transactions based on order status 'confirmed'
   const completedTransactions = orders.filter(
     (order: any) => order.status === "confirmed"
   ).length;
 
-  // Count pending transactions based on order status 'pending'
   const pendingTransactions = orders.filter(
     (order: any) => order.status === "pending"
   ).length;

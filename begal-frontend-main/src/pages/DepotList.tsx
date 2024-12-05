@@ -31,7 +31,7 @@ function DepotList() {
     },
   ];
   const [depotList, setDepotList] = useState<depotType[]>([]);
-  const token: string | null = localStorage.getItem("authToken");
+  const token: string | null = sessionStorage.getItem("authToken");
 
   const getDepotList = async () => {
     try {
@@ -40,7 +40,6 @@ function DepotList() {
       });
 
       setDepotList(response.data.data);
-      console.log(response.data.data);
     } catch (error) {
       console.error("Error fetching depot list:", error);
     }
@@ -103,7 +102,7 @@ function DepotList() {
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 gap-10 px-24 py-10 dark:bg-gray-900">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 gap-10 px-24 py-10 dark:bg-gray-900">
         {depotList.map((depot) => (
           <CardDepot
             key={depot.id}

@@ -29,8 +29,9 @@ export default function SellerProfile() {
     },
   });
 
+  const token = sessionStorage.getItem("authToken");
+
   const fetchProfile = async () => {
-    const token = localStorage.getItem("authToken");
     if (token) {
       const data = await sellerProfile(token);
       setSellerData(data.data);

@@ -45,7 +45,7 @@ export default function DepotDetail() {
   return (
     <main className="flex flex-col justify-between items-center h-full">
       <div className="dark:bg-gray-900 mt-24 pt-20">
-        <div className="bg-white dark:bg-gray-950 dark:text-white dark:border-none shadow-lg w-2/3 p-10 rounded-xl border mx-auto flex justify-between items-center">
+        <div className="bg-white dark:bg-gray-950 dark:text-white dark:border-none shadow-lg p-10 rounded-xl border mx-auto flex justify-between items-center">
           <div className="flex flex-row">
             <img
               src={depot.profile_picture_url}

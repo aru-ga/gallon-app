@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { UsersIcon } from "lucide-react";
+import {
+  DropletIcon,
+  SmartphoneIcon,
+  UsersIcon,
+  WavesIcon,
+} from "lucide-react";
 import AboutIllustration from "@/assets/about.png";
 import About2Illustration from "@/assets/about-2.png";
 import faqIllustration from "@/assets/faq.png";
-import { WavesIcon } from "lucide-react";
-import { SmartphoneIcon } from "lucide-react";
-import { DropletIcon } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -15,8 +17,11 @@ import {
 } from "@/components/ui/accordion";
 import whyChooseUsIllustration from "@/assets/whychooseus.png";
 import TextSlider from "@/components/TextSliderUp";
+import { useState } from "react";
+import { SocialIcon } from "react-social-icons";
 
 export default function About() {
+  const [showMore, setShowMore] = useState(false);
   return (
     <main>
       <div className="pt-28 px-32 dark:bg-gray-900 dark:text-white">
@@ -56,13 +61,25 @@ export default function About() {
           </div>
 
           <div className="flex flex-col justify-center gap-10">
-            <p className="text-2xl">
+            <p className="text-xl">
               Begal adalah platform terpercaya untuk memenuhi kebutuhan air
               minum bersih Anda. Kami berkomitmen untuk memberikan layanan
               terbaik dengan harga terjangkau dan akses mudah.
             </p>
-            <Button className="rounded-full w-min bg-blue-600 hover:bg-blue-700">
-              see more
+            <div
+              className={`text-xl transition-all duration-500 ${
+                showMore ? "opacity-100" : "opacity-0"
+              } ${showMore ? "h-auto" : "h-0 overflow-hidden"}`}
+            >
+              Kami hadir untuk memenuhi kebutuhan air minum Anda dengan layanan
+              terpercaya, dan kemudahan akses. Pilihan cerdas untuk kenyamanan
+              dan kesehatan keluarga Anda!
+            </div>
+            <Button
+              className="rounded-full w-min bg-blue-600 hover:bg-blue-700"
+              onClick={() => setShowMore((prev) => !prev)}
+            >
+              {showMore ? "See Less" : "See More"}
             </Button>
           </div>
         </div>

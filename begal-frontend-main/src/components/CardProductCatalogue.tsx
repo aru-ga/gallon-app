@@ -12,6 +12,7 @@ export default function CardProductCatalogue(props: productType) {
     price,
     className = "",
     onClickEdit,
+    onClickDelete,
     stock,
   } = props;
   return (
@@ -36,12 +37,20 @@ export default function CardProductCatalogue(props: productType) {
           <p className="text-gray-300 text-sm">Rp. {price.toLocaleString()}</p>
           <p className="text-gray-300 text-sm">Stock: {stock}</p>
         </div>
-        <Button
-          className="w-full mt-4 bg-white text-black"
-          onClick={onClickEdit}
-        >
-          Edit
-        </Button>
+        <div>
+          <Button
+            className="w-full mt-4 bg-white text-black"
+            onClick={onClickEdit}
+          >
+            Edit
+          </Button>
+          <Button
+            className="w-full mt-4 bg-red-400 text-white"
+            onClick={onClickDelete}
+          >
+            Delete
+          </Button>
+        </div>
       </div>
     </Card>
   );

@@ -8,7 +8,7 @@ import { Separator } from "@radix-ui/react-separator";
 export default function SellerTransaction() {
   const [data, setData] = useState<Order[]>([]);
 
-  const token = localStorage.getItem("authToken");
+  const token = sessionStorage.getItem("authToken");
 
   const getData = async () => {
     try {
@@ -31,10 +31,6 @@ export default function SellerTransaction() {
       console.log("No token available at mount");
     }
   }, []);
-
-  useEffect(() => {
-    console.log("Token from localStorage:", token);
-  }, [token]);
 
   return (
     <SidebarInset className="dark:bg-gray-900 dark:text-white">

@@ -12,6 +12,7 @@ interface productType {
   updated_at: string;
   quantity: string;
   onClickEdit?: () => void;
+  onClickDelete?: () => void;
 }
 
 

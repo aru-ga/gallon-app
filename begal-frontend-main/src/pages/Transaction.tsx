@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import CardTransaction from "@/components/CardTransaction";
 import AnimTransUnlog from "@/components/AnimTransactionUnlog";
 import AnimNoTrans from "@/components/AnimNoTrans";
-import productDelivered from "@/api/user";
+import { productDelivered } from "@/api/user";
 
 export default function Transaction() {
   interface Order {
@@ -15,19 +15,21 @@ export default function Transaction() {
 
   const [transaction, setTransaction] = useState<Order[]>([]);
 
-  const token = localStorage.getItem("authToken");
+  const token = sessionStorage.getItem("authToken");
 
   const getTransaction = async () => {
-    try {
-      const response = await instance.get("orders", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+    if (token) {
+      try {
+        const response = await instance.get("orders", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
-      console.log(response.data.data);
-      setTransaction(response.data.data);
-      console.log(transaction);
-    } catch (error) {
-      console.error("Error fetching transaction:", error);
+        console.log(response.data.data);
+        setTransaction(response.data.data);
+        console.log(transaction);
+      } catch (error) {
+        console.error("Error fetching transaction:", error);
+      }
     }
   };
   useEffect(() => {

@@ -3,9 +3,9 @@ import axios from "axios";
 const APIS_URL = "https://api-beli-galon.vercel.app/api/users";
 const API_URL = "https://api-beli-galon.vercel.app/api";
 
+const token = sessionStorage.getItem("authToken");
+
 const reqChangeAddress = async (address: object) => {
-  const token = localStorage.getItem("authToken");
-  console.log("ADDRESS FROM THE API", address);
   try {
     const response = await axios.patch(
       `${APIS_URL}/profile`,
@@ -24,7 +24,6 @@ const reqChangeAddress = async (address: object) => {
 };
 
 const reqChangePassword = async (oldPassword: string, newPassword: string) => {
-  const token = localStorage.getItem("authToken");
   try {
     const response = await axios.patch(
       `${APIS_URL}/change-password`,
@@ -49,8 +48,6 @@ const reqChangePassword = async (oldPassword: string, newPassword: string) => {
 };
 
 const updateProfilePicture = async (imageFile: File) => {
-  const token = localStorage.getItem("authToken");
-
   if (!token) {
     throw new Error("No authorization token found");
   }
@@ -77,8 +74,6 @@ const updateProfilePicture = async (imageFile: File) => {
 };
 
 const updateProfile = async (profile: any) => {
-  const token = localStorage.getItem("authToken");
-  console.log("PROFILE FROM THE API", profile);
   try {
     const response = await axios.patch(
       `${APIS_URL}/profile`,
@@ -97,16 +92,16 @@ const updateProfile = async (profile: any) => {
 };
 
 const productDelivered = async (orderId: string) => {
-  const token = localStorage.getItem("authToken");
   try {
-    await axios.patch(
+    const response = await axios.patch(
       `${API_URL}/orders/${orderId}/status-delivered`,{},
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
-    );
+      );
+      return response;
   } catch (error) {
     console.error("Error marking order as delivered:", error);
     throw new Error("Failed to mark order as delivered");

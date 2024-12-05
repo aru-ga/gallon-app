@@ -10,10 +10,11 @@ function CardTransaction({
   order,
   isExpanded,
   toggleExpand,
-  orderID,
   onDelivered,
+  onDelivering,
 }: any) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [paymentUrl, setPaymentUrl] = useState("");
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -68,7 +69,7 @@ function CardTransaction({
               onClick={() => onDelivered(order._id)}
               disabled={order.status === "delivered"}
             >
-              Delivered
+              {order.status === "delivered" ? "Delivered" : "Mark as Delivered"}
             </Button>
           )}
 

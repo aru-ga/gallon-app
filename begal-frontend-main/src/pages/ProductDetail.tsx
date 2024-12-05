@@ -22,7 +22,7 @@ export default function ProductDetail() {
   const { toast } = useToast();
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
+    const token = sessionStorage.getItem("authToken");
     if (token) {
       setLoggedIn(true);
     } else {

@@ -36,7 +36,7 @@ export default function CatalogueEdit() {
     stock: "",
     image: null,
   });
-  const token: string | null = localStorage.getItem("authToken");
+  const token: string | null = sessionStorage.getItem("authToken");
 
   const fetchCatalogue = async () => {
     const data = await fetchProducts(token);
@@ -128,7 +128,6 @@ export default function CatalogueEdit() {
       const updatedValue = updatedData[key as keyof payloadProductType];
       const currentValue = currentData[key as keyof payloadProductType];
 
-      // Exclude image if it's not updated
       if (key === "image" && (!updatedValue || updatedValue === currentValue)) {
         return;
       }
@@ -144,6 +143,17 @@ export default function CatalogueEdit() {
   const handleEditProduct = (product: payloadProductType) => {
     setSelectedProduct(product);
     setInitialProduct(product);
+  };
+
+  const handleDeleteProduct = async (product: payloadProductType) => {
+    try {
+      await instance.delete(`sellers/products/${product.id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      fetchCatalogue();
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
   };
 
   const handleAddProduct = async () => {
@@ -233,6 +243,7 @@ export default function CatalogueEdit() {
               key={product.id}
               {...product}
               onClickEdit={() => handleEditProduct(product)}
+              onClickDelete={() => handleDeleteProduct(product)}
             />
           ))}
         </div>
