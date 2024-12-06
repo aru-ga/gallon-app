@@ -29,6 +29,7 @@ export default function Navbar() {
     }
   };
 
+  const userData = sessionStorage.getItem("user_session");
   const userSelector = useSelector((state: any) => state.user);
 
   useEffect(() => {
@@ -126,11 +127,18 @@ export default function Navbar() {
                     <Link to="/user-profile/profile">
                       <div className="flex flex-row-reverse gap-2 items-center">
                         <p className="dark:text-white">
-                          {userSelector.user.name}
+                          {userSelector.user.name
+                            ? userSelector.user.name
+                            : JSON.parse(userData ?? "{}").user?.name ?? ""}
                         </p>
                         <Avatar className="w-9 h-9">
                           <AvatarImage
-                            src={userSelector.user.profile_picture_url}
+                            src={
+                              userSelector.user.profile_picture_url
+                                ? userSelector.user.profile_picture_url
+                                : JSON.parse(userData ?? "{}").user
+                                    ?.profile_picture_url ?? ""
+                            }
                           />
                           <AvatarFallback>user</AvatarFallback>
                         </Avatar>

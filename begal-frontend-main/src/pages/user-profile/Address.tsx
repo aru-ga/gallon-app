@@ -47,6 +47,7 @@ export default function Address() {
     village: null,
   });
   const userSelector = useSelector((state: any) => state.user);
+  const userData = sessionStorage.getItem("user_session");
 
   const handleAddressChange = (addressData: {
     province: Location | null;
@@ -186,15 +187,37 @@ export default function Address() {
                     </DialogContent>
                   </Dialog>
                 }
-                name={userSelector.user.name}
-                phone={userSelector.user.phone}
+                name={
+                  userSelector.user.name
+                    ? userSelector.user.name
+                    : JSON.parse(userData ?? "{}").user?.name ?? ""
+                }
+                phone={
+                  userSelector.user.phone
+                    ? userSelector.user.phone
+                    : JSON.parse(userData ?? "{}").user?.phone ?? ""
+                }
                 address={{
-                  province: userSelector.user.address.province || "",
-                  regency: userSelector.user.address.regency || "",
-                  district: userSelector.user.address.district || "",
-                  village: userSelector.user.address.village || "",
-                  street: userSelector.user.address.street || "",
-                  detail: userSelector.user.address.detail || "",
+                  province: userSelector.user.address.province
+                    ? userSelector.user.address.province
+                    : JSON.parse(userData ?? "{}").user?.address?.province ??
+                      "",
+                  regency: userSelector.user.address.regency
+                    ? userSelector.user.address.regency
+                    : JSON.parse(userData ?? "{}").user?.address?.regency ?? "",
+                  district: userSelector.user.address.district
+                    ? userSelector.user.address.district
+                    : JSON.parse(userData ?? "{}").user?.address?.district ??
+                      "",
+                  village: userSelector.user.address.village
+                    ? userSelector.user.address.village
+                    : JSON.parse(userData ?? "{}").user?.address?.village ?? "",
+                  street: userSelector.user.address.street
+                    ? userSelector.user.address.street
+                    : JSON.parse(userData ?? "{}").user?.address?.street ?? "",
+                  detail: userSelector.user.address.detail
+                    ? userSelector.user.address.detail
+                    : JSON.parse(userData ?? "{}").user?.address?.detail ?? "",
                 }}
               />
             </div>

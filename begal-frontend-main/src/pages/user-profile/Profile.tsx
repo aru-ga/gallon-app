@@ -9,15 +9,17 @@ import { updateProfile, updateProfilePicture } from "@/api/user";
 import { useToast } from "@/hooks/use-toast";
 
 export default function Profile() {
-  const userSelector = useSelector((state: any) => state.user);
   const [isEditing, setIsEditing] = useState(false);
   const [img, setImg] = useState(null);
-  const [editableUser, setEditableUser] = useState({
-    name: userSelector.user.name,
-    phone: userSelector.user.phone,
-    email: userSelector.user.email,
-  });
 
+  const userData = sessionStorage.getItem("user_session");
+  const parsedUserData = JSON.parse(userData ?? "{}");
+  const userSelector = useSelector((state: any) => state.user);
+  const [editableUser, setEditableUser] = useState({
+    name: userSelector.user.name || parsedUserData?.user?.name || "",
+    phone: userSelector.user.phone || parsedUserData?.user?.phone || "",
+    email: userSelector.user.email || parsedUserData?.user?.email || "",
+  });
   const { toast } = useToast();
 
   useEffect(() => {
@@ -100,8 +102,9 @@ export default function Profile() {
                 <div className="w-24 h-24 rounded-full bg-gray-200 overflow-hidden">
                   <img
                     src={
-                      userSelector.user.profile_picture_url ||
-                      "/placeholder.svg"
+                      userSelector.user.profile_picture_url
+                        ? userSelector.user.profile_picture_url
+                        : JSON.parse(userData ?? "{}").user?.profile_picture_url
                     }
                     alt="Profile"
                     className="w-full h-full object-cover"

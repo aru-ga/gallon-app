@@ -33,7 +33,6 @@ export default function LoginUser() {
     const { email, password } = data;
 
     try {
-      console.log("Attempting login with:", { email, password });
       const response = await login(email, password);
 
       const token = response?.token;
@@ -41,22 +40,26 @@ export default function LoginUser() {
         const profile = await userProfile(token);
         sessionStorage.setItem("authToken", token);
 
+        const userData = {
+          token: token,
+          user: {
+            id: profile.data.id,
+            email: profile.data.email,
+            name: profile.data.name,
+            phone: profile.data.phone,
+            role: profile.data.role,
+            profile_picture_url: profile.data.profile_picture_url,
+            address: profile.data.address,
+            created_at: profile.data.created_at,
+            updated_at: profile.data.updated_at,
+          },
+        };
+
+        sessionStorage.setItem("user_session", JSON.stringify(userData));
+
         dispatch({
           type: "SET_USER",
-          payload: {
-            token: token,
-            user: {
-              id: profile.data.id,
-              email: profile.data.email,
-              name: profile.data.name,
-              phone: profile.data.phone,
-              role: profile.data.role,
-              profile_picture_url: profile.data.profile_picture_url,
-              address: profile.data.address,
-              created_at: profile.data.created_at,
-              updated_at: profile.data.updated_at,
-            },
-          },
+          payload: userData,
         });
 
         navigate("/");

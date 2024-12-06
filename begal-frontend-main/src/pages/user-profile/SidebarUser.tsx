@@ -20,7 +20,7 @@ import { useSelector } from "react-redux";
 export default function SidebarUser({ comps }: SidebarAppProps) {
   const location = useLocation();
   const userSelector = useSelector((state: any) => state.user);
-  console.log("userSelector", userSelector);
+  const userData = sessionStorage.getItem("user_session");
 
   const links = {
     navMain: [
@@ -57,7 +57,10 @@ export default function SidebarUser({ comps }: SidebarAppProps) {
         <SidebarContent>
           <SidebarHeader>
             <h1 className="text-2xl font-semibold">
-              Hello, {userSelector.user.name}
+              Hello,{" "}
+              {userSelector.user.name
+                ? userSelector.user.name
+                : JSON.parse(userData ?? "{}").user?.name ?? ""}
             </h1>
             <DarkModeToggle />
           </SidebarHeader>
@@ -86,7 +89,7 @@ export default function SidebarUser({ comps }: SidebarAppProps) {
         </SidebarContent>
         <SidebarFooter>
           <Link to="/">Back to Home</Link>
-          <p className="text-sm text-gray-500">© 2021 Begal</p>
+          <p className="text-xs text-gray-300 font-publicSans">© 2024 Begal</p>
         </SidebarFooter>
       </Sidebar>
       {comps}

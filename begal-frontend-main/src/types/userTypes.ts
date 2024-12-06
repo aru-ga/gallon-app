@@ -23,6 +23,7 @@ interface UserProfileWithConfirmPassword {
 
 
 interface UserProfile {
+  id: string;
   name: string;
   email: string;
   password: string;
@@ -38,6 +39,8 @@ interface UserProfile {
   role: string;
   phone: string;
   profile_picture_url: string;
+  created_at: string;
+  updated_at: string;
 }
 
 interface SellerProfile {
