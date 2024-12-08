@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import CardTransaction from "@/components/CardTransaction";
 import AnimTransUnlog from "@/components/AnimTransactionUnlog";
 import AnimNoTrans from "@/components/AnimNoTrans";
-import { productDelivered } from "@/api/user";
+import { productDelivered, cancelOrder } from "@/api/user";
 
 export default function Transaction() {
   interface Order {
@@ -53,6 +53,17 @@ export default function Transaction() {
     }
   };
 
+  const handleCancel = async (orderID: any) => {
+    try {
+      const sendCancel = await cancelOrder(orderID);
+      console.log(sendCancel);
+    } catch (error) {
+      console.error("Error cancelling order:", error);
+    } finally {
+      getTransaction();
+    }
+  };
+
   return (
     <>
       {token ? (
@@ -73,6 +84,7 @@ export default function Transaction() {
                     onDelivered={() => handleDelivered(order._id)}
                     isExpanded={expandedId === order._id}
                     toggleExpand={() => toggleExpand(order._id)}
+                    onCancel={() => handleCancel(order._id)}
                   />
                 ))
               )}

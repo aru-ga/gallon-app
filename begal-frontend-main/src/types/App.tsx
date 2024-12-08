@@ -27,6 +27,7 @@ import LoginSeller from "@/pages/auth/LoginSeller";
 import Register from "@/pages/auth/Register";
 import RegisterSeller from "@/pages/auth/RegisterSeller";
 import Search from "@/pages/Search";
+import Wishlist from "@/pages/Wishlist";
 
 const App = () => {
   const location = useLocation();
@@ -60,6 +61,7 @@ const App = () => {
         <Route path="/register-user" Component={RegisterUser} />
         <Route path="/login-user" Component={LoginUser} />
         <Route path="/login-seller" Component={LoginSeller} />
+        <Route path="/wishlist" Component={Wishlist} />
         <Route path="/forgot-password" Component={ForgotPassword} />
         <Route
           path="/seller/dashboard"

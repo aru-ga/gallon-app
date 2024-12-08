@@ -1,4 +1,5 @@
 interface productType {
+  product_id: string;
   seller_name: any;
   className: string;
   id: string;

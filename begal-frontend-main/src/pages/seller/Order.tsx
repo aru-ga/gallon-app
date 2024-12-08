@@ -4,7 +4,12 @@ import logo from "@/assets/logo.png";
 import { fetchOrders } from "@/api/depot";
 import { useEffect, useState } from "react";
 import { CardConfirmOrder } from "@/components/CardConfirmOrder";
-import { confirmOrder, confirmCashPayment, cancelOrder } from "@/api/depot";
+import {
+  confirmOrder,
+  confirmCashPayment,
+  cancelOrder,
+  shippedOrder,
+} from "@/api/depot";
 
 export default function Order() {
   const [orders, setOrders] = useState([]);
@@ -14,6 +19,16 @@ export default function Order() {
       const data = await fetchOrders(token);
       setOrders(data.data);
       console.log(data);
+    }
+  };
+
+  const handleShippedOrder = async (orderId: string) => {
+    console.log("shipping order", orderId);
+    try {
+      await shippedOrder(token, orderId);
+      fetchOrder();
+    } catch (error) {
+      console.error("Error shipping order:", error);
     }
   };
 
@@ -72,6 +87,7 @@ export default function Order() {
             {orders.map((order: any) => (
               <CardConfirmOrder
                 key={order._id}
+                onShipped={() => handleShippedOrder(order._id)}
                 order={order}
                 onConfirm={() => handleConfirmOrder(order._id)}
                 onCash={() => handleCashOrder(order._id)}

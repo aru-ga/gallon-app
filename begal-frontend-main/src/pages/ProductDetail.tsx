@@ -1,15 +1,22 @@
 import { useDispatch } from "react-redux";
 import { Button } from "@/components/ui/button";
-import { Loader2, PlusIcon, MinusIcon, AlertCircle } from "lucide-react";
+import {
+  Loader2,
+  PlusIcon,
+  MinusIcon,
+  AlertCircle,
+  HeartIcon,
+} from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import instance from "@/lib/axios";
 import dummyImg from "@/assets/hero-slider.png";
 import { Badge } from "@/components/ui/badge";
 import { addToCart } from "../store/cartActions";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { productType } from "@/types/productType";
+import { getProductByID } from "@/api/public";
+import { addToWishlist } from "@/api/user";
 
 export default function ProductDetail() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -32,24 +39,26 @@ export default function ProductDetail() {
       setLoading(true);
       setError(null);
       try {
-        const response = await instance.get<{ data: productType }>(
-          `products/${productId}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        setProduct(response.data.data);
-        console.log(response.data.data);
+        const product = await getProductByID(productId);
+        setProduct(product.data);
+        setLoading(false);
       } catch (error) {
-        console.error("Error fetching product:", error);
-        setError("Failed to load product. Please try again.");
-      } finally {
+        setError("Failed to get product");
         setLoading(false);
       }
     };
 
     getProduct();
   }, [productId]);
+
+  const handleAddWishlist = async () => {
+    try {
+      const response = await addToWishlist(productId);
+      console.log("adding to wishlist=======", response);
+    } catch (error) {
+      console.error("Error adding to wishlist:", error);
+    }
+  };
 
   const handleQuantityChange = (change: number) => {
     setQuantity((prev) =>
@@ -70,7 +79,6 @@ export default function ProductDetail() {
         image_url: product.image_url,
         seller_name: product.seller_name,
       };
-      console.log("cartItem", cartItem);
       dispatch(addToCart(cartItem));
     }
 
@@ -159,16 +167,27 @@ export default function ProductDetail() {
                 </Button>
               </div>
 
-              <Link
-                className="text-blue-500 hover:text-blue-400 font-bold"
-                to={`/depot-detail/${product.seller_id}`}
-              >
-                {product.seller_name}
-              </Link>
+              <div className="flex flex-row items-center justify-between">
+                <Link
+                  className="text-blue-500 hover:text-blue-400 font-bold"
+                  to={`/depot-detail/${product.seller_id}`}
+                >
+                  {product.seller_name}
+                </Link>
+                <Button
+                  onClick={() => handleAddWishlist()}
+                  className="bg-transparent p-0 text-blue-500 hover:text-blue-400 font-bold"
+                >
+                  <span>
+                    <HeartIcon fill="blue" />
+                  </span>
+                  add to wish list
+                </Button>
+              </div>
             </div>
           ) : (
             <div className="flex justify-center items-center">
-              <Link to="/login">
+              <Link to="/login-user">
                 <Button className="bg-blue-400 hover:bg-blue-600">
                   Login to Buy
                 </Button>

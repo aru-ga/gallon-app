@@ -172,7 +172,7 @@ export default function CatalogueEdit() {
 
   return (
     <div>
-      <div className="m-10">
+      <div className="m-10 dark:text-white">
         <Link to="/seller/dashboard">Back</Link>
       </div>
       <div className="flex justify-center flex-col w-2/3 h-screen mx-auto space-y-10">
@@ -260,32 +260,47 @@ export default function CatalogueEdit() {
                 Update the details for {selectedProduct.name}.
               </DialogDescription>
             </DialogHeader>
-            <div className="space-y-4">
-              <Input
-                id="name"
-                placeholder="Product Name"
-                value={selectedProduct.name}
-                onChange={handleEditInputChange}
-              />
-              <Input
-                id="description"
-                placeholder="Product Description"
-                value={selectedProduct.description}
-                onChange={handleEditInputChange}
-              />
-              <Input
-                id="price"
-                placeholder="Product Price"
-                value={selectedProduct.price}
-                onChange={handleEditInputChange}
-              />
-              <Input
-                id="stock"
-                placeholder="Product Stock"
-                value={selectedProduct.stock}
-                onChange={handleEditInputChange}
-              />
-              <Input id="image" type="file" onChange={handleImageChange} />
+            <div className="space-y-4 dark:text-white">
+              <div>
+                <Label className="mt-2">Product Name</Label>
+                <Input
+                  id="name"
+                  placeholder="Product Name"
+                  value={selectedProduct.name}
+                  onChange={handleEditInputChange}
+                />
+              </div>
+              <div>
+                <Label className="mt-2">Description</Label>
+                <Input
+                  id="description"
+                  placeholder="Product Description"
+                  value={selectedProduct.description}
+                  onChange={handleEditInputChange}
+                />
+              </div>
+              <div>
+                <Label className="mt-2">Price</Label>
+                <Input
+                  id="price"
+                  placeholder="Product Price"
+                  value={selectedProduct.price}
+                  onChange={handleEditInputChange}
+                />
+              </div>
+              <div>
+                <Label className="mt-2">Stock</Label>
+                <Input
+                  id="stock"
+                  placeholder="Product Stock"
+                  value={selectedProduct.stock}
+                  onChange={handleEditInputChange}
+                />
+              </div>
+              <div>
+                <Label className="mt-2">Image</Label>
+                <Input id="image" type="file" onChange={handleImageChange} />
+              </div>
             </div>
             <DialogFooter className="flex">
               <Button onClick={updateImage} disabled={savingImage}>

@@ -17,20 +17,61 @@ import {
 } from "@/components/ui/accordion";
 import { productType } from "@/types/productType";
 
-export function CardConfirmOrder({ order, onConfirm, onCancel, onCash }: any) {
+export function CardConfirmOrder({
+  order,
+  onConfirm,
+  onCancel,
+  onCash,
+  onShipped,
+}: any) {
   const formattedDate = formatDate(order.created_at);
   const formattedExpiryDate = formatDate(order.payment_expiry);
+
+  const statusStyles = {
+    pending: {
+      className: "px-3 py-1 bg-yellow-400 text-black",
+      variant: "secondary",
+    },
+    confirmed: {
+      className: "px-3 py-1 bg-blue-400 text-white",
+      variant: "default",
+    },
+    shipped: {
+      className: "px-3 py-1 bg-purple-400 text-white",
+      variant: "default",
+    },
+    delivered: {
+      className: "px-3 py-1 bg-green-400 text-white",
+      variant: "default",
+    },
+    cancelled: {
+      className: "px-3 py-1 bg-red-400 text-white",
+      variant: "secondary",
+    },
+  };
+
+  function isConfirmDisabled(orderStatus: string) {
+    return orderStatus !== "pending";
+  }
+
+  function isShipDisabled(order: { status: string; payment_status: string }) {
+    return !(
+      order.status === "confirmed" && order.payment_status === "success"
+    );
+  }
+
+  function isCancelDisabled(orderStatus: string) {
+    return orderStatus === "delivered" || orderStatus === "shipped";
+  }
 
   return (
     <Card className="max-w-2xl mb-4 w-full">
       <CardHeader>
         <CardTitle className="flex justify-between items-center">
-          <span>Order ID: {order._id.slice(0, 6)}</span>
+          <span>{order.payment_method}</span>
           <Badge
-            className={
-              order.status === "confirmed" ? "bg-green-400" : "bg-red-400"
-            }
-            variant={order.status === "confirmed" ? "default" : "secondary"}
+            className={statusStyles[order.status]?.className || ""}
+            variant={statusStyles[order.status]?.variant || "secondary"}
           >
             {order.status}
           </Badge>
@@ -68,17 +109,6 @@ export function CardConfirmOrder({ order, onConfirm, onCancel, onCash }: any) {
               <div className="text-sm">
                 Transaction ID: {order.transaction_id}
               </div>
-              {/* {order.payment_response.va_numbers ? (
-                order.payment_response.va_numbers.map((va, index) => (
-                  <div key={index} className="text-sm">
-                    {va.bank.toUpperCase()} VA: {va.va_number}
-                  </div>
-                ))
-              ) : (
-                <div className="text-sm">
-                  Buyer not yet choose payment method
-                </div>
-              )} */}
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-3">
@@ -99,47 +129,88 @@ export function CardConfirmOrder({ order, onConfirm, onCancel, onCash }: any) {
           </AccordionItem>
         </Accordion>
       </CardContent>
-      <CardFooter>
-        {order.payment_method === "transfer" ? (
-          <div className="w-full flex flex-col gap-4">
-            <Button
-              className="w-full bg-blue-400"
-              onClick={() => onConfirm(order._id)}
-              disabled={order.payment_status != "success"}
-            >
-              {order.status === "confirmed" ? "Confirmed" : "Confirm Order"}
-            </Button>
-            <Button
-              className="w-full bg-red-400"
-              onClick={() => onCancel(order._id)}
-              disabled={order.status === "confirmed"}
-            >
-              Cancel
-              {/* {order.status === "confirmed" ? "Confirmed" : "Confirm Order"} */}
-            </Button>
-          </div>
-        ) : (
-          <div className="flex flex-col gap-2 w-full">
-            <Button
-              className="w-full bg-blue-400"
-              onClick={() => onConfirm(order._id)}
-              disabled={order.status === "confirmed"}
-            >
-              {order.status === "confirmed" ? "Confirmed" : "Confirm Order"}
-            </Button>
-            <Button
-              className="w-full bg-blue-400"
-              onClick={() => onCash(order._id)}
-              disabled={
-                order.payment_status === "pending" ||
-                order.payment_status === "success"
-              }
-            >
-              Sudah Dibayar
-            </Button>
-          </div>
-        )}
-      </CardFooter>
+      {order.status !== "cancelled" && order.status !== "delivered" && (
+        <CardFooter>
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="item-1">
+              <AccordionTrigger>Action</AccordionTrigger>
+              <AccordionContent>
+                {order.payment_method === "transfer" ? (
+                  <div className="w-full flex flex-col gap-4">
+                    <Button
+                      className="w-full bg-blue-400"
+                      onClick={() => onConfirm(order._id)}
+                      disabled={
+                        isConfirmDisabled(order.status) ||
+                        order.payment_status !== "success"
+                      }
+                    >
+                      {order.status === "confirmed"
+                        ? "Confirmed"
+                        : "Confirm Order"}
+                    </Button>
+
+                    <Button
+                      className="w-full bg-blue-400"
+                      onClick={() => onShipped(order._id)}
+                      disabled={isShipDisabled(order)}
+                    >
+                      Ship Now
+                    </Button>
+
+                    <Button
+                      className="w-full bg-red-400"
+                      onClick={() => onCancel(order._id)}
+                      disabled={isCancelDisabled(order.status)}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="flex flex-col gap-2 w-full">
+                    <Button
+                      className="w-full bg-blue-400"
+                      onClick={() => onConfirm(order._id)}
+                      disabled={isConfirmDisabled(order.status)}
+                    >
+                      {order.status === "confirmed"
+                        ? "Confirmed"
+                        : "Confirm Order"}
+                    </Button>
+                    <Button
+                      className="w-full bg-blue-400"
+                      onClick={() => onShipped(order._id)}
+                      disabled={order.status !== "confirmed"}
+                    >
+                      Ship Now
+                    </Button>
+                    <Button
+                      className="w-full bg-blue-400"
+                      onClick={() => onCash(order._id)}
+                      disabled={
+                        !(
+                          order.status === "shipped" &&
+                          order.payment_status === "pending"
+                        )
+                      }
+                    >
+                      Sudah Dibayar
+                    </Button>
+
+                    <Button
+                      className="w-full bg-red-400"
+                      onClick={() => onCancel(order._id)}
+                      disabled={isCancelDisabled(order.status)}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                )}
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </CardFooter>
+      )}
     </Card>
   );
 }

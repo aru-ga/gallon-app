@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const APIS_URL = "https://api-beli-galon.vercel.app/api/users";
-const API_URL = "https://api-beli-galon.vercel.app/api";
 
 const token = sessionStorage.getItem("authToken");
 
@@ -94,7 +93,9 @@ const updateProfile = async (profile: any) => {
 const productDelivered = async (orderId: string) => {
   try {
     const response = await axios.patch(
-      `${API_URL}/orders/${orderId}/status-delivered`,{},
+      `${APIS_URL}/orders/${orderId}`,{
+        "status" : "delivered" 
+      },
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -108,10 +109,83 @@ const productDelivered = async (orderId: string) => {
   }
 }
 
+const cancelOrder = async (orderId: string) => {
+  try {
+    const response = await axios.patch(
+      `${APIS_URL}/orders/${orderId}`,{
+        "status" : "cancelled" 
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+      );
+      return response;
+  } catch (error) {
+    console.error("Error cancelling order:", error);
+    throw new Error("Failed to cancel order");
+  }
+}
+
+const addToWishlist = async (productId: string) => {
+  try {
+    const response = await axios.post(
+      `${APIS_URL}/wishlist`,
+      {
+        product_id: productId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error adding to wishlist:", error);
+    throw new Error("Failed to add to wishlist");
+  }
+}
+
+const getWishlist = async () => {
+  try {
+    const response = await axios.get(`${APIS_URL}/wishlist`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching wishlist:", error);
+    throw new Error("Failed to fetch wishlist");
+  }
+}
+
+const removeWishlist = async (productId: string) => {
+  try {
+    const response = await axios.delete(`${APIS_URL}/wishlist/${productId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error removing from wishlist:", error);
+    throw new Error("Failed to remove from wishlist");
+  }
+};
+
+
+
 export {
   reqChangePassword,
   reqChangeAddress,
   updateProfilePicture,
   updateProfile,
-  productDelivered
+  productDelivered,
+  addToWishlist,
+  getWishlist,
+  removeWishlist,
+  cancelOrder
 };

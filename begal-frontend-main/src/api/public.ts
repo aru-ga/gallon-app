@@ -1,5 +1,4 @@
 import axios from 'axios';
-import instance from '@/lib/axios';
 
 const API_URL_AUTH = "https://api-beli-galon.vercel.app/api/auth";
 const API_URL = "https://api-beli-galon.vercel.app/api";
@@ -45,6 +44,16 @@ const reqForgotPassword = async (email: string, role = "user") => {
       throw new Error("Failed to search products");
     }
   };
+
+  const getProductByID = async (productId: string) => {
+    try {
+      const response = await axios.get(`${API_URL}/products/${productId}`);
+      return response.data;
+    } catch (error) {
+      console.error("Error in getProductByID API call:", error);
+      throw new Error("Failed to get product");
+    }
+  }
   
   
-  export {reqForgotPassword, reqForgotPasswordVerify, reqForgotPasswordCreateNew, searchProducts }
+  export {reqForgotPassword, reqForgotPasswordVerify, reqForgotPasswordCreateNew, searchProducts, getProductByID }

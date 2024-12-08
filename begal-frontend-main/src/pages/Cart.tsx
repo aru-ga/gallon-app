@@ -93,17 +93,11 @@ export default function Cart() {
         },
       });
 
-      console.log("Order response:", response);
-
       if (response.data.success && response.status === 201) {
         toast({
           title: "Order created successfully",
           description: `Thank You!`,
-          action: (
-            <Link className="bg-blue-600" to="/transaction">
-              Check Transaction
-            </Link>
-          ),
+          action: <Link to="/transaction">Check Transaction</Link>,
         });
       } else {
         setError("Transaction failed. Please try again.");
@@ -113,7 +107,6 @@ export default function Cart() {
         });
       }
     } catch (error) {
-      console.error("Error creating Order:", error);
       setError("Failed to order product. Please try again.");
     } finally {
       setLoading(false);
@@ -210,12 +203,14 @@ export default function Cart() {
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
-                <DialogTitle>Payment Method</DialogTitle>
+                <DialogTitle className="dark:text-white">
+                  Payment Method
+                </DialogTitle>
                 <DialogDescription>
                   Please select your payment method.
                 </DialogDescription>
               </DialogHeader>
-              <div className="grid gap-4 py-4">
+              <div className="grid gap-4 py-4 dark:text-white">
                 <div className="grid grid-cols-4 items-center gap-4">
                   <RadioGroup
                     value={payMethod}

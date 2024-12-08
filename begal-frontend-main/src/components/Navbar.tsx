@@ -7,7 +7,12 @@ import {
 import logo from "@/assets/logo.png";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { SearchIcon, ShoppingCartIcon, MenuIcon } from "lucide-react";
+import {
+  SearchIcon,
+  ShoppingCartIcon,
+  MenuIcon,
+  HeartIcon,
+} from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -116,8 +121,13 @@ export default function Navbar() {
 
           <div className="hidden md:flex space-x-5">
             {loggedIn ? (
-              <>
+              <div>
                 <div className="flex flex-row items-center gap-10">
+                  <NavigationMenuItem>
+                    <Link to="/wishlist">
+                      <HeartIcon fill="blue" className="text-transparent" />
+                    </Link>
+                  </NavigationMenuItem>
                   <NavigationMenuItem>
                     <Link to="/cart">
                       <ShoppingCartIcon className="text-gray-600 dark:text-white" />
@@ -146,7 +156,7 @@ export default function Navbar() {
                     </Link>
                   </NavigationMenuItem>
                 </div>
-              </>
+              </div>
             ) : (
               <>
                 <NavigationMenuItem>

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { searchProducts } from "@/api/public";
 import CardProduct from "@/components/CardProduct";
 import { productType } from "@/types/productType";
+import AnimNoTrans from "@/components/AnimNoTrans";
 
 export default function Search() {
   const [searchParams] = useSearchParams();
@@ -26,10 +27,12 @@ export default function Search() {
 
   return (
     <main className="container mx-auto px-4 pt-40">
-      <h1 className="text-3xl font-bold mb-6">Search Results</h1>
+      <h1 className="text-3xl font-bold mb-6 dark:text-white">
+        Search Results
+      </h1>
       {keyword ? (
         <div>
-          <p className="text-lg mb-4">
+          <p className="text-lg mb-4 dark:text-white">
             Showing results for:
             <span className="font-semibold"> {keyword}</span>
             <p className="font-semibold">Found {products.length} product(s).</p>
@@ -51,11 +54,15 @@ export default function Search() {
                   quantity={product.quantity}
                   seller_name={product.seller_name}
                   className={""}
+                  product_id={product.id}
                 />
               ))}
             </div>
           ) : (
-            <p className="text-lg">No products found for this search.</p>
+            <div className="flex flex-col-reverse items-center justify-center">
+              <p className="text-lg">No products found for this search.</p>
+              <AnimNoTrans />
+            </div>
           )}
         </div>
       ) : (
