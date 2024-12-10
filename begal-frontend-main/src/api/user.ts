@@ -4,6 +4,53 @@ const APIS_URL = "https://api-beli-galon.vercel.app/api/users";
 
 const token = sessionStorage.getItem("authToken");
 
+
+
+const refetchUserData = async () => {
+  const token = sessionStorage.getItem("authToken");
+  if (!token) {
+    console.error("No auth token found.");
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `${APIS_URL}/profile`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch updated user data.");
+    }
+
+    const updatedUserData = await response.json();
+
+    const userData = {
+      token: token,
+      user: {
+        id: updatedUserData.data.id,
+        email: updatedUserData.data.email,
+        name: updatedUserData.data.name,
+        phone: updatedUserData.data.phone,
+        role: updatedUserData.data.role,
+        profile_picture_url: updatedUserData.data.profile_picture_url,
+        address: updatedUserData.data.address,
+        created_at: updatedUserData.data.created_at,
+        updated_at: updatedUserData.data.updated_at,
+      },
+    };
+
+    sessionStorage.setItem("user_session", JSON.stringify(userData));
+    console.log("Session storage updated with new user data.");
+  } catch (error) {
+    console.error("Error refetching user data:", error);
+  }
+};
+
 const reqChangeAddress = async (address: object) => {
   try {
     const response = await axios.patch(
@@ -179,6 +226,7 @@ const removeWishlist = async (productId: string) => {
 
 
 export {
+  refetchUserData,
   reqChangePassword,
   reqChangeAddress,
   updateProfilePicture,

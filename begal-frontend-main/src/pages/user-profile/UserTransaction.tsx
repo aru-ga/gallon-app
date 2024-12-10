@@ -4,6 +4,7 @@ import instance from "@/lib/axios";
 import { useEffect, useState } from "react";
 import CardTransaction from "@/components/CardTransaction";
 import { productDelivered } from "@/api/user";
+import { cancelOrder } from "@/api/user";
 
 export default function UserTransaction() {
   const [transaction, setTransaction] = useState([]);
@@ -41,6 +42,17 @@ export default function UserTransaction() {
     }
   };
 
+  const handleCancel = async (id: string) => {
+    try {
+      await cancelOrder(id);
+      getTransaction();
+    } catch (error) {
+      console.error("Error cancelling order:", error);
+    } finally {
+      getTransaction();
+    }
+  };
+
   return (
     <>
       <SidebarInset className="dark:bg-gray-900 dark:text-white">
@@ -60,6 +72,7 @@ export default function UserTransaction() {
                   isExpanded={expandedId === order._id}
                   toggleExpand={() => toggleExpand(order._id)}
                   onDelivered={() => handleDelivered(order._id)}
+                  onCancel={() => handleCancel(order._id)}
                 />
               ))}
             </div>

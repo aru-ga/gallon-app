@@ -1,34 +1,33 @@
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { Label } from "@radix-ui/react-label";
-import { useSelector } from "react-redux";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
-import { updateProfile, updateProfilePicture } from "@/api/user";
+import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { refetchUserData } from "@/api/user";
 
 export default function Profile() {
   const [isEditing, setIsEditing] = useState(false);
   const [img, setImg] = useState(null);
 
   const userData = sessionStorage.getItem("user_session");
-  const parsedUserData = JSON.parse(userData ?? "{}");
-  const userSelector = useSelector((state: any) => state.user);
-  const [editableUser, setEditableUser] = useState({
-    name: userSelector.user.name || parsedUserData?.user?.name || "",
-    phone: userSelector.user.phone || parsedUserData?.user?.phone || "",
-    email: userSelector.user.email || parsedUserData?.user?.email || "",
-  });
-  const { toast } = useToast();
+  let parsedUserData;
 
-  useEffect(() => {
-    setEditableUser({
-      name: userSelector.user.name,
-      phone: userSelector.user.phone,
-      email: userSelector.user.email,
-    });
-  }, [userSelector]);
+  try {
+    parsedUserData = userData ? JSON.parse(userData) : null;
+  } catch (error) {
+    console.error("Error parsing user session data:", error);
+    parsedUserData = null;
+  }
+
+  const [editableUser, setEditableUser] = useState({
+    name: parsedUserData?.user?.name || "",
+    phone: parsedUserData?.user?.phone || "",
+    email: parsedUserData?.user?.email || "",
+  });
+
+  const { toast } = useToast();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;
@@ -36,7 +35,6 @@ export default function Profile() {
       ...prev,
       [id]: value,
     }));
-    console.log("Updated editableUser:", { ...editableUser, [id]: value });
   };
 
   const handleEditToggle = () => {
@@ -55,7 +53,26 @@ export default function Profile() {
         title: "Saving...",
         description: "Please wait...",
       });
-      await updateProfile(userDataToSend);
+
+      const token = sessionStorage.getItem("authToken");
+      const response = await fetch(
+        "https://api-beli-galon.vercel.app/api/users/profile",
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(userDataToSend),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to update profile.");
+      }
+
+      await refetchUserData();
+
       toast({
         title: "Profile updated successfully!",
         description: "Your profile has been updated.",
@@ -63,6 +80,7 @@ export default function Profile() {
 
       setIsEditing(false);
     } catch (error) {
+      console.error(error);
       toast({
         title: "Failed to update profile.",
         description: "Please try again.",
@@ -71,18 +89,53 @@ export default function Profile() {
   };
 
   const saveImg = async () => {
+    if (!img) {
+      toast({
+        title: "No image selected.",
+        description: "Please choose an image to upload.",
+      });
+      return;
+    }
+
+    const token = sessionStorage.getItem("authToken");
+    if (!token) {
+      toast({
+        title: "Unauthorized.",
+        description: "You must be logged in to update your profile picture.",
+      });
+      return;
+    }
+
     try {
-      const data = new FormData();
-      data.append("image", img);
-      await updateProfilePicture(data);
+      const formData = new FormData();
+      formData.append("image", img);
+
+      const response = await fetch(
+        "https://api-beli-galon.vercel.app/api/users/profile",
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to upload image.");
+      }
+
+      await refetchUserData(); // Refetch and update session storage
+
       toast({
         title: "Profile picture updated successfully!",
         description: "Your profile picture has been updated.",
       });
     } catch (error) {
+      console.error(error);
       toast({
-        title: "Failed to update profile picture.",
-        description: "Please try again.",
+        title: "Error.",
+        description: "Failed to update profile picture. Please try again.",
       });
     }
   };
@@ -101,11 +154,7 @@ export default function Profile() {
               <div className="relative">
                 <div className="w-24 h-24 rounded-full bg-gray-200 overflow-hidden">
                   <img
-                    src={
-                      userSelector.user.profile_picture_url
-                        ? userSelector.user.profile_picture_url
-                        : JSON.parse(userData ?? "{}").user?.profile_picture_url
-                    }
+                    src={parsedUserData?.user?.profile_picture_url || ""}
                     alt="Profile"
                     className="w-full h-full object-cover"
                   />
@@ -145,7 +194,7 @@ export default function Profile() {
                 <Label htmlFor="address">Alamat</Label>
                 <Input
                   id="address"
-                  value={userSelector.user.address?.detail}
+                  value={parsedUserData?.user?.address?.detail || ""}
                   readOnly
                   className="mt-1"
                 />

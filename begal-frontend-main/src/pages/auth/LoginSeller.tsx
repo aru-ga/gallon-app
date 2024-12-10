@@ -6,18 +6,16 @@ import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, LoginData } from "@/schemas/userSchema";
-import { loginSeller, sellerProfile } from "@/api/auth";
+import { loginSeller } from "@/api/auth";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { useDispatch } from "react-redux";
+import { refetchSellerData } from "@/api/depot";
 
 export default function LoginSeller() {
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  const dispatch = useDispatch();
 
   const {
     handleSubmit,
@@ -38,30 +36,7 @@ export default function LoginSeller() {
 
       const token = response?.token;
       if (token) {
-        const profile = await sellerProfile(token);
-        sessionStorage.setItem("authToken", token);
-        console.log("Profile", profile);
-
-        dispatch({
-          type: "SET_SELLER",
-          payload: {
-            token: response.token,
-            seller: {
-              id: profile.data.id,
-              name: profile.data.name,
-              email: profile.data.email,
-              phone: profile.data.phone,
-              role: profile.data.role,
-              profile_picture_url: profile.data.profile_picture_url,
-              address: profile.data.address,
-              operational_hours: profile.data.operational_hours,
-              rating: profile.data.rating,
-              review_count: profile.data.review_count,
-              created_at: profile.data.created_at,
-              updated_at: profile.data.updated_at,
-            },
-          },
-        });
+        await refetchSellerData(token);
 
         navigate("/seller/dashboard");
       } else {
@@ -158,4 +133,3 @@ export default function LoginSeller() {
     </div>
   );
 }
-//depot@gmail.com

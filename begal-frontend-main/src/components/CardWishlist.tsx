@@ -37,7 +37,7 @@ export default function CardWishlist({
         <div className="space-y-2">
           <Button
             onClick={onDelete}
-            className="text-white font-semibold w-full bg-red-600 p-2 rounded-md"
+            className="text-white font-semibold w-full bg-transparent p-2 rounded-md"
           >
             <span>
               <TrashIcon className="h-5 w-5 mr-2" />
