@@ -4,8 +4,6 @@ const APIS_URL = "https://api-beli-galon.vercel.app/api/users";
 
 const token = sessionStorage.getItem("authToken");
 
-
-
 const refetchUserData = async () => {
   const token = sessionStorage.getItem("authToken");
   if (!token) {

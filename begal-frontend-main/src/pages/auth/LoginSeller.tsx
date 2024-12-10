@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Illustration from "@/assets/img-sign.png";
+import Illustration from "@/assets/loginImg.jpg";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
@@ -37,7 +37,6 @@ export default function LoginSeller() {
       const token = response?.token;
       if (token) {
         await refetchSellerData(token);
-
         navigate("/seller/dashboard");
       } else {
         setError("Invalid server response. Token not found.");
@@ -60,18 +59,23 @@ export default function LoginSeller() {
   };
 
   return (
-    <div className="flex flex-row h-screen dark:text-white">
-      <div className="w-1/2">
+    <div className="flex flex-col sm:flex-row h-screen dark:text-white">
+      <div className="hidden sm:flex sm:w-1/2 p-10">
         <img
           src={Illustration}
-          className="h-screen object-cover"
+          className="object-cover w-full h-full rounded-xl"
           alt="Login illustration"
         />
       </div>
-      <div className="w-1/2 bg-blue-600 flex items-center justify-center">
-        <div className="w-80 p-6 rounded-lg bg-blue-600 text-white">
-          <h2 className="text-2xl font-bold mb-6 text-center">Login Seller</h2>
-          <form className="space-y-4" onSubmit={handleSubmit(handleLogin)}>
+      <div className="w-full sm:w-1/2 mx-auto flex flex-col space-y-7 items-center justify-center px-6 sm:px-20">
+        <div className="px-20 py-10 rounded-lg flex flex-col space-y-10 border-2 border-blue-600 text-white">
+          <h2 className="text-2xl font-bold mb-6 text-center text-black">
+            Login Seller
+          </h2>
+          <form
+            className="space-y-4 text-black text-sm"
+            onSubmit={handleSubmit(handleLogin)}
+          >
             <div>
               <label htmlFor="email" className="block mb-1">
                 Email
@@ -119,13 +123,13 @@ export default function LoginSeller() {
             >
               {loading ? "Logging in..." : "Login"}
             </Button>
-            <div className="w-full flex flex-row justify-between">
-              <Button type="button" variant="link" className="text-white">
-                <Link to="/forgot-password">Forgot password?</Link>
-              </Button>
-              <Button type="button" variant="link" className="text-white">
-                <Link to="/register-seller">Register Instead</Link>
-              </Button>
+            <div className="w-full flex flex-row space-x-10 justify-between">
+              <Link to="/forgot-password" className="underline text-blue-600">
+                Forgot password?
+              </Link>
+              <Link to="/register-seller" className="underline">
+                Register Instead?
+              </Link>
             </div>
           </form>
         </div>

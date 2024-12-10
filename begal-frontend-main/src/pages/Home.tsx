@@ -19,6 +19,7 @@ import CardProduct from "@/components/CardProduct";
 import heroSlider1 from "@/assets/heroslider1.png";
 import heroSlider2 from "@/assets/heroslider2.png";
 import heroSlider3 from "@/assets/heroslider3.png";
+import { Skeleton } from "@/components/ui/skeleton";
 
 function Home() {
   const [nearbyDepotList, setNearbyDepotList] = useState<depotType[]>([]);
@@ -143,29 +144,44 @@ function Home() {
           Produk yang <br /> ditawarkan
         </h3>
 
-        <Carousel className="z-20 flex-1 min-w-[75%] max-w-screen-md">
-          <CarouselNext className="p-10 text-white bg-black text-9xl dark:bg-gray-700" />
-          <CarouselPrevious className="p-10 text-white bg-black dark:bg-gray-700  " />
-          <CarouselContent className="flex flex-row gap-10">
-            {products.map((product) => (
-              <CardProduct
-                id={product.id}
-                key={product.id}
-                image_url={product.image_url}
-                name={product.name}
-                price={product.price}
-                className=""
-                seller_id={""}
-                description={"string"}
-                stock={0}
-                created_at={"string"}
-                updated_at={"string"}
-                quantity={"string"}
-                seller_name={undefined}
-              />
-            ))}
-          </CarouselContent>
-        </Carousel>
+        {products && products.length > 0 ? (
+          <Carousel className="z-20 flex-1 min-w-[75%] max-w-screen-md">
+            <CarouselNext className="p-10 text-white bg-black text-9xl dark:bg-gray-700" />
+            <CarouselPrevious className="p-10 text-white bg-black dark:bg-gray-700  " />
+            <CarouselContent className="flex flex-row gap-10">
+              {products.map((product) => (
+                <CardProduct
+                  id={product.id}
+                  key={product.id}
+                  image_url={product.image_url}
+                  name={product.name}
+                  price={product.price}
+                  className=""
+                  seller_id={""}
+                  description={"string"}
+                  stock={0}
+                  created_at={"string"}
+                  updated_at={"string"}
+                  quantity={"string"}
+                  seller_name={undefined}
+                  product_id={""}
+                />
+              ))}
+            </CarouselContent>
+          </Carousel>
+        ) : (
+          <Carousel className="z-20 flex-1 min-w-[75%] max-w-screen-md">
+            <CarouselNext className="p-10 text-white bg-black text-9xl dark:bg-gray-700" />
+            <CarouselPrevious className="p-10 text-white bg-black dark:bg-gray-700  " />
+            <CarouselContent className="flex flex-row gap-10">
+              <Skeleton className="h-52 w-[200px]" />
+              <Skeleton className="h-52 w-[200px]" />
+              <Skeleton className="h-52 w-[200px]" />
+              <Skeleton className="h-52 w-[200px]" />
+              <Skeleton className="h-52 w-[200px]" />
+            </CarouselContent>
+          </Carousel>
+        )}
       </div>
 
       <div className="flex flex-col gap-20 mt-20 mb-52">
@@ -176,45 +192,63 @@ function Home() {
           </Link>
         </div>
 
-        <Carousel
-          opts={{
-            align: "start",
-          }}
-          className="w-full pl-10 mt-5 justify-between"
-        >
-          <CarouselPrevious
-            variant="ghost"
-            className="p-10 text-white bg-black dark:bg-gray-700 -top-14 translate-x-96 left-96"
-          />
-          <CarouselNext className="p-10 text-white bg-black text-9xl dark:bg-gray-700 -top-14 right-0" />
-          <CarouselContent>
-            {depotListData.map((depot) => (
-              <CarouselItem key={depot.id} className="basis-1/3">
-                <CardDepot
-                  id={depot.id}
+        {depotListData.length > 0 ? (
+          <Carousel
+            opts={{
+              align: "start",
+            }}
+            className="w-full mt-5 mx-auto justify-center"
+          >
+            <CarouselPrevious
+              variant="ghost"
+              className="p-10 text-white bg-black dark:bg-gray-700 -top-14 translate-x-96 left-96"
+            />
+            <CarouselNext className="p-10 text-white bg-black text-9xl dark:bg-gray-700 -top-14 right-0" />
+            <CarouselContent>
+              {depotListData.map((depot) => (
+                <CarouselItem
                   key={depot.id}
-                  profile_picture_url={depot.profile_picture_url}
-                  name={depot.name}
-                  address={depot.address}
-                  rating={depot.rating}
-                  className={""}
-                  owner_name={""}
-                  email={""}
-                  phone={""}
-                  role={""}
-                  operational_hours={{
-                    open: "",
-                    close: "",
-                  }}
-                  reviews_count={""}
-                  created_at={""}
-                  updated_at={""}
-                  products={undefined}
-                />
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
+                  className="lg:basis-1/3 sm:basis-1/2 xl:basis-1/4"
+                >
+                  <CardDepot
+                    id={depot.id}
+                    key={depot.id}
+                    profile_picture_url={depot.profile_picture_url}
+                    name={depot.name}
+                    address={depot.address}
+                    rating={depot.rating}
+                    className={""}
+                    owner_name={""}
+                    email={""}
+                    phone={""}
+                    role={""}
+                    operational_hours={{
+                      open: "",
+                      close: "",
+                    }}
+                    reviews_count={""}
+                    created_at={""}
+                    updated_at={""}
+                    products={undefined}
+                  />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+        ) : (
+          <Carousel className="z-20 flex-1 min-w-[75%] max-w-screen-md">
+            <CarouselNext className="p-10 text-white bg-black text-9xl dark:bg-gray-700" />
+            <CarouselPrevious className="p-10 text-white bg-black dark:bg-gray-700  " />
+            <CarouselContent className="flex flex-row gap-10">
+              <Skeleton className="h-96 w-[300px]" />
+              <Skeleton className="h-96 w-[300px]" />
+              <Skeleton className="h-96 w-[300px]" />
+              <Skeleton className="h-96 w-[300px]" />
+              <Skeleton className="h-96 w-[300px]" />
+              <Skeleton className="h-96 w-[300px]" />
+            </CarouselContent>
+          </Carousel>
+        )}
       </div>
 
       <div className="flex flex-col  gap-20 mt-20 mb-52">
@@ -230,7 +264,7 @@ function Home() {
             opts={{
               align: "start",
             }}
-            className="w-full mt-5 justify-between"
+            className="w-full mt-5 mx-auto justify-center"
           >
             <CarouselPrevious
               variant="ghost"
@@ -239,7 +273,10 @@ function Home() {
             <CarouselNext className="p-10 text-white bg-black text-9xl dark:bg-gray-700 -top-14 right-0" />
             <CarouselContent>
               {nearbyDepotList.map((depot) => (
-                <CarouselItem key={depot.id} className="basis-1/3">
+                <CarouselItem
+                  key={depot.id}
+                  className="lg:basis-1/3 xl:basis-1/4"
+                >
                   <CardDepot
                     id={depot.id}
                     key={depot.id}
