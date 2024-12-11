@@ -28,6 +28,7 @@ import Register from "@/pages/auth/Register";
 import RegisterSeller from "@/pages/auth/RegisterSeller";
 import Search from "@/pages/Search";
 import Wishlist from "@/pages/Wishlist";
+import SellerReviews from "@/pages/seller/SellerReview";
 
 const App = () => {
   const location = useLocation();
@@ -78,6 +79,10 @@ const App = () => {
         <Route
           path="/seller/transaction"
           Component={() => <Layout children={<SellerTransaction />} />}
+        />
+        <Route
+          path="/seller/review"
+          Component={() => <Layout children={<SellerReviews />} />}
         />
         <Route
           path="/seller/order"

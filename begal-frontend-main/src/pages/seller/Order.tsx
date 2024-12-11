@@ -10,14 +10,25 @@ import {
   cancelOrder,
   shippedOrder,
 } from "@/api/depot";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function Order() {
   const [orders, setOrders] = useState([]);
+  const [filteredOrders, setFilteredOrders] = useState([]);
+  const [statusFilter, setStatusFilter] = useState("all");
   const token: string | null = sessionStorage.getItem("authToken");
+
   const fetchOrder = async () => {
     if (token) {
       const data = await fetchOrders(token);
       setOrders(data.data);
+      setFilteredOrders(data.data);
       console.log(data);
     }
   };
@@ -66,9 +77,19 @@ export default function Order() {
     fetchOrder();
   }, []);
 
+  useEffect(() => {
+    let result = orders;
+
+    if (statusFilter !== "all") {
+      result = result.filter((order: any) => order.status === statusFilter);
+    }
+
+    setFilteredOrders(result);
+  }, [statusFilter, orders]);
+
   return (
     <>
-      <SidebarInset>
+      <SidebarInset className="dark:bg-gray-900 dark:text-white">
         <div className="flex flex-row items-center space-x-2 p-3">
           <SidebarTrigger />
           <Separator orientation="vertical" />
@@ -83,8 +104,23 @@ export default function Order() {
               <img src={logo} alt="logo" />
             </div>
           </div>
-          <div className="grid grid-cols-3 gap-5">
-            {orders.map((order: any) => (
+          <div className="flex justify-between items-center mb-4">
+            <Select onValueChange={(value) => setStatusFilter(value)}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Filter by status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All</SelectItem>
+                <SelectItem value="pending">Pending</SelectItem>
+                <SelectItem value="confirmed">Confirmed</SelectItem>
+                <SelectItem value="shipped">Shipped</SelectItem>
+                <SelectItem value="delivered">Delivered</SelectItem>
+                <SelectItem value="cancelled">Cancelled</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {filteredOrders.map((order: any) => (
               <CardConfirmOrder
                 key={order._id}
                 onShipped={() => handleShippedOrder(order._id)}

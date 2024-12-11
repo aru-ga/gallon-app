@@ -3,6 +3,7 @@ import {
   UserCircle2,
   DollarSign,
   ShoppingBagIcon,
+  Star,
 } from "lucide-react";
 import {
   Sidebar,
@@ -48,6 +49,11 @@ export default function SidebarApp({ comps }: SidebarAppProps) {
             title: "Order",
             url: "/seller/order",
             icon: <ShoppingBagIcon />,
+          },
+          {
+            title: "Review",
+            url: "/seller/review",
+            icon: <Star />,
           },
         ],
       },
