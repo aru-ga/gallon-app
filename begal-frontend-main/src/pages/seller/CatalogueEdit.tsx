@@ -73,7 +73,6 @@ export default function CatalogueEdit() {
 
     const updatePayload = createUpdatePayload(initialProduct, selectedProduct);
 
-    // Exit early if no changes detected
     if (Object.keys(updatePayload).length === 0) {
       setSelectedProduct(null);
       return;

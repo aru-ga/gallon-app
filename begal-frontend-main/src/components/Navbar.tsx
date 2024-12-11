@@ -94,6 +94,7 @@ export default function Navbar() {
     sessionStorage.removeItem("user_session");
     setLoggedIn(false);
     navigate("/");
+    window.location.reload();
   };
 
   const confirmSignOut = () => {

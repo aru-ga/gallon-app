@@ -8,6 +8,7 @@ import {
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarHeader,
@@ -15,14 +16,28 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useLocation, Link } from "react-router-dom";
 import DarkModeToggle from "@/components/DarkToggle";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 interface SidebarAppProps {
   comps: React.ReactNode;
 }
 
 export default function SidebarApp({ comps }: SidebarAppProps) {
+  const [showSignOutDialog, setShowSignOutDialog] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
+  const navigate = useNavigate();
   const location = useLocation();
   const sellerSelector = useSelector((state: any) => state.seller);
 
@@ -60,6 +75,18 @@ export default function SidebarApp({ comps }: SidebarAppProps) {
     ],
   };
 
+  const handleSignOut = () => {
+    sessionStorage.removeItem("authToken");
+    sessionStorage.removeItem("user_session");
+    setLoggedIn(false);
+    navigate("/");
+    window.location.reload();
+  };
+
+  const confirmSignOut = () => {
+    setShowSignOutDialog(true);
+  };
+
   return (
     <>
       <Sidebar>
@@ -91,8 +118,41 @@ export default function SidebarApp({ comps }: SidebarAppProps) {
             </SidebarGroup>
           ))}
         </SidebarContent>
+        <SidebarFooter>
+          <Link to="/">Back to Home</Link>
+          <p className="text-xs text-gray-300 font-publicSans">© 2024 Begal</p>
+          <Button
+            className="w-full bg-white text-black hover:bg-red-300 hover:text-white mt-3"
+            variant="link"
+            onClick={confirmSignOut}
+          >
+            Sign Out
+          </Button>
+        </SidebarFooter>
       </Sidebar>
       {comps}
+      <Dialog open={showSignOutDialog} onOpenChange={setShowSignOutDialog}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Confirm Sign Out</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to sign out? You will be redirected to the
+              home page.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setShowSignOutDialog(false)}
+            >
+              Cancel
+            </Button>
+            <Button onClick={handleSignOut} variant="destructive">
+              Sign Out
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
