@@ -149,12 +149,12 @@ export default function LoginUser() {
               {errors.password && (
                 <p className="text-red-500">{errors.password.message}</p>
               )}
-              <Link to="/forgot-password">
-                <Button variant="link" className="text-blue-600 mt-2">
-                  Forgot password?
-                </Button>
-              </Link>
             </div>
+            <Link to="/forgot-password">
+              <Button variant="link" className="text-blue-600 mt-2">
+                Forgot password?
+              </Button>
+            </Link>
 
             {error && <p className="text-red-500">{error}</p>}
 

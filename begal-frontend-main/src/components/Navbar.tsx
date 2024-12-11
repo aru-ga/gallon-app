@@ -1,8 +1,10 @@
 import {
   NavigationMenu,
+  NavigationMenuContent,
   NavigationMenuItem,
-  NavigationMenuList,
   NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import logo from "@/assets/logo.png";
 import { Button } from "./ui/button";
@@ -18,6 +20,16 @@ import { useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import DarkModeToggle from "./DarkToggle";
 import { useSelector } from "react-redux";
+import { cn } from "@/lib/utils";
+import React from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 export default function Navbar() {
   const location = useLocation();
@@ -25,6 +37,7 @@ export default function Navbar() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [showSignOutDialog, setShowSignOutDialog] = useState(false);
   const navigate = useNavigate();
 
   const handleSearch = (e: React.FormEvent) => {
@@ -33,6 +46,32 @@ export default function Navbar() {
       navigate(`/search/products?keyword=${encodeURIComponent(searchTerm)}`);
     }
   };
+
+  const ListItem = React.forwardRef<
+    React.ElementRef<"a">,
+    React.ComponentPropsWithoutRef<"a">
+  >(({ className, title, children, ...props }, ref) => {
+    return (
+      <li>
+        <NavigationMenuLink asChild>
+          <a
+            ref={ref}
+            className={cn(
+              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+              className
+            )}
+            {...props}
+          >
+            <div className="text-sm font-medium leading-none">{title}</div>
+            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+              {children}
+            </p>
+          </a>
+        </NavigationMenuLink>
+      </li>
+    );
+  });
+  ListItem.displayName = "ListItem";
 
   const userData = sessionStorage.getItem("user_session");
   const userSelector = useSelector((state: any) => state.user);
@@ -48,6 +87,17 @@ export default function Navbar() {
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
+  };
+
+  const handleSignOut = () => {
+    sessionStorage.removeItem("authToken");
+    sessionStorage.removeItem("user_session");
+    setLoggedIn(false);
+    navigate("/");
+  };
+
+  const confirmSignOut = () => {
+    setShowSignOutDialog(true);
   };
 
   return (
@@ -121,42 +171,95 @@ export default function Navbar() {
 
           <div className="hidden md:flex space-x-5">
             {loggedIn ? (
-              <div>
-                <div className="flex flex-row items-center gap-10">
-                  <NavigationMenuItem>
-                    <Link to="/wishlist">
-                      <HeartIcon fill="blue" className="text-transparent" />
-                    </Link>
-                  </NavigationMenuItem>
-                  <NavigationMenuItem>
-                    <Link to="/cart">
-                      <ShoppingCartIcon className="text-gray-600 dark:text-white" />
-                    </Link>
-                  </NavigationMenuItem>
-                  <NavigationMenuItem>
-                    <Link to="/user-profile/profile">
-                      <div className="flex flex-row-reverse gap-2 items-center">
-                        <p className="dark:text-white">
-                          {userSelector.user.name
-                            ? userSelector.user.name
-                            : JSON.parse(userData ?? "{}").user?.name ?? ""}
-                        </p>
-                        <Avatar className="w-9 h-9">
-                          <AvatarImage
-                            src={
-                              userSelector.user.profile_picture_url
-                                ? userSelector.user.profile_picture_url
-                                : JSON.parse(userData ?? "{}").user
-                                    ?.profile_picture_url ?? ""
-                            }
-                          />
-                          <AvatarFallback>user</AvatarFallback>
-                        </Avatar>
-                      </div>
-                    </Link>
-                  </NavigationMenuItem>
-                </div>
-              </div>
+              <NavigationMenu className="flex flex-row items-center gap-10">
+                <NavigationMenuItem>
+                  <Link to="/wishlist">
+                    <HeartIcon fill="blue" className="text-transparent" />
+                  </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Link to="/cart">
+                    <ShoppingCartIcon className="text-gray-600 dark:text-white" />
+                  </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger>
+                    <div className="flex flex-row-reverse gap-2 items-center">
+                      <p className="dark:text-white">
+                        {userSelector.user.name
+                          ? userSelector.user.name
+                          : JSON.parse(userData ?? "{}").user?.name ?? ""}
+                      </p>
+                      <Avatar className="w-9 h-9">
+                        <AvatarImage
+                          src={
+                            userSelector.user.profile_picture_url
+                              ? userSelector.user.profile_picture_url
+                              : JSON.parse(userData ?? "{}").user
+                                  ?.profile_picture_url ?? ""
+                          }
+                        />
+                        <AvatarFallback>user</AvatarFallback>
+                      </Avatar>
+                    </div>
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <div className="grid  p-10 w-[250px]">
+                      <NavigationMenuLink asChild>
+                        <div className="flex flex-col space-y-5 justify-center items-center">
+                          <Link
+                            to="/user-profile/profile"
+                            className="flex flex-col space-y-5 justify-center items-center hover:bg-blue-300 duration-300 p-5 rounded-lg"
+                          >
+                            <img
+                              src={
+                                userSelector.user.profile_picture_url
+                                  ? userSelector.user.profile_picture_url
+                                  : JSON.parse(userData ?? "{}").user
+                                      ?.profile_picture_url ?? ""
+                              }
+                              className="rounded-full"
+                            />
+                            <p className="dark:text-white font-semibold">
+                              {userSelector.user.name
+                                ? userSelector.user.name
+                                : JSON.parse(userData ?? "{}").user?.name ?? ""}
+                            </p>
+                          </Link>
+                          <div>
+                            <Button
+                              className="w-full bg-white text-black"
+                              variant="link"
+                            >
+                              <Link
+                                to="/transaction"
+                                className="dark:text-white "
+                              >
+                                Transaction
+                              </Link>
+                            </Button>
+                            <Button
+                              className="w-full bg-white text-black"
+                              variant="link"
+                            >
+                              <Link to="/wishlist" className="dark:text-white ">
+                                Wishlist
+                              </Link>
+                            </Button>
+                            <Button
+                              className="w-full bg-white text-black hover:bg-red-300 hover:text-white mt-3"
+                              variant="link"
+                              onClick={confirmSignOut}
+                            >
+                              Sign Out
+                            </Button>
+                          </div>
+                        </div>
+                      </NavigationMenuLink>
+                    </div>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              </NavigationMenu>
             ) : (
               <>
                 <NavigationMenuItem>
@@ -264,6 +367,29 @@ export default function Navbar() {
           </div>
         )}
       </NavigationMenu>
+
+      <Dialog open={showSignOutDialog} onOpenChange={setShowSignOutDialog}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Confirm Sign Out</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to sign out? You will be redirected to the
+              home page.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setShowSignOutDialog(false)}
+            >
+              Cancel
+            </Button>
+            <Button onClick={handleSignOut} variant="destructive">
+              Sign Out
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </nav>
   );
 }
