@@ -12,14 +12,11 @@ const refetchUserData = async () => {
   }
 
   try {
-    const response = await fetch(
-      `${APIS_URL}/profile`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await fetch(`${APIS_URL}/profile`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     if (!response.ok) {
       throw new Error("Failed to fetch updated user data.");
@@ -43,6 +40,7 @@ const refetchUserData = async () => {
     };
 
     sessionStorage.setItem("user_session", JSON.stringify(userData));
+    sessionStorage.setItem("authToken", token);
     console.log("Session storage updated with new user data.");
   } catch (error) {
     console.error("Error refetching user data:", error);
@@ -106,7 +104,7 @@ const updateProfilePicture = async (imageFile: File) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    
+
     return response.data;
   } catch (error: any) {
     console.error(
@@ -138,40 +136,42 @@ const updateProfile = async (profile: any) => {
 const productDelivered = async (orderId: string) => {
   try {
     const response = await axios.patch(
-      `${APIS_URL}/orders/${orderId}`,{
-        "status" : "delivered" 
+      `${APIS_URL}/orders/${orderId}`,
+      {
+        status: "delivered",
       },
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
-      );
-      return response;
+    );
+    return response;
   } catch (error) {
     console.error("Error marking order as delivered:", error);
     throw new Error("Failed to mark order as delivered");
   }
-}
+};
 
 const cancelOrder = async (orderId: string) => {
   try {
     const response = await axios.patch(
-      `${APIS_URL}/orders/${orderId}`,{
-        "status" : "cancelled" 
+      `${APIS_URL}/orders/${orderId}`,
+      {
+        status: "cancelled",
       },
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
-      );
-      return response;
+    );
+    return response;
   } catch (error) {
     console.error("Error cancelling order:", error);
     throw new Error("Failed to cancel order");
   }
-}
+};
 
 const addToWishlist = async (productId: string) => {
   try {
@@ -191,7 +191,7 @@ const addToWishlist = async (productId: string) => {
     console.error("Error adding to wishlist:", error);
     throw new Error("Failed to add to wishlist");
   }
-}
+};
 
 const getWishlist = async () => {
   try {
@@ -205,7 +205,7 @@ const getWishlist = async () => {
     console.error("Error fetching wishlist:", error);
     throw new Error("Failed to fetch wishlist");
   }
-}
+};
 
 const removeWishlist = async (productId: string) => {
   try {
@@ -221,8 +221,6 @@ const removeWishlist = async (productId: string) => {
   }
 };
 
-
-
 export {
   refetchUserData,
   reqChangePassword,
@@ -233,5 +231,5 @@ export {
   addToWishlist,
   getWishlist,
   removeWishlist,
-  cancelOrder
+  cancelOrder,
 };

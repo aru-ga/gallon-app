@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { UserProfile } from '@/types/userTypes';
+import axios from "axios";
+import { UserProfile } from "@/types/userTypes";
 
 const API_URL = "https://api-beli-galon.vercel.app/api/sellers";
 const GLOBAL_API_URL = "https://api-beli-galon.vercel.app/api";
@@ -16,7 +16,7 @@ const fetchProducts = async (token: string | null) => {
     console.error("Error in fetchProducts API call:", error);
     throw new Error("Failed to fetch products");
   }
-}
+};
 
 const fetchOrders = async (token: string | null) => {
   if (!token) {
@@ -37,14 +37,14 @@ const fetchOrders = async (token: string | null) => {
     }
     throw new Error("Failed to fetch orders");
   }
-}
+};
 
 const register = async (userData: UserProfile) => {
   try {
     const response = await axios.post(`${API_URL}/register`, userData);
-    return (response.data);
+    return response.data;
   } catch (error) {
-    console.error("Error in register API call:", error); 
+    console.error("Error in register API call:", error);
     throw new Error("Registration failed");
   }
 };
@@ -58,7 +58,7 @@ const sellerProfile = async (token: string) => {
     });
     return response.data;
   } catch (error) {
-    console.error("Error in register API call:", error); 
+    console.error("Error in register API call:", error);
     throw new Error("Failed to fetch user profile");
   }
 };
@@ -78,75 +78,88 @@ const addProduct = async (token: string | null, productData: any) => {
     const response = await axios.post(`${API_URL}/products`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
-        'Content-Type': 'multipart/form-data',
+        "Content-Type": "multipart/form-data",
       },
     });
 
-    return response.data; 
+    return response.data;
   } catch (error) {
     console.error("Error in addProduct API call:", error);
     throw new Error("Failed to add product");
   }
-}
+};
 
 const confirmOrder = async (token: string | null, orderId: string) => {
   try {
-    const response = await axios.patch(`${API_URL}/orders/${orderId}`, {"status": "confirmed"}, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.patch(
+      `${API_URL}/orders/${orderId}`,
+      { status: "confirmed" },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error in confirmOrder API call:", error);
     throw new Error("Failed to confirm order");
   }
-}
+};
 
 const cancelOrder = async (token: string | null, orderId: string) => {
   try {
-    const response = await axios.patch(`${API_URL}/orders/${orderId}`, {"status": "cancelled"}, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.patch(
+      `${API_URL}/orders/${orderId}`,
+      { status: "cancelled" },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error in cancelOrder API call:", error);
     throw new Error("Failed to cancel order");
   }
-}
+};
 
 const shippedOrder = async (token: string | null, orderId: string) => {
   try {
-    const response = await axios.patch(`${API_URL}/orders/${orderId}`, {"status": "shipped"}, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.patch(
+      `${API_URL}/orders/${orderId}`,
+      { status: "shipped" },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error in cancelOrder API call:", error);
     throw new Error("Failed to cancel order");
   }
-}
+};
 
 const confirmCashPayment = async (token: string | null, orderId: string) => {
-  try{
-    const response = await axios.patch(`${GLOBAL_API_URL}/orders/${orderId}/payment-status`, {"status": "success"}, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+  try {
+    const response = await axios.patch(
+      `${GLOBAL_API_URL}/orders/${orderId}/payment-status`,
+      { status: "success" },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.data;
-  }
-  catch (error) {
+  } catch (error) {
     console.error("Error in confirmCashOrder API call:", error);
     throw new Error("Failed to confirm cash order");
   }
-}
-
-
+};
 
 const refetchSellerData = async (token: string) => {
   try {
@@ -171,10 +184,22 @@ const refetchSellerData = async (token: string) => {
     };
 
     sessionStorage.setItem("seller_session", JSON.stringify(sellerData));
+    sessionStorage.setItem("authToken", token);
     console.log("Session storage updated with seller data.");
   } catch (error) {
     console.error("Failed to refetch seller data:", error);
   }
 };
 
-export { fetchProducts, register, sellerProfile, fetchOrders, addProduct,cancelOrder, confirmOrder, confirmCashPayment, shippedOrder, refetchSellerData };
+export {
+  fetchProducts,
+  register,
+  sellerProfile,
+  fetchOrders,
+  addProduct,
+  cancelOrder,
+  confirmOrder,
+  confirmCashPayment,
+  shippedOrder,
+  refetchSellerData,
+};
