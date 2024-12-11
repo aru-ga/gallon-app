@@ -58,6 +58,16 @@ export default function ProductDetail() {
     } catch (error) {
       console.error("Error adding to wishlist:", error);
     }
+
+    toast({
+      title: "Berhasil ditambahkan!",
+      description: "Silakan cek wishlist Anda.",
+      action: (
+        <ToastAction altText="wishlist">
+          <Link to="/wishlist">Cek wishlist</Link>
+        </ToastAction>
+      ),
+    });
   };
 
   const handleQuantityChange = (change: number) => {
@@ -176,7 +186,7 @@ export default function ProductDetail() {
                 </Link>
                 <Button
                   onClick={() => handleAddWishlist()}
-                  className="bg-transparent p-0 text-blue-500 hover:text-blue-400 font-bold"
+                  className="bg-transparent p-0 text-blue-500 hover:text-blue-400 hover:bg-transparent font-bold"
                 >
                   <span>
                     <HeartIcon fill="blue" />

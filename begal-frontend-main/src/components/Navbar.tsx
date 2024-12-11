@@ -160,7 +160,7 @@ export default function Navbar() {
             ) : (
               <>
                 <NavigationMenuItem>
-                  <Link to="/login">
+                  <Link to="/login-user">
                     <Button className="dark:bg-slate-900 border-2 border-blue-600 bg-transparent text-blue-600 font-semibold rounded hover:bg-slate-200 dark:text-white dark:hover:bg-gray-800">
                       Sign In
                     </Button>

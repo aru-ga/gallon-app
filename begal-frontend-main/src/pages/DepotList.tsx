@@ -14,6 +14,7 @@ import { depotType } from "@/types/depotType";
 import heroSlider1 from "@/assets/heroslider1.png";
 import heroSlider2 from "@/assets/heroslider2.png";
 import heroSlider3 from "@/assets/heroslider3.png";
+import { Skeleton } from "@/components/ui/skeleton";
 
 function DepotList() {
   const carouselItems = [
@@ -52,30 +53,37 @@ function DepotList() {
   return (
     <main>
       <div className="py-10 dark:bg-gray-900">
-        <Carousel
-          className="w-full mt-28"
-          plugins={[
-            //@ts-ignore
-            Autoplay({
-              delay: 2000,
-            }),
-          ]}
-        >
-          <CarouselContent>
-            {carouselItems.map((item) => (
-              <CarouselItem
-                key={item.id}
-                className="flex items-center justify-center"
-              >
-                <img
-                  src={item.image}
-                  alt="depotHeroImages"
-                  className="w-[1000px] h-[500px] object-cover"
-                />
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
+        {depotList.length > 0 ? (
+          <Carousel
+            className="w-full mt-28"
+            plugins={[
+              //@ts-ignore
+              Autoplay({
+                delay: 2000,
+              }),
+            ]}
+          >
+            <CarouselContent>
+              {carouselItems.map((item) => (
+                <CarouselItem
+                  key={item.id}
+                  className="flex items-center justify-center"
+                >
+                  <img
+                    src={item.image}
+                    alt="depotHeroImages"
+                    className="w-[1000px] h-[500px] object-cover"
+                  />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+        ) : (
+          <div>
+            <Skeleton className="h-96 w-[300px]" />
+            <Skeleton className="h-96 w-[300px]" />
+          </div>
+        )}
 
         <div className="bg-white dark:bg-gray-800 shadow-lg w-2/3 h-24 mx-auto mt-20 flex justify-around items-center">
           <div className="absolute left-44 -z-10">
@@ -102,7 +110,7 @@ function DepotList() {
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 gap-10 px-24 py-10 dark:bg-gray-900">
+      <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 gap-10 px-24 py-10 dark:bg-gray-900">
         {depotList.map((depot) => (
           <CardDepot
             key={depot.id}

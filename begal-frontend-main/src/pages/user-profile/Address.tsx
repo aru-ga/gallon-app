@@ -21,6 +21,7 @@ import { UserProfile } from "@/types/userTypes";
 import { Location } from "@/types/locationTypes";
 import { reqChangeAddress } from "@/api/user";
 import { toast } from "@/hooks/use-toast";
+import { refetchUserData } from "@/api/user";
 
 export default function Address() {
   const [loading, setLoading] = useState(false);
@@ -111,6 +112,7 @@ export default function Address() {
     } catch (error) {
       console.error("Failed to update address:", error);
     } finally {
+      await refetchUserData();
       setLoading(false);
     }
   };

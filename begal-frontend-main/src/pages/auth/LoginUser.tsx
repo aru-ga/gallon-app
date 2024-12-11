@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Illustration from "@/assets/img-sign.png";
+import Illustration from "@/assets/loginImg.jpg";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
@@ -10,6 +10,7 @@ import { login, userProfile } from "@/api/auth";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { useDispatch } from "react-redux";
+import Logo from "@/assets/logo.png";
 
 export default function LoginUser() {
   const navigate = useNavigate();
@@ -84,18 +85,31 @@ export default function LoginUser() {
   };
 
   return (
-    <div className="flex flex-row h-screen dark:text-white">
-      <div className="w-1/2">
+    <div className="flex flex-col md:flex-row h-screen dark:text-white">
+      <div className="hidden sm:flex sm:w-1/2 p-5 md:p-10">
         <img
           src={Illustration}
-          className="h-screen object-cover"
+          className="object-cover w-full h-full rounded-xl"
           alt="Login illustration"
         />
       </div>
-      <div className="w-1/2 bg-blue-600 flex items-center justify-center">
-        <div className="w-80 p-6 rounded-lg bg-blue-600 text-white">
-          <h2 className="text-2xl font-bold mb-6 text-center">Login user</h2>
-          <form className="space-y-4" onSubmit={handleSubmit(handleLogin)}>
+
+      <div className="flex flex-col w-full sm:w-1/2 items-center justify-center p-5 sm:p-10 space-y-6">
+        <div className="flex items-center justify-center w-full max-w-sm">
+          <img
+            src={Logo}
+            alt="logo"
+            className="object-cover h-12 w-auto rounded-xl"
+          />
+        </div>
+        <div className="px-6 py-8 sm:px-10 sm:py-12 rounded-lg flex flex-col space-y-6 border-2 border-blue-600 bg-white dark:bg-gray-900">
+          <h2 className="text-2xl font-bold mb-4 text-center text-black dark:text-white">
+            Login User
+          </h2>
+          <form
+            className="space-y-4 text-sm text-black dark:text-white"
+            onSubmit={handleSubmit(handleLogin)}
+          >
             <div>
               <label htmlFor="email" className="block mb-1">
                 Email
@@ -105,13 +119,14 @@ export default function LoginUser() {
                 id="email"
                 type="email"
                 aria-invalid={!!errors.email}
-                className="w-full text-black dark:text-white"
+                className="w-full"
                 placeholder="Enter your email"
               />
               {errors.email && (
                 <p className="text-red-500">{errors.email.message}</p>
               )}
             </div>
+
             <div>
               <label htmlFor="password" className="block mb-1">
                 Password
@@ -121,10 +136,10 @@ export default function LoginUser() {
                 id="password"
                 type={showPassword ? "text" : "password"}
                 aria-invalid={!!errors.password}
-                className="w-full text-black dark:text-white"
+                className="w-full"
                 placeholder="Enter your password"
               />
-              <div className="flex items-center mt-2 mb-5 space-x-2">
+              <div className="flex items-center mt-2 space-x-2">
                 <Checkbox
                   id="show-password"
                   onCheckedChange={(checked) => setShowPassword(!!checked)}
@@ -134,24 +149,30 @@ export default function LoginUser() {
               {errors.password && (
                 <p className="text-red-500">{errors.password.message}</p>
               )}
+              <Link to="/forgot-password">
+                <Button variant="link" className="text-blue-600 mt-2">
+                  Forgot password?
+                </Button>
+              </Link>
             </div>
+
             {error && <p className="text-red-500">{error}</p>}
+
             <Button
               type="submit"
               disabled={loading}
-              className="w-full bg-white text-blue-600 hover:bg-blue-100"
+              className="w-full bg-blue-600 text-white hover:bg-blue-700"
             >
               {loading ? "Logging in..." : "Login"}
             </Button>
-            <div className="w-full flex flex-row justify-between">
-              <Button type="button" variant="link" className="text-white">
-                <Link to="/forgot-password">Forgot password?</Link>
-              </Button>
-              <Button type="button" variant="link" className="text-white">
-                <Link to="/register" className="underline">
-                  Register Instead?
-                </Link>
-              </Button>
+
+            <div className="w-full flex space-y-2 flex-col justify-between text-blue-600">
+              <Link to="/register-user" className="underline">
+                Register Instead?
+              </Link>
+              <Link to="/login-seller" className="">
+                Login as seller
+              </Link>
             </div>
           </form>
         </div>

@@ -146,4 +146,35 @@ const confirmCashPayment = async (token: string | null, orderId: string) => {
   }
 }
 
-export { fetchProducts, register, sellerProfile, fetchOrders, addProduct,cancelOrder, confirmOrder, confirmCashPayment, shippedOrder };
+
+
+const refetchSellerData = async (token: string) => {
+  try {
+    const profile = await sellerProfile(token);
+
+    const sellerData = {
+      token: token,
+      seller: {
+        id: profile.data.id,
+        name: profile.data.name,
+        email: profile.data.email,
+        phone: profile.data.phone,
+        role: profile.data.role,
+        profile_picture_url: profile.data.profile_picture_url,
+        address: profile.data.address,
+        operational_hours: profile.data.operational_hours,
+        rating: profile.data.rating,
+        review_count: profile.data.review_count,
+        created_at: profile.data.created_at,
+        updated_at: profile.data.updated_at,
+      },
+    };
+
+    sessionStorage.setItem("seller_session", JSON.stringify(sellerData));
+    console.log("Session storage updated with seller data.");
+  } catch (error) {
+    console.error("Failed to refetch seller data:", error);
+  }
+};
+
+export { fetchProducts, register, sellerProfile, fetchOrders, addProduct,cancelOrder, confirmOrder, confirmCashPayment, shippedOrder, refetchSellerData };
