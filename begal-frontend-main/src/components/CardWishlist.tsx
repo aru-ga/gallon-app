@@ -32,7 +32,7 @@ export default function CardWishlist({
           {name}
         </Link>
         <div className="space-y-2">
-          <p className="text-white font-semibold">RP{price.toLocaleString()}</p>
+          <p className="text-white font-semibold">RP{price}</p>
         </div>
         <div className="space-y-2">
           <Button

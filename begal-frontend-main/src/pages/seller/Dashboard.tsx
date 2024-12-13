@@ -16,6 +16,9 @@ export default function Dashboard() {
   const [orders, setOrders] = useState([]);
 
   const token = sessionStorage.getItem("authToken");
+  const userData = sessionStorage.getItem("seller_session");
+
+  const user = userData ? JSON.parse(userData) : null;
 
   const fetchCatalogue = async () => {
     const data = await fetchProducts(token);
@@ -61,8 +64,9 @@ export default function Dashboard() {
         <div className="flex flex-1 flex-col items-center space-y-10 gap-4 p-4">
           <div className="grid auto-rows-min gap-4 md:grid-cols-2">
             <div className="flex flex-col items-center justify-center">
-              <p className="text-3xl font-semibold">
-                Hello {sellerSelector.seller.name}, <br />
+              <p className="text-3xl ">
+                Hello, <span className="font-semibold">{user.seller.name}</span>
+                <br />
                 Atur dan lihat track toko anda disini
               </p>
             </div>
@@ -119,6 +123,7 @@ export default function Dashboard() {
                     updated_at={"string"}
                     quantity={"string"}
                     seller_name={undefined}
+                    product_id={""}
                   />
                 ))}
             </div>

@@ -1,8 +1,7 @@
 import axios from "axios";
+import { UserProfile } from "@/types/userTypes";
 
 const APIS_URL = "https://api-beli-galon.vercel.app/api/users";
-
-const token = sessionStorage.getItem("authToken");
 
 const refetchUserData = async () => {
   const token = sessionStorage.getItem("authToken");
@@ -48,6 +47,8 @@ const refetchUserData = async () => {
 };
 
 const reqChangeAddress = async (address: object) => {
+  const token = sessionStorage.getItem("authToken");
+
   try {
     const response = await axios.patch(
       `${APIS_URL}/profile`,
@@ -66,6 +67,8 @@ const reqChangeAddress = async (address: object) => {
 };
 
 const reqChangePassword = async (oldPassword: string, newPassword: string) => {
+  const token = sessionStorage.getItem("authToken");
+
   try {
     const response = await axios.patch(
       `${APIS_URL}/change-password`,
@@ -90,6 +93,8 @@ const reqChangePassword = async (oldPassword: string, newPassword: string) => {
 };
 
 const updateProfilePicture = async (imageFile: File) => {
+  const token = sessionStorage.getItem("authToken");
+
   if (!token) {
     throw new Error("No authorization token found");
   }
@@ -106,16 +111,22 @@ const updateProfilePicture = async (imageFile: File) => {
     });
 
     return response.data;
-  } catch (error: any) {
-    console.error(
-      "Error updating profile picture:",
-      error.response?.data || error.message
-    );
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      console.error(
+        "Error updating profile picture:",
+        error.response?.data || error.message
+      );
+    } else {
+      console.error("Unexpected error:", error);
+    }
     throw error;
   }
 };
 
-const updateProfile = async (profile: any) => {
+const updateProfile = async (profile: UserProfile) => {
+  const token = sessionStorage.getItem("authToken");
+
   try {
     const response = await axios.patch(
       `${APIS_URL}/profile`,
@@ -134,6 +145,7 @@ const updateProfile = async (profile: any) => {
 };
 
 const productDelivered = async (orderId: string) => {
+  const token = sessionStorage.getItem("authToken");
   try {
     const response = await axios.patch(
       `${APIS_URL}/orders/${orderId}`,
@@ -154,6 +166,8 @@ const productDelivered = async (orderId: string) => {
 };
 
 const cancelOrder = async (orderId: string) => {
+  const token = sessionStorage.getItem("authToken");
+
   try {
     const response = await axios.patch(
       `${APIS_URL}/orders/${orderId}`,
@@ -174,6 +188,8 @@ const cancelOrder = async (orderId: string) => {
 };
 
 const addToWishlist = async (productId: string) => {
+  const token = sessionStorage.getItem("authToken");
+
   try {
     const response = await axios.post(
       `${APIS_URL}/wishlist`,
@@ -194,6 +210,8 @@ const addToWishlist = async (productId: string) => {
 };
 
 const getWishlist = async () => {
+  const token = sessionStorage.getItem("authToken");
+
   try {
     const response = await axios.get(`${APIS_URL}/wishlist`, {
       headers: {
@@ -207,7 +225,9 @@ const getWishlist = async () => {
   }
 };
 
-const removeWishlist = async (productId: string) => {
+const removeWishlist = async (productId: number) => {
+  const token = sessionStorage.getItem("authToken");
+
   try {
     const response = await axios.delete(`${APIS_URL}/wishlist/${productId}`, {
       headers: {

@@ -14,9 +14,11 @@ import CardProductCatalogue from "@/components/CardProductCatalogue";
 import instance from "@/lib/axios";
 import { payloadProductType } from "@/types/productType";
 import { Label } from "@/components/ui/label";
+import { productType } from "@/types/productType";
 
 export default function CatalogueEdit() {
   const [products, setProducts] = useState<payloadProductType[]>([]);
+  const [closeDialog, setCloseDialog] = useState(false);
   const [saving, setSaving] = useState(false);
   const [savingImage, setSavingImage] = useState(false);
   const [selectedProduct, setSelectedProduct] =
@@ -162,6 +164,8 @@ export default function CatalogueEdit() {
       fetchCatalogue();
     } catch (error) {
       console.error("Error adding product:", error);
+    } finally {
+      setCloseDialog(true);
     }
   };
 
@@ -179,7 +183,7 @@ export default function CatalogueEdit() {
           <h1 className="text-3xl font-bold dark:text-white">
             Customize your product catalogue here
           </h1>
-          <Dialog>
+          <Dialog defaultOpen={closeDialog}>
             <DialogTrigger asChild>
               <Button>Add Product</Button>
             </DialogTrigger>

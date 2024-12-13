@@ -1,23 +1,11 @@
 import { getWishlist } from "@/api/user";
-import CardProduct from "@/components/CardProduct";
 import { useState, useEffect } from "react";
 import CardWishlist from "@/components/CardWishlist";
 import { removeWishlist } from "@/api/user";
-
-// Define a type for the product data
-interface Product {
-  id: number;
-  image_url: string;
-  name: string;
-  description: string;
-  price: number;
-  stock: number;
-  quantity: number;
-  seller_name: string;
-}
+import WishlistProduct from "@/types/wishlistProduct";
 
 export default function Wishlist() {
-  const [wishlist, setWishlist] = useState<Product[]>([]);
+  const [wishlist, setWishlist] = useState<WishlistProduct[]>([]);
 
   const handleRemove = async (productId: number) => {
     try {
@@ -40,7 +28,7 @@ export default function Wishlist() {
       console.log(response.data);
     } catch (error) {
       console.error("Error fetching wishlist:", error);
-      setWishlist([]); // Set to an empty array in case of an error
+      setWishlist([]);
     }
   };
 

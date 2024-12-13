@@ -122,7 +122,7 @@ export default function SidebarApp({ comps }: SidebarAppProps) {
           <Link to="/">Back to Home</Link>
           <p className="text-xs text-gray-300 font-publicSans">© 2024 Begal</p>
           <Button
-            className="w-full bg-white text-black hover:bg-red-300 hover:text-white mt-3"
+            className="w-full bg-red-500 hover:bg-red-300 hover:text-white mt-3"
             variant="link"
             onClick={confirmSignOut}
           >
@@ -134,7 +134,9 @@ export default function SidebarApp({ comps }: SidebarAppProps) {
       <Dialog open={showSignOutDialog} onOpenChange={setShowSignOutDialog}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Confirm Sign Out</DialogTitle>
+            <DialogTitle className="dark:text-white">
+              Confirm Sign Out
+            </DialogTitle>
             <DialogDescription>
               Are you sure you want to sign out? You will be redirected to the
               home page.
@@ -142,6 +144,7 @@ export default function SidebarApp({ comps }: SidebarAppProps) {
           </DialogHeader>
           <DialogFooter>
             <Button
+              className="dark:text-white"
               variant="outline"
               onClick={() => setShowSignOutDialog(false)}
             >

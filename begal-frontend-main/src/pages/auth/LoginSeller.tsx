@@ -67,9 +67,9 @@ export default function LoginSeller() {
           alt="Login illustration"
         />
       </div>
-      <div className="w-full sm:w-1/2 mx-auto flex flex-col space-y-7 items-center justify-center px-6 sm:px-20">
+      <div className="w-full sm:w-1/2 mx-auto flex flex-col space-y-7 items-center  justify-center px-6 sm:px-20">
         <div className="px-20 py-10 rounded-lg flex flex-col space-y-10 border-2 border-blue-600 text-white">
-          <h2 className="text-2xl font-bold mb-6 text-center text-black">
+          <h2 className="text-2xl font-bold mb-6 text-center dark:text-white">
             Login Seller
           </h2>
           <form
@@ -77,9 +77,9 @@ export default function LoginSeller() {
             onSubmit={handleSubmit(handleLogin)}
           >
             <div>
-              <label htmlFor="email" className="block mb-1">
+              <Label htmlFor="email" className="block mb-1 dark:text-white">
                 Email
-              </label>
+              </Label>
               <Input
                 {...register("email")}
                 id="email"
@@ -93,9 +93,9 @@ export default function LoginSeller() {
               )}
             </div>
             <div>
-              <label htmlFor="password" className="block mb-1">
+              <Label htmlFor="password" className="block mb-1 dark:text-white">
                 Password
-              </label>
+              </Label>
               <Input
                 {...register("password")}
                 id="password"
@@ -109,7 +109,9 @@ export default function LoginSeller() {
                   id="show-password"
                   onCheckedChange={(checked) => setShowPassword(!!checked)}
                 />
-                <Label htmlFor="show-password">Show password</Label>
+                <Label htmlFor="show-password" className="dark:text-white">
+                  Show password
+                </Label>
               </div>
               {errors.password && (
                 <p className="text-red-500">{errors.password.message}</p>
@@ -127,7 +129,7 @@ export default function LoginSeller() {
               <Link to="/forgot-password" className="underline text-blue-600">
                 Forgot password?
               </Link>
-              <Link to="/register-seller" className="underline">
+              <Link to="/register-seller" className="underline dark:text-white">
                 Register Instead?
               </Link>
             </div>
