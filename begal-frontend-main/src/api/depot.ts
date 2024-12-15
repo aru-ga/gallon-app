@@ -1,5 +1,6 @@
 import axios from "axios";
 import { UserProfile } from "@/types/userTypes";
+import { productType } from "@/types/productType";
 
 const API_URL = "https://api-beli-galon.vercel.app/api/sellers";
 const GLOBAL_API_URL = "https://api-beli-galon.vercel.app/api";
@@ -49,7 +50,7 @@ const register = async (userData: UserProfile) => {
   }
 };
 
-const sellerProfile = async (token: string) => {
+const sellerProfile = async (token: string | null) => {
   try {
     const response = await axios.get(`${API_URL}/profile`, {
       headers: {
@@ -63,7 +64,7 @@ const sellerProfile = async (token: string) => {
   }
 };
 
-const addProduct = async (token: string | null, productData: any) => {
+const addProduct = async (token: string | null, productData: productType) => {
   try {
     const formData = new FormData();
     formData.append("name", productData.name);
@@ -185,7 +186,9 @@ const refetchSellerData = async () => {
     };
 
     sessionStorage.setItem("seller_session", JSON.stringify(sellerData));
-    sessionStorage.setItem("authToken", token);
+    if (token) {
+      sessionStorage.setItem("authToken", token);
+    }
     console.log("Session storage updated with seller data.");
   } catch (error) {
     console.error("Failed to refetch seller data:", error);

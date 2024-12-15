@@ -6,12 +6,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { refetchSellerData } from "@/api/depot";
+import { depotType } from "@/types/depotType";
 
 export default function SellerProfile() {
   const [isEditing, setIsEditing] = useState(false);
   const [img, setImg] = useState<File | null>(null);
   const { toast } = useToast();
-  const [parsedSellerData, setParsedSellerData] = useState<any>(null);
+  const [parsedSellerData, setParsedSellerData] = useState<depotType>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,7 +20,7 @@ export default function SellerProfile() {
       const sellerData = sessionStorage.getItem("seller_session");
       try {
         const parsed = sellerData ? JSON.parse(sellerData) : null;
-        setParsedSellerData(parsed);
+        setParsedSellerData(parsed.seller);
       } catch (error) {
         console.error("Error parsing seller session data:", error);
       }
@@ -36,9 +37,9 @@ export default function SellerProfile() {
   useEffect(() => {
     if (parsedSellerData) {
       setEditableSeller({
-        name: parsedSellerData.seller.name || "",
-        phone: parsedSellerData.seller.phone || "",
-        email: parsedSellerData.seller.email || "",
+        name: parsedSellerData.name || "",
+        phone: parsedSellerData.phone || "",
+        email: parsedSellerData.email || "",
       });
     }
   }, [parsedSellerData]);
@@ -173,7 +174,7 @@ export default function SellerProfile() {
             <div className="relative">
               <div className="w-24 h-24 rounded-full bg-gray-200 overflow-hidden">
                 <img
-                  src={parsedSellerData.seller?.profile_picture_url}
+                  src={parsedSellerData.profile_picture_url}
                   alt="Profile"
                   className="w-full h-full object-cover"
                 />
@@ -190,10 +191,8 @@ export default function SellerProfile() {
             </div>
             <Button onClick={saveImg}>Save img</Button>
             <div>
-              <h2 className="text-2xl font-bold">
-                {parsedSellerData.seller.name}
-              </h2>
-              <h2>{parsedSellerData.seller.address.province}</h2>
+              <h2 className="text-2xl font-bold">{parsedSellerData.name}</h2>
+              <h2>{parsedSellerData.address.province}</h2>
             </div>
           </div>
         </div>
@@ -216,7 +215,7 @@ export default function SellerProfile() {
             <Input
               type="text"
               id="jam"
-              value={`${parsedSellerData.seller.operational_hours.open}-${parsedSellerData.seller.operational_hours.close} WIB`}
+              value={`${parsedSellerData.operational_hours.open}-${parsedSellerData.operational_hours.close} WIB`}
               readOnly
               className="mt-1 text-black dark:text-white"
             />
@@ -246,7 +245,7 @@ export default function SellerProfile() {
             <Label htmlFor="address">Alamat</Label>
             <Input
               id="address"
-              value={parsedSellerData.seller?.address?.detail || ""}
+              value={parsedSellerData.address?.detail || ""}
               readOnly
               className="mt-1 text-black dark:text-white"
             />

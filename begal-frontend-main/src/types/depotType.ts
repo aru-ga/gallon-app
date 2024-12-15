@@ -1,5 +1,5 @@
 interface depotType {
-  products: any;
+  products: string[];
   id: string;
   className: string;
   name: string;

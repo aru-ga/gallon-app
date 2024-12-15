@@ -36,8 +36,9 @@ export default function LoginSeller() {
 
       const token = response?.token;
       if (token) {
-        await refetchSellerData(token);
+        await refetchSellerData();
         navigate("/seller/dashboard");
+        sessionStorage.setItem("authToken", token);
       } else {
         setError("Invalid server response. Token not found.");
       }

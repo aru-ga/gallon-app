@@ -1,13 +1,14 @@
 interface productType {
   product_id: string;
-  seller_name: any;
+  seller_name: string;
   className: string;
   id: string;
   seller_id: string;
   name: string;
+  image: string;
   description: string;
-  price: number;
-  stock: number;
+  price: string;
+  stock: string;
   image_url: string;
   created_at: string;
   updated_at: string;
@@ -19,7 +20,7 @@ interface productType {
 
 
 interface payloadProductType {
-  image: any;
+  image: string;
   className: string;
   id: string;
   seller_id: string;

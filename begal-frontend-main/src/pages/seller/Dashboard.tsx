@@ -8,8 +8,8 @@ import CardProduct from "@/components/CardProduct";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { fetchProducts, fetchOrders } from "@/api/depot";
-import { useSelector } from "react-redux";
 import { productType } from "@/types/productType";
+import { orderType } from "@/types/orderType";
 
 export default function Dashboard() {
   const [products, setProducts] = useState<productType>();
@@ -39,14 +39,12 @@ export default function Dashboard() {
   };
 
   const completedTransactions = orders.filter(
-    (order: any) => order.status === "confirmed"
+    (order: orderType) => order.status === "confirmed"
   ).length;
 
   const pendingTransactions = orders.filter(
-    (order: any) => order.status === "pending"
+    (order: orderType) => order.status === "pending"
   ).length;
-
-  const sellerSelector = useSelector((state: any) => state.seller);
 
   useEffect(() => {
     fetchCatalogue();
@@ -122,8 +120,9 @@ export default function Dashboard() {
                     created_at={"string"}
                     updated_at={"string"}
                     quantity={"string"}
-                    seller_name={undefined}
+                    seller_name={""}
                     product_id={""}
+                    image={""}
                   />
                 ))}
             </div>
