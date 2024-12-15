@@ -31,7 +31,7 @@ export default function DepotDetail() {
 
   useEffect(() => {
     fetchDepotData();
-  }, []);
+  }, [depot]);
 
   if (loading) {
     return <p className="text-center mt-20">Loading...</p>;
@@ -76,7 +76,7 @@ export default function DepotDetail() {
             <div className="font-semibold text-center">
               <p className="text-sm sm:text-base">{`${depot.operational_hours.open} - ${depot.operational_hours.close}`}</p>
               <p className="text-xs sm:text-sm mt-1 font-light">
-                Operational Hours
+                Jam Operasional
               </p>
             </div>
           </div>
@@ -100,12 +100,7 @@ export default function DepotDetail() {
             ))}
           </div>
         </div>
-
-        {/* Seller Reviews */}
         <div className="mt-16 sm:mt-24 mb-10">
-          <h2 className="text-xl sm:text-2xl font-bold mb-6 dark:text-white">
-            Daftar Ulasan
-          </h2>
           <UserReview sellerId={depot.id} />
         </div>
       </div>

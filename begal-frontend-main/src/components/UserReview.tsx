@@ -127,6 +127,7 @@ const UserReview: React.FC<UserReviewProps> = ({ sellerId }) => {
       if (!response.data.success) throw new Error("Gagal menghapus ulasan");
       await fetchReviews();
       setUserReview(null);
+      setNewReview({ seller_id: sellerId, rating: 0, comment: "" });
       toast({
         title: "Ulasan dihapus",
         description: "Ulasan Anda telah berhasil dihapus.",
@@ -284,13 +285,13 @@ const UserReview: React.FC<UserReviewProps> = ({ sellerId }) => {
           )
         ) : (
           <div className="text-center">
-            <p className="text-muted-foreground">
+            <p className="text-muted-foreground dark:text-gray-400">
               Anda harus login untuk memberikan ulasan.
             </p>
             <Button
               variant="link"
               onClick={() => {
-                window.location.href = "/login";
+                window.location.href = "/login-user";
               }}
             >
               Login
