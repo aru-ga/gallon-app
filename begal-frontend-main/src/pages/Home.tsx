@@ -20,6 +20,7 @@ import heroSlider1 from "@/assets/heroslider1.png";
 import heroSlider2 from "@/assets/heroslider2.png";
 import heroSlider3 from "@/assets/heroslider3.png";
 import { Skeleton } from "@/components/ui/skeleton";
+import homeImg from "@/assets/homeImg.jpg";
 
 function Home() {
   const [nearbyDepotList, setNearbyDepotList] = useState<depotType[]>([]);
@@ -128,9 +129,10 @@ function Home() {
       </div>
 
       <div className="flex flex-col lg:flex-row justify-between items-center gap-10 lg:gap-20 mt-10 lg:mt-20 dark:text-white">
-        <h3 className="text-2xl flex min-h-[200px] lg:min-h-[300px] items-center justify-center lg:-mr-40 rounded-lg z-10 p-6 lg:p-24 w-full lg:w-1/2 bg-blue-600 dark:bg-red text-white dark:text-gray-100">
-          Produk yang <br /> ditawarkan
-        </h3>
+        <img
+          src={homeImg}
+          className="text-2xl flex items-center justify-center -mr-40 rounded-lg w-full hidden lg:block lg:w-1/2 lg:h-[400px] object-cover"
+        />
 
         {products && products.length > 0 ? (
           <Carousel className="z-20 flex-1 w-full lg:min-w-[75%] lg:max-w-screen-md">
