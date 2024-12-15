@@ -1,12 +1,12 @@
 interface WishlistProduct {
   id: number;
   product: {
-    id: number;
+    id: string;
     image_url: string;
     name: string;
     description: string;
-    price: number;
-    stock: number;
+    price: string;
+    stock: string;
   };
 }
 export default WishlistProduct;

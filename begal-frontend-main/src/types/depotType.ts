@@ -1,5 +1,7 @@
+import { productType } from "./productType";
+
 interface depotType {
-  products: string[];
+  products: productType[];
   id: string;
   className: string;
   name: string;

@@ -50,7 +50,8 @@ const register = async (userData: UserProfile) => {
   }
 };
 
-const sellerProfile = async (token: string | null) => {
+const sellerProfile = async () => {
+  const token = sessionStorage.getItem("authToken");
   try {
     const response = await axios.get(`${API_URL}/profile`, {
       headers: {
@@ -69,8 +70,8 @@ const addProduct = async (token: string | null, productData: productType) => {
     const formData = new FormData();
     formData.append("name", productData.name);
     formData.append("description", productData.description);
-    formData.append("price", productData.price);
-    formData.append("stock", productData.stock);
+    formData.append("price", productData.price.toString());
+    formData.append("stock", productData.stock.toString());
 
     if (productData.image) {
       formData.append("image", productData.image);
@@ -165,7 +166,7 @@ const confirmCashPayment = async (token: string | null, orderId: string) => {
 const refetchSellerData = async () => {
   const token = sessionStorage.getItem("authToken");
   try {
-    const profile = await sellerProfile(token);
+    const profile = await sellerProfile();
 
     const sellerData = {
       token: token,

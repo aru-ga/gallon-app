@@ -16,6 +16,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { productType } from "@/types/productType";
+import { orderType } from "@/types/orderType";
 
 export function CardConfirmOrder({
   order,
@@ -23,7 +24,13 @@ export function CardConfirmOrder({
   onCancel,
   onCash,
   onShipped,
-}: any) {
+}: {
+  order: orderType;
+  onConfirm: (id: string) => void;
+  onCancel: (id: string) => void;
+  onCash: (id: string) => void;
+  onShipped: (id: string) => void;
+}) {
   const formattedDate = formatDate(order.created_at);
   const formattedExpiryDate = formatDate(order.payment_expiry);
 

@@ -18,7 +18,6 @@ import {
 import whyChooseUsIllustration from "@/assets/whychooseus.png";
 import TextSlider from "@/components/TextSliderUp";
 import { useState } from "react";
-import { SocialIcon } from "react-social-icons";
 
 export default function About() {
   const [showMore, setShowMore] = useState(false);

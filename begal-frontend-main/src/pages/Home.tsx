@@ -80,7 +80,7 @@ function Home() {
         <Carousel
           className="w-full"
           plugins={[
-            //@ts-ignore
+            //@ts-expect-error - EmblaCarouselAutoplay is not a known type
             Autoplay({
               delay: 2000,
             }),
@@ -147,10 +147,11 @@ function Home() {
                   description={"string"}
                   stock={0}
                   created_at={"string"}
-                  updated_at={"string"}
-                  quantity={"string"}
+                  updated_at={""}
+                  quantity={0}
                   seller_name={undefined}
                   product_id={""}
+                  image={""}
                 />
               ))}
             </CarouselContent>

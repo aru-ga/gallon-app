@@ -48,9 +48,7 @@ export default function Wishlist() {
                 key={product.product.id}
                 image_url={product.product.image_url}
                 name={product.product.name}
-                description={product.product.description}
-                price={product.product.price}
-                stock={product.product.stock}
+                price={Number(product.product.price)}
                 className={""}
                 onDelete={() => handleRemove(product.id)}
               />

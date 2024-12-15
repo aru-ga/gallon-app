@@ -7,12 +7,12 @@ interface productType {
   name: string;
   image: string;
   description: string;
-  price: string;
-  stock: string;
+  price: number;
+  stock: number;
   image_url: string;
   created_at: string;
   updated_at: string;
-  quantity: string;
+  quantity: number;
   onClickEdit?: () => void;
   onClickDelete?: () => void;
 }

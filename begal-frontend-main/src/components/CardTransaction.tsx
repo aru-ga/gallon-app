@@ -4,6 +4,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import PaymentModal from "@/components/PaymentModal";
 import { formatDate } from "@/lib/utils";
+import { orderType } from "@/types/orderType";
+import { productType } from "@/types/productType";
 
 function CardTransaction({
   order,
@@ -12,7 +14,14 @@ function CardTransaction({
   onDelivered,
   onCancel,
   refreshTransactions,
-}: any) {
+}: {
+  order: orderType;
+  isExpanded: boolean;
+  toggleExpand: () => void;
+  onDelivered: (id: string) => void;
+  onCancel: (id: string) => void;
+  refreshTransactions: () => void;
+}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [paymentUrl, setPaymentUrl] = useState("");
   const contentRef = useRef<HTMLDivElement>(null);
@@ -33,7 +42,7 @@ function CardTransaction({
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setPaymentUrl("");
-    refreshTransactions(); // Fetch the latest transactions
+    refreshTransactions();
   };
 
   return (
@@ -42,7 +51,7 @@ function CardTransaction({
         <CardContent className="p-4 space-y-4 dark:bg-slate-950">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold">
-              Total Rp{order.total_price.toLocaleString("id-ID")}
+              Total Rp{order.total_price.toLocaleString()}
             </h2>
             <Button
               variant="outline"
@@ -81,7 +90,7 @@ function CardTransaction({
                 className="w-full my-3 bg-blue-600 text-white font-semibold"
                 onClick={() => onDelivered(order._id)}
                 disabled={
-                  order.status === "delivered" ||
+                  order.status !== "shipped" ||
                   order.payment_status === "pending"
                 }
               >
@@ -117,18 +126,18 @@ function CardTransaction({
           >
             <div className="p-4 space-y-2 dark:bg-slate-950">
               <h3 className="font-semibold">Detail Pesanan:</h3>
-              {order.products.map((product: any, index: any) => (
+              {order.products.map((product: productType, index: number) => (
                 <p key={index} className="text-sm">
                   {index + 1}. {product.name} - {product.quantity}x - Rp
-                  {product.price.toLocaleString("id-ID")} each
+                  {product.price.toLocaleString()} each
                 </p>
               ))}
               <p className="text-sm">
-                Subtotal: Rp{order.total_price.toLocaleString("id-ID")}
+                Subtotal: Rp{order.total_price.toLocaleString()}
               </p>
               <p className="text-sm">Biaya Pengiriman: Included in total</p>
               <p className="font-semibold text-sm">
-                Total: Rp{order.total_price.toLocaleString("id-ID")}
+                Total: Rp{order.total_price.toLocaleString()}
               </p>
               <p className="text-sm">
                 Metode Pembayaran: {order.payment_method}

@@ -42,6 +42,23 @@ export default function LoginSeller() {
       } else {
         setError("Invalid server response. Token not found.");
       }
+
+      const sellerData = {
+        token: token,
+        seller: {
+          id: response.data.id,
+          email: response.data.email,
+          name: response.data.name,
+          phone: response.data.phone,
+          role: response.data.role,
+          profile_picture_url: response.data.profile_picture_url,
+          address: response.data.address,
+          created_at: response.data.created_at,
+          updated_at: response.data.updated_at,
+        },
+      };
+
+      sessionStorage.setItem("seller_session", JSON.stringify(sellerData));
     } catch (error) {
       console.error("Login failed", error);
       if (error instanceof Error) {

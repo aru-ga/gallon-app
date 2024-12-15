@@ -1,14 +1,13 @@
 import { ChevronLeftCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import instance from "@/lib/axios";
 import { useEffect, useState } from "react";
 import CardTransaction from "@/components/CardTransaction";
 import AnimTransUnlog from "@/components/AnimTransactionUnlog";
-import AnimNoTrans from "@/components/AnimNoTrans";
 import { productDelivered, cancelOrder } from "@/api/user";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getTransaction } from "@/api/user";
+import { orderType } from "@/types/orderType";
 
 export default function Transaction() {
   interface Order {
@@ -48,6 +47,7 @@ export default function Transaction() {
       console.error("Error marking order as delivered:", error);
     } finally {
       getTransaction();
+      fetchTransaction();
     }
   };
 
@@ -58,6 +58,7 @@ export default function Transaction() {
     } catch (error) {
       console.error("Error cancelling order:", error);
     } finally {
+      fetchTransaction();
       getTransaction();
     }
   };
@@ -75,7 +76,7 @@ export default function Transaction() {
                 ? Array.from({ length: 6 }).map((_, index) => (
                     <Skeleton key={index} className="w-full h-72" />
                   ))
-                : transaction.map((order) => (
+                : transaction.map((order: orderType) => (
                     <CardTransaction
                       key={order._id}
                       order={order}

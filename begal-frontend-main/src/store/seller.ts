@@ -27,7 +27,6 @@ const DEFAULT_STATE = {
   },
 };
 
-//@ts-expect-error
 export const sellerReducer = (state = DEFAULT_STATE, action) => {
   if (action.type === "SET_SELLER") {
     return {

@@ -55,6 +55,7 @@ export default function Search() {
                   seller_name={product.seller_name}
                   className={""}
                   product_id={product.id}
+                  image={""}
                 />
               ))}
             </div>

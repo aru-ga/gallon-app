@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import CardTransaction from "@/components/CardTransaction";
 import { productDelivered } from "@/api/user";
 import { cancelOrder } from "@/api/user";
+import { orderType } from "@/types/orderType";
 
 export default function UserTransaction() {
   const [transaction, setTransaction] = useState([]);
@@ -65,7 +66,7 @@ export default function UserTransaction() {
           <div className="space-y-4 p-4">
             <h1 className="text-2xl font-bold mb-4">Your Transaction</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-start auto-rows-auto">
-              {transaction.map((order: any) => (
+              {transaction.map((order: orderType) => (
                 <CardTransaction
                   key={order._id}
                   order={order}
@@ -73,6 +74,7 @@ export default function UserTransaction() {
                   toggleExpand={() => toggleExpand(order._id)}
                   onDelivered={() => handleDelivered(order._id)}
                   onCancel={() => handleCancel(order._id)}
+                  refreshTransactions={getTransaction}
                 />
               ))}
             </div>

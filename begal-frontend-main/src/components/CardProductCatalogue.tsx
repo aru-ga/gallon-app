@@ -2,9 +2,8 @@ import { Link } from "react-router-dom";
 import { Card } from "./ui/card";
 import dummyImg from "@/assets/feature-slider.png";
 import { Button } from "./ui/button";
-import { productType } from "@/types/productType";
 
-export default function CardProductCatalogue(props: productType) {
+export default function CardProductCatalogue(props) {
   const {
     id,
     image_url,

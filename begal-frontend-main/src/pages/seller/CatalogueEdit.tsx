@@ -6,6 +6,7 @@ import {
   DialogFooter,
   DialogTitle,
   DialogDescription,
+  DialogClose,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
@@ -25,18 +26,21 @@ export default function CatalogueEdit() {
     useState<payloadProductType | null>(null);
   const [initialProduct, setInitialProduct] =
     useState<payloadProductType | null>(null);
-  const [newProduct, setNewProduct] = useState<{
-    name: string;
-    description: string;
-    price: string;
-    stock: string;
-    image: File | null;
-  }>({
+  const [newProduct, setNewProduct] = useState<productType>({
+    product_id: "",
+    seller_name: "",
+    className: "",
+    id: "",
     name: "",
     description: "",
-    price: "",
-    stock: "",
-    image: null,
+    image: "",
+    created_at: "",
+    updated_at: "",
+    price: 0,
+    stock: 0,
+    seller_id: "",
+    image_url: "",
+    quantity: 0,
   });
   const token: string | null = sessionStorage.getItem("authToken");
 
@@ -48,6 +52,7 @@ export default function CatalogueEdit() {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value, type, files } = e.target;
     if (type === "file" && files) {
+      // @ts-expect-error - files is a FileList
       setNewProduct((prev) => ({ ...prev, image: files[0] }));
     } else {
       setNewProduct((prev) => ({ ...prev, [id]: value }));
@@ -134,6 +139,7 @@ export default function CatalogueEdit() {
       }
 
       if (updatedValue !== currentValue) {
+        //@ts-expect-error - key is a string
         payload[key as keyof payloadProductType] = updatedValue;
       }
     });
@@ -233,14 +239,17 @@ export default function CatalogueEdit() {
                 </div>
               </div>
               <DialogFooter>
-                <Button onClick={handleAddProduct}>Save</Button>
+                <DialogClose>
+                  <Button onClick={handleAddProduct}>Save</Button>
+                </DialogClose>
               </DialogFooter>
             </DialogContent>
           </Dialog>
         </div>
         <div className="flex gap-5 flex-wrap">
-          {products.map((product: any) => (
+          {products.map((product) => (
             <CardProductCatalogue
+              product_id={""}
               seller_name={undefined}
               image_url={""}
               key={product.id}

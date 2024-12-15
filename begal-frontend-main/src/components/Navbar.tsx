@@ -183,9 +183,9 @@ export default function Navbar() {
                     <ShoppingCartIcon className="text-gray-600 dark:text-white" />
                   </Link>
                 </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger>
-                    <div className="flex flex-row-reverse gap-2 items-center">
+                <NavigationMenuItem className="bg-transparent">
+                  <NavigationMenuTrigger className="bg-transparent">
+                    <div className="flex flex-row-reverse gap-2 items-center bg-transparent">
                       <p className="dark:text-white">
                         {userSelector.user.name
                           ? userSelector.user.name
@@ -229,7 +229,7 @@ export default function Navbar() {
                           </Link>
                           <div>
                             <Button
-                              className="w-full bg-white text-black"
+                              className="w-full bg-transparent text-black"
                               variant="link"
                             >
                               <Link
@@ -240,7 +240,7 @@ export default function Navbar() {
                               </Link>
                             </Button>
                             <Button
-                              className="w-full bg-white text-black"
+                              className="w-full bg-transparent text-black"
                               variant="link"
                             >
                               <Link to="/wishlist" className="dark:text-white ">
@@ -248,7 +248,7 @@ export default function Navbar() {
                               </Link>
                             </Button>
                             <Button
-                              className="w-full bg-white text-black hover:bg-red-300 hover:text-white mt-3"
+                              className="w-full bg-transparent text-black hover:bg-red-300 hover:text-white mt-3"
                               variant="link"
                               onClick={confirmSignOut}
                             >

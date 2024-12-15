@@ -33,13 +33,13 @@ import {
 interface SidebarAppProps {
   comps: React.ReactNode;
 }
+import { sellerType } from "@/lib/Interface";
 
 export default function SidebarApp({ comps }: SidebarAppProps) {
   const [showSignOutDialog, setShowSignOutDialog] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
-  const sellerSelector = useSelector((state: any) => state.seller);
+  const sellerSelector = useSelector((state: sellerType) => state.seller);
 
   const links = {
     navMain: [
@@ -78,7 +78,6 @@ export default function SidebarApp({ comps }: SidebarAppProps) {
   const handleSignOut = () => {
     sessionStorage.removeItem("authToken");
     sessionStorage.removeItem("user_session");
-    setLoggedIn(false);
     navigate("/");
     window.location.reload();
   };

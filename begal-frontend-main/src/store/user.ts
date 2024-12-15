@@ -21,7 +21,6 @@ const DEFAULT_STATE = {
     },
   };
   
-  //@ts-expect-error
   export const userReducer = (state = DEFAULT_STATE, action) => {
     if (action.type === "SET_USER") {
       return {

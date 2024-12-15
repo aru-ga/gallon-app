@@ -2,7 +2,30 @@ interface NavbarProps {
   activePath: string;
 }
 
+interface sellerType {
+  seller: DepotType;
+}
+
 interface DepotType {
+  seller: {
+    id: string;
+    name: string;
+    address: {
+      province: string;
+      regency: string;
+      district: string;
+      village: string;
+      street: string;
+      detail: string;
+    };
+    imageUrl?: string;
+    ratings?: number;
+    reviewsCount?: number;
+    operationalHours?: {
+      open: string;
+      close: string;
+    };
+  }
   id: string;
   name: string;
   address: {
@@ -42,4 +65,4 @@ interface CardProductType {
   className?: string;
 }
 
-export type { NavbarProps, DepotType, CardDepotType, CardProductType };
+export type { NavbarProps, DepotType, CardDepotType, CardProductType, sellerType };

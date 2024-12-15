@@ -31,18 +31,6 @@ const RegisterSeller = () => {
     },
   });
 
-  const [selectedAddress, setSelectedAddress] = useState<{
-    province: Location | null;
-    regency: Location | null;
-    district: Location | null;
-    village: Location | null;
-  }>({
-    province: null,
-    regency: null,
-    district: null,
-    village: null,
-  });
-
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -53,7 +41,6 @@ const RegisterSeller = () => {
     district: Location | null;
     village: Location | null;
   }) => {
-    setSelectedAddress(addressData);
     setFormData((prevData) => ({
       ...prevData,
       address: {
@@ -98,7 +85,7 @@ const RegisterSeller = () => {
           duration: 3000,
         });
         setTimeout(() => {
-          navigate("/login");
+          navigate("/login-seller");
         }, 3000);
       }
     } catch (error) {

@@ -119,7 +119,7 @@ export default function Dashboard() {
                     className={""}
                     created_at={"string"}
                     updated_at={"string"}
-                    quantity={"string"}
+                    quantity={0}
                     seller_name={""}
                     product_id={""}
                     image={""}

@@ -20,6 +20,9 @@ const RegisterUser = () => {
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState<number>(0);
   const [formData, setFormData] = useState<UserProfile>({
+    id: "",
+    created_at: "",
+    updated_at: "",
     name: "",
     email: "",
     password: "",
@@ -77,7 +80,7 @@ const RegisterUser = () => {
       setErrors({});
       setStep((prev) => prev + 1);
     } else {
-      setErrors(result.error.flatten().fieldErrors as ErrorData);
+      setErrors(result.error.flatten().fieldErrors as unknown as ErrorData);
     }
   };
 
@@ -147,7 +150,7 @@ const RegisterUser = () => {
         });
 
         setTimeout(() => {
-          navigate("/login");
+          navigate("/login-user");
         }, 3000);
       } else {
         console.error("Register failed", res.error);

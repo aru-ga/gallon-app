@@ -3,7 +3,6 @@ import { Card } from "./ui/card";
 import dummyImg from "@/assets/feature-slider.png";
 import { Button } from "./ui/button";
 import { TrashIcon } from "lucide-react";
-import { on } from "events";
 
 export default function CardWishlist({
   id,
@@ -12,7 +11,14 @@ export default function CardWishlist({
   price,
   className = "",
   onDelete,
-}: any) {
+}: {
+  id: string;
+  image_url?: string;
+  name: string;
+  price: number;
+  className?: string;
+  onDelete: () => void;
+}) {
   return (
     <Card
       className={`overflow-hidden bg-blue-600 dark:bg-blue-600 block border border-blue-600 rounded-t-[2rem] min-h-[250px] min-w-[200px] max-w-[200px] ${className}`}

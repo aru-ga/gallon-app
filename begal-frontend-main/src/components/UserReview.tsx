@@ -17,7 +17,6 @@ const UserReview: React.FC<UserReviewProps> = ({ sellerId }) => {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [userReview, setUserReview] = useState<Review | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const [newReview, setNewReview] = useState<NewReview>({
     seller_id: sellerId,
     rating: 0,
@@ -50,7 +49,6 @@ const UserReview: React.FC<UserReviewProps> = ({ sellerId }) => {
     } catch (err) {
       console.error("Error mengambil ulasan:", err);
       setReviews([]);
-      setError("Gagal mengambil ulasan.");
     } finally {
       setLoading(false);
     }
