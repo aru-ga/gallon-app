@@ -69,7 +69,7 @@ export default function LoginSeller() {
       </div>
       <div className="w-full sm:w-1/2 mx-auto flex flex-col space-y-7 items-center  justify-center px-6 sm:px-20">
         <div className="px-20 py-10 rounded-lg flex flex-col space-y-10 border-2 border-blue-600 text-white">
-          <h2 className="text-2xl font-bold mb-6 text-center dark:text-white">
+          <h2 className="text-2xl font-bold mb-6 text-blue-600 text-center ">
             Login Seller
           </h2>
           <form
@@ -121,7 +121,7 @@ export default function LoginSeller() {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full bg-white text-blue-600 hover:bg-blue-100"
+              className="w-full bg-blue-600 text-white hover:bg-blue-100"
             >
               {loading ? "Logging in..." : "Login"}
             </Button>

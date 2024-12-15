@@ -1,5 +1,6 @@
 import axios from "axios";
 import { UserProfile } from "@/types/userTypes";
+import instance from "@/lib/axios";
 
 const APIS_URL = "https://api-beli-galon.vercel.app/api/users";
 
@@ -40,9 +41,23 @@ const refetchUserData = async () => {
 
     sessionStorage.setItem("user_session", JSON.stringify(userData));
     sessionStorage.setItem("authToken", token);
-    console.log("Session storage updated with new user data.");
   } catch (error) {
     console.error("Error refetching user data:", error);
+  }
+};
+
+
+const getTransaction = async () => {
+  const token = sessionStorage.getItem("authToken");
+  if (token) {
+    try {
+      const response = await instance.get("orders", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response.data.data;
+    } catch (error) {
+      console.error("Error fetching transaction:", error);
+    }
   }
 };
 
@@ -247,6 +262,7 @@ export {
   reqChangeAddress,
   updateProfilePicture,
   updateProfile,
+  getTransaction,
   productDelivered,
   addToWishlist,
   getWishlist,

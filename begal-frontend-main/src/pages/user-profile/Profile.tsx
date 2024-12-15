@@ -10,6 +10,7 @@ import { refetchUserData } from "@/api/user";
 export default function Profile() {
   const [isEditing, setIsEditing] = useState(false);
   const [img, setImg] = useState(null);
+  const { toast } = useToast();
 
   const userData = sessionStorage.getItem("user_session");
   let parsedUserData;
@@ -26,8 +27,6 @@ export default function Profile() {
     phone: parsedUserData?.user?.phone || "",
     email: parsedUserData?.user?.email || "",
   });
-
-  const { toast } = useToast();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;
@@ -125,7 +124,7 @@ export default function Profile() {
         throw new Error("Failed to upload image.");
       }
 
-      await refetchUserData(); // Refetch and update session storage
+      await refetchUserData();
 
       toast({
         title: "Profile picture updated successfully!",

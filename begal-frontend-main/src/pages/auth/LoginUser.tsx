@@ -102,7 +102,7 @@ export default function LoginUser() {
             className="object-cover h-12 w-auto rounded-xl"
           />
         </div>
-        <div className="px-6 py-8 sm:px-10 sm:py-12 rounded-lg flex flex-col space-y-6 border-2 border-blue-600 bg-white dark:bg-gray-900">
+        <div className="px-10 py-8 sm:px-16 sm:py-12 rounded-lg flex flex-col space-y-6 border-2 border-blue-600 bg-white dark:bg-gray-900">
           <h2 className="text-2xl font-bold mb-4 text-center text-black dark:text-white">
             Login User
           </h2>
@@ -150,10 +150,8 @@ export default function LoginUser() {
                 <p className="text-red-500">{errors.password.message}</p>
               )}
             </div>
-            <Link to="/forgot-password">
-              <Button variant="link" className="text-blue-600 mt-2">
-                Forgot password?
-              </Button>
+            <Link to="/forgot-password" className="text-blue-600 mt-2">
+              Forgot password?
             </Link>
 
             {error && <p className="text-red-500">{error}</p>}

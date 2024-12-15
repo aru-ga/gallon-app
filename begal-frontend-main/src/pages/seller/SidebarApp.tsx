@@ -122,7 +122,7 @@ export default function SidebarApp({ comps }: SidebarAppProps) {
           <Link to="/">Back to Home</Link>
           <p className="text-xs text-gray-300 font-publicSans">© 2024 Begal</p>
           <Button
-            className="w-full bg-red-500 hover:bg-red-300 hover:text-white mt-3"
+            className="w-full bg-red-500 hover:bg-red-300 text-white mt-3"
             variant="link"
             onClick={confirmSignOut}
           >

@@ -161,7 +161,8 @@ const confirmCashPayment = async (token: string | null, orderId: string) => {
   }
 };
 
-const refetchSellerData = async (token: string) => {
+const refetchSellerData = async () => {
+  const token = sessionStorage.getItem("authToken");
   try {
     const profile = await sellerProfile(token);
 

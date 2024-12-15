@@ -11,6 +11,7 @@ function CardTransaction({
   toggleExpand,
   onDelivered,
   onCancel,
+  refreshTransactions,
 }: any) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [paymentUrl, setPaymentUrl] = useState("");
@@ -32,6 +33,7 @@ function CardTransaction({
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setPaymentUrl("");
+    refreshTransactions(); // Fetch the latest transactions
   };
 
   return (
@@ -140,12 +142,8 @@ function CardTransaction({
         </CardContent>
       </Card>
 
-      {/* Payment Modal */}
       {isModalOpen && (
-        <PaymentModal
-          redirectUrl={paymentUrl} // Pass the payment URL to the modal
-          closeModal={handleCloseModal} // Close modal when the user clicks close
-        />
+        <PaymentModal redirectUrl={paymentUrl} closeModal={handleCloseModal} />
       )}
     </>
   );

@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -106,7 +107,7 @@ export default function Cart() {
           description: "Please try again.",
         });
       }
-    } catch (error) {
+    } catch {
       setError("Failed to order product. Please try again.");
     } finally {
       setLoading(false);
@@ -228,13 +229,15 @@ export default function Cart() {
                 </div>
               </div>
               <DialogFooter>
-                <Button
-                  className="bg-blue-600"
-                  type="submit"
-                  onClick={buyItemsFromCart}
-                >
-                  {loading ? "Processing..." : "Buy Selected Items"}
-                </Button>
+                <DialogClose asChild>
+                  <Button
+                    className="bg-blue-600"
+                    type="submit"
+                    onClick={buyItemsFromCart}
+                  >
+                    {loading ? "Processing..." : "Buy Selected Items"}
+                  </Button>
+                </DialogClose>
               </DialogFooter>
             </DialogContent>
           </Dialog>
