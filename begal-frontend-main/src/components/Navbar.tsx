@@ -102,8 +102,8 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="py-5 fixed top-0 left-0 w-full bg-white dark:bg-gray-900 z-50 border-b">
-      <NavigationMenu>
+    <>
+      <NavigationMenu className="py-5 fixed top-0 left-0 w-full bg-white dark:bg-gray-900 z-50 border-b">
         <NavigationMenuList className="flex flex-row items-center w-screen px-10 justify-between">
           <NavigationMenuItem>
             <Link to="/">
@@ -272,7 +272,7 @@ export default function Navbar() {
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <Link to="/register">
+                  <Link to="/register-user">
                     <Button className="bg-blue-600 rounded font-semibold dark:text-white hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600">
                       Sign Up
                     </Button>
@@ -349,7 +349,7 @@ export default function Navbar() {
             ) : (
               <>
                 <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-                  <Link to="/login">
+                  <Link to="/login-user">
                     <Button className="dark:bg-slate-900 border-blue-600 bg-transparent text-blue-600 font-semibold rounded hover:bg-slate-200 dark:text-white dark:hover:bg-gray-800 w-full text-left mb-2">
                       Sign In
                     </Button>
@@ -357,7 +357,7 @@ export default function Navbar() {
                 </div>
 
                 <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-                  <Link to="/register">
+                  <Link to="/register-user">
                     <Button className="bg-blue-600 rounded font-semibold dark:text-white hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 w-full text-left mb-2">
                       Sign Up
                     </Button>
@@ -391,6 +391,6 @@ export default function Navbar() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </nav>
+    </>
   );
 }

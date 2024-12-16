@@ -25,7 +25,7 @@ const TextSlider: React.FC<TextSliderProps> = ({ words, interval = 3000 }) => {
         {words.map((word, index) => (
           <div
             key={index}
-            className="h-[64px] flex items-center justify-start text-5xl font-bold from-blue-600 to-white bg-gradient-to-tr bg-clip-text text-transparent"
+            className="h-[64px] flex items-center justify-start text-3xl lg:text-5xl font-bold from-blue-600 to-white bg-gradient-to-tr bg-clip-text text-transparent"
           >
             {word}
           </div>

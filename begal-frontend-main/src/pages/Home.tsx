@@ -131,7 +131,7 @@ function Home() {
       <div className="flex flex-col lg:flex-row justify-between items-center gap-10 lg:gap-20 mt-10 lg:mt-20 dark:text-white">
         <img
           src={homeImg}
-          className="text-2xl flex items-center justify-center -mr-40 rounded-lg w-full hidden lg:block lg:w-1/2 lg:h-[400px] object-cover"
+          className="text-2xl items-center justify-center -mr-40 rounded-lg w-full hidden lg:block lg:w-1/2 lg:h-[400px] object-cover"
         />
 
         {products && products.length > 0 ? (

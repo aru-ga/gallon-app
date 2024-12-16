@@ -97,17 +97,20 @@ const RegisterSeller = () => {
   };
 
   return (
-    <div className="flex flex-row h-screen dark:text-white">
-      <div className="w-1/2">
+    <div className="flex flex-col md:flex-row h-auto md:h-screen dark:text-white">
+      {/* Illustration */}
+      <div className="hidden md:block md:w-1/2">
         <img
           src={Illustration}
-          className="h-screen object-cover"
+          className="h-full object-cover"
           alt="Register illustration"
         />
       </div>
-      <div className="w-1/2 flex items-center justify-center">
-        <div className="w-96 p-6 rounded-lg  text-black">
-          <h2 className="text-2xl font-bold mb-6 text-center">
+
+      {/* Form Section */}
+      <div className="w-full md:w-1/2 flex items-center justify-center p-4">
+        <div className="w-full max-w-lg p-6 rounded-lg bg-white text-black shadow-md dark:bg-gray-800">
+          <h2 className="text-xl md:text-2xl font-bold mb-6 text-center">
             Register Seller
           </h2>
           <div className="space-y-4">
@@ -215,11 +218,11 @@ const RegisterSeller = () => {
               <Button
                 disabled={loading}
                 onClick={handleSubmit}
-                className="w-full bg-white text-blue-600 hover:bg-blue-100"
+                className="w-full bg-blue-600 text-white hover:bg-blue-700"
               >
                 {loading ? "Loading..." : "Register"}
               </Button>
-              <Link className="underline" to="/login-seller">
+              <Link className="underline text-blue-600" to="/login-seller">
                 Login instead
               </Link>
             </div>

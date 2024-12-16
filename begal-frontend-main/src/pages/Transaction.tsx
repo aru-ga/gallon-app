@@ -103,7 +103,7 @@ export default function Transaction() {
           <div className="flex flex-col justify-center items-center w-full rounded-lg gap-10 ">
             <AnimTransUnlog />
             <div className="flex flex-col items-center gap-5">
-              <h3 className="text-xl dark:text-white">
+              <h3 className="text-xl dark:text-white px-10">
                 Silakan login untuk melanjutkan akses ke halaman ini.
               </h3>
               <Button variant="ghost" className="bg-blue-600 px-10 text-white">

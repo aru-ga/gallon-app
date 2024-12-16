@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 type ErrorData = {
   [key in keyof UserProfile]?: string;
@@ -171,17 +171,24 @@ const RegisterUser = () => {
   };
 
   return (
-    <main className="flex h-screen dark:bg-gray-900 dark:text-white">
-      <div className="w-1/2 flex items-center ">
+    <main className="flex flex-col lg:flex-row h-screen dark:bg-gray-900 dark:text-white">
+      {/* Left Section */}
+      <div className="lg:w-3/4 w-full flex items-center justify-center lg:justify-start  dark:bg-gray-800">
         <img
           src={Illustration}
           alt="Illustration"
-          className="h-full object-contain"
+          className="h-full w-auto object-contain p-4 lg:p-0"
         />
       </div>
 
-      <div className="w-1/2 flex flex-col  justify-center pr-28">
-        <h1 className="text-3xl font-bold mb-8">Lengkapi data diri Anda</h1>
+      {/* Right Section */}
+      <div className="lg:w-1/2 w-full flex flex-col justify-center px-8 lg:px-28">
+        <h1 className="text-2xl lg:text-3xl font-bold mb-6 lg:mb-8 text-center lg:text-left">
+          Lengkapi data diri Anda
+        </h1>
+        <Link to="/register-seller" className="text-blue-600 underline">
+          Register sebagai seller
+        </Link>
 
         <div className="relative w-full overflow-hidden">
           <div
@@ -189,7 +196,7 @@ const RegisterUser = () => {
             style={{ transform: `translateX(-${step * 100}%)` }}
           >
             {/* Step 1 */}
-            <div className="w-full flex-shrink-0 flex p-5 flex-col items-start">
+            <div className="w-full flex-shrink-0 flex p-4 flex-col items-start">
               <Label htmlFor="name" className="mb-3">
                 Name
               </Label>
@@ -201,7 +208,7 @@ const RegisterUser = () => {
                 value={formData.name}
                 onChange={handleChange("name")}
                 onKeyDown={handleKeyDown}
-                className="w-1/2 p-2 border rounded mb-4"
+                className="w-full lg:w-1/2 p-2 border rounded mb-4"
               />
               <Button
                 className="bg-blue-600 rounded-full h-10 w-10 p-0 hover:bg-blue-700 text-white"
@@ -212,7 +219,7 @@ const RegisterUser = () => {
             </div>
 
             {/* Step 2 */}
-            <div className="w-full flex-shrink-0 flex p-5 flex-col items-start">
+            <div className="w-full flex-shrink-0 flex p-4 flex-col items-start">
               <Label htmlFor="email" className="mb-3">
                 Email
               </Label>
@@ -223,12 +230,12 @@ const RegisterUser = () => {
                 value={formData.email}
                 onChange={handleChange("email")}
                 onKeyDown={handleKeyDown}
-                className="w-1/2 p-2 border rounded mb-4"
+                className="w-full lg:w-1/2 p-2 border rounded mb-4"
               />
               {errors.email && <p className="text-red-500">{errors.email}</p>}
               <div className="flex flex-row gap-2">
                 <Button
-                  className="bg-blue-600 rounded-full h-10 w-10 p-0 hover:bg-blue-700 text-white"
+                  className="bg-gray-400 rounded-full h-10 w-10 p-0 hover:bg-gray-500 text-white"
                   onClick={prevStep}
                 >
                   <ChevronLeftIcon />
@@ -243,9 +250,9 @@ const RegisterUser = () => {
             </div>
 
             {/* Step 3 */}
-            <div className="w-full flex-shrink-0 flex p-5 flex-col items-start">
-              <div className="address-form">
-                <Label htmlFor="email" className="mb-3">
+            <div className="w-full flex-shrink-0 flex p-4 flex-col items-start">
+              <div>
+                <Label htmlFor="phone" className="mb-3">
                   Phone
                 </Label>
                 {errors.phone && <p className="text-red-500">{errors.phone}</p>}
@@ -255,44 +262,38 @@ const RegisterUser = () => {
                   value={formData.phone}
                   onChange={handleChange("phone")}
                   onKeyDown={handleKeyDown}
-                  className="w-full p-2 border border-gray-300 rounded mb-4"
+                  className="w-full lg:w-1/2 p-2 border border-gray-300 rounded mb-4"
                 />
-                <h2>Select Address</h2>
-                <ComboxAddress onChange={handleAddressChange} />
-                <div className="hidden">
-                  {selectedAddress.province?.name}
-                  {selectedAddress.regency?.name}
-                  {selectedAddress.district?.name}
-                  {selectedAddress.village?.name}
-                </div>
-                <Label htmlFor="detail" className="mb-3">
-                  Detail
-                </Label>
-                <Input
-                  id="detail"
-                  type="text"
-                  placeholder="Masukkan Detail"
-                  value={formData.address.detail}
-                  onChange={handleChange("address.detail")}
-                  onKeyDown={handleKeyDown}
-                  className="w-full p-2 border border-gray-300 rounded mb-4"
-                />
-                <Label htmlFor="email" className="mb-3">
-                  Street
-                </Label>
-                <Input
-                  id="street"
-                  type="text"
-                  placeholder="Masukkan Street"
-                  value={formData.address.street}
-                  onChange={handleChange("address.street")}
-                  onKeyDown={handleKeyDown}
-                  className="w-full p-2 border border-gray-300 rounded mb-4"
-                />
-                {errors.address && (
-                  <p className="text-red-500">{errors.address}</p>
-                )}
               </div>
+              <h2 className="text-lg mb-2">Select Address</h2>
+              <ComboxAddress onChange={handleAddressChange} />
+              <Label htmlFor="detail" className="mt-4">
+                Detail
+              </Label>
+              <Input
+                id="detail"
+                type="text"
+                placeholder="Masukkan Detail"
+                value={formData.address.detail}
+                onChange={handleChange("address.detail")}
+                onKeyDown={handleKeyDown}
+                className="w-full lg:w-1/2 p-2 border rounded mb-4"
+              />
+              <Label htmlFor="street" className="mt-4">
+                Street
+              </Label>
+              <Input
+                id="street"
+                type="text"
+                placeholder="Masukkan Street"
+                value={formData.address.street}
+                onChange={handleChange("address.street")}
+                onKeyDown={handleKeyDown}
+                className="w-full lg:w-1/2 p-2 border rounded mb-4"
+              />
+              {errors.address && (
+                <p className="text-red-500">{errors.address}</p>
+              )}
               <div>
                 <Button
                   onClick={prevStep}
@@ -310,14 +311,14 @@ const RegisterUser = () => {
             </div>
 
             {/* Step 4 */}
-            <div className="w-full flex-shrink-0 flex p-5 flex-col items-start">
+            <div className="w-full flex-shrink-0 flex p-4 flex-col items-start">
               <Input
                 type="password"
                 placeholder="Masukkan Password"
                 value={formData.password}
                 onChange={handleChange("password")}
                 onKeyDown={handleKeyDown}
-                className="w-1/2 p-2 border rounded mb-4"
+                className="w-full lg:w-1/2 p-2 border rounded mb-4"
               />
               <Input
                 type="password"
@@ -325,12 +326,11 @@ const RegisterUser = () => {
                 value={formData.confirmPassword}
                 onChange={handleChange("confirmPassword")}
                 onKeyDown={handleKeyDown}
-                className="w-1/2 p-2 border rounded mb-4"
+                className="w-full lg:w-1/2 p-2 border rounded mb-4"
               />
               {errors.confirmPassword && (
                 <p className="text-red-500">{errors.confirmPassword}</p>
               )}
-
               {errors.password && (
                 <p className="text-red-500">{errors.password}</p>
               )}
