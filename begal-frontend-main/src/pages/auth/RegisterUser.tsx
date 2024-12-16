@@ -55,6 +55,8 @@ const RegisterUser = () => {
     village: null,
   });
 
+  console.log(selectedAddress);
+
   const handleAddressChange = (addressData: {
     province: Location | null;
     regency: Location | null;
