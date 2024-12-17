@@ -38,7 +38,7 @@ interface ChartPieSellingProps {
 
 const chartConfig = {
   //@ts-expect-error outside comps
-  label: "Top Selling Products",
+  label: "Produk dengan penjualan Tertinggi",
 } satisfies ChartConfig;
 
 export function ChartPieSelling({ orders }: ChartPieSellingProps) {
@@ -72,8 +72,10 @@ export function ChartPieSelling({ orders }: ChartPieSellingProps) {
   return (
     <Card className="w-1/2 mx-auto bg-gradient-to-br from-blue-50 to-white shadow-lg">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Top Selling Products</CardTitle>
-        <CardDescription>Overview of the top-selling products</CardDescription>
+        <CardTitle>Produk Top-Selling </CardTitle>
+        <CardDescription>
+          Menunjukan penjualan produk tertinggi dan total produk terjual
+        </CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
@@ -134,7 +136,7 @@ export function ChartPieSelling({ orders }: ChartPieSellingProps) {
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="leading-none text-muted-foreground">
-          Showing top-selling products of all time.
+          Menunjukan data penjualan produk tertinggi secara keseluruhan
         </div>
       </CardFooter>
     </Card>
