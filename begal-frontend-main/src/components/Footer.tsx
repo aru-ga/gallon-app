@@ -13,10 +13,16 @@ export default function Footer() {
                 Begal - Solusi Praktis untuk kebutuhan air anda dirumah
               </p>
               <div className="flex flex-row space-x-4 mt-3">
-                <a href="#" className="text-xl sm:text-2xl">
+                <a
+                  href="https://www.instagram.com/beli_galon?igsh=ajI2NG5wcWtpYXJn&utm_source=qr"
+                  className="text-xl sm:text-2xl"
+                >
                   <Instagram />
                 </a>
-                <a href="#" className="text-xl sm:text-2xl">
+                <a
+                  href="https://www.facebook.com/share/1B2AEFCQt8/?mibextid=kFxxJD"
+                  className="text-xl sm:text-2xl"
+                >
                   <Facebook />
                 </a>
               </div>

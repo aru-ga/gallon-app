@@ -13,7 +13,6 @@ import SellerProfile from "@/pages/seller/SellerProfile";
 import Order from "@/pages/seller/Order";
 import Cart from "@/pages/Cart";
 import Layout from "@/pages/seller/Layout";
-import CatalogueEdit from "@/pages/seller/CatalogueEdit";
 import ForgotPassword from "@/pages/auth/ForgotPassword";
 import Transaction from "@/pages/Transaction";
 import Footer from "@/components/Footer";
@@ -29,6 +28,7 @@ import RegisterSeller from "@/pages/auth/RegisterSeller";
 import Search from "@/pages/Search";
 import Wishlist from "@/pages/Wishlist";
 import SellerReviews from "@/pages/seller/SellerReview";
+import CatalogueEdit from "@/pages/seller/CatalogueEdit";
 
 const App = () => {
   const location = useLocation();
@@ -67,6 +67,10 @@ const App = () => {
         <Route
           path="/seller/dashboard"
           Component={() => <Layout children={<Dashboard />} />}
+        />
+        <Route
+          path="/seller/catalogue"
+          Component={() => <Layout children={<CatalogueEdit />} />}
         />
         <Route
           path="/seller/dashboard/edit-catalogue"

@@ -16,9 +16,9 @@ import { useEffect, useState } from "react";
 import { depotType } from "@/types/depotType";
 import { productType } from "@/types/productType";
 import CardProduct from "@/components/CardProduct";
-import heroSlider1 from "@/assets/heroslider1.png";
-import heroSlider2 from "@/assets/heroslider2.png";
-import heroSlider3 from "@/assets/heroslider3.png";
+import heroSlider1 from "@/assets/banner1.png";
+import heroSlider2 from "@/assets/banner2.png";
+import heroSlider3 from "@/assets/banner3.png";
 import { Skeleton } from "@/components/ui/skeleton";
 import homeImg from "@/assets/homeImg.jpg";
 

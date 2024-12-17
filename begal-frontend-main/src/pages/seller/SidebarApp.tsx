@@ -4,6 +4,7 @@ import {
   DollarSign,
   ShoppingBagIcon,
   Star,
+  Package2,
 } from "lucide-react";
 import {
   Sidebar,
@@ -49,6 +50,11 @@ export default function SidebarApp({ comps }: SidebarAppProps) {
             title: "Dashboard",
             url: "/seller/dashboard",
             icon: <HomeIcon />,
+          },
+          {
+            title: "Catalogue",
+            url: "/seller/catalogue",
+            icon: <Package2 />,
           },
           {
             title: "Profile",

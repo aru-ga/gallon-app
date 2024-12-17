@@ -16,6 +16,9 @@ import instance from "@/lib/axios";
 import { payloadProductType } from "@/types/productType";
 import { Label } from "@/components/ui/label";
 import { productType } from "@/types/productType";
+import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
+import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function CatalogueEdit() {
   const [products, setProducts] = useState<payloadProductType[]>([]);
@@ -180,9 +183,11 @@ export default function CatalogueEdit() {
   }, []);
 
   return (
-    <div>
-      <div className="m-10 dark:text-white">
-        <Link to="/seller/dashboard">Back</Link>
+    <SidebarInset>
+      <div className="flex flex-row items-center space-x-2 p-3">
+        <SidebarTrigger />
+        <Separator orientation="vertical" />
+        <h1>Catalogue</h1>
       </div>
       <div className="flex justify-center flex-col w-2/3 h-screen mx-auto space-y-10">
         <div className="flex flex-row justify-between">
@@ -191,7 +196,9 @@ export default function CatalogueEdit() {
           </h1>
           <Dialog defaultOpen={closeDialog}>
             <DialogTrigger asChild>
-              <Button>Add Product</Button>
+              <Button className="bg-blue-600 hover:bg-blue-700">
+                Add Product
+              </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
@@ -325,6 +332,6 @@ export default function CatalogueEdit() {
           </DialogContent>
         </Dialog>
       )}
-    </div>
+    </SidebarInset>
   );
 }

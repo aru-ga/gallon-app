@@ -11,9 +11,9 @@ import Autoplay from "embla-carousel-autoplay";
 import CardDepot from "@/components/CardDepot";
 import instance from "@/lib/axios";
 import { depotType } from "@/types/depotType";
-import heroSlider1 from "@/assets/heroslider1.png";
-import heroSlider2 from "@/assets/heroslider2.png";
-import heroSlider3 from "@/assets/heroslider3.png";
+import heroSlider1 from "@/assets/banner1.png";
+import heroSlider2 from "@/assets/banner2.png";
+import heroSlider3 from "@/assets/banner3.png";
 import { Skeleton } from "@/components/ui/skeleton";
 
 function DepotList() {

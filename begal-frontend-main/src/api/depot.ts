@@ -19,7 +19,8 @@ const fetchProducts = async (token: string | null) => {
   }
 };
 
-const fetchOrders = async (token: string | null) => {
+const fetchOrders = async () => {
+  const token = sessionStorage.getItem("authToken");
   if (!token) {
     throw new Error("Token is required for authentication");
   }
