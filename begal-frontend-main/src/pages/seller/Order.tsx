@@ -26,7 +26,7 @@ export default function Order() {
 
   const fetchOrder = async () => {
     if (token) {
-      const data = await fetchOrders(token);
+      const data = await fetchOrders();
       setOrders(data.data);
       setFilteredOrders(data.data);
       console.log(data);

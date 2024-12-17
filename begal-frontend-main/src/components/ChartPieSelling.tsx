@@ -37,6 +37,7 @@ interface ChartPieSellingProps {
 }
 
 const chartConfig = {
+  //@ts-expect-error outside comps
   label: "Top Selling Products",
 } satisfies ChartConfig;
 
@@ -76,6 +77,7 @@ export function ChartPieSelling({ orders }: ChartPieSellingProps) {
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
+          //@ts-expect-error outside comps
           config={chartConfig}
           className="mx-auto aspect-square max-h-[250px]"
         >
@@ -91,7 +93,7 @@ export function ChartPieSelling({ orders }: ChartPieSellingProps) {
               innerRadius={60}
               strokeWidth={5}
             >
-              {productSales.map((entry, index) => (
+              {productSales.map((_entry, index) => (
                 <Cell
                   key={`cell-${index}`}
                   fill={blueShades[index % blueShades.length]}

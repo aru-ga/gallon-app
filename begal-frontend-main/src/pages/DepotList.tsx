@@ -47,7 +47,7 @@ function DepotList() {
           <Carousel
             className="w-full p-10 mt-16 sm:mt-20 lg:mt-28"
             plugins={[
-              //@ts-ignore
+              //@ts-expect-error outside comps
               Autoplay({
                 delay: 2000,
               }),

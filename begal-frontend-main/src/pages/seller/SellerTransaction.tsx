@@ -13,7 +13,7 @@ export default function SellerTransaction() {
   const getData = async () => {
     try {
       if (token) {
-        const orders = await fetchOrders(token);
+        const orders = await fetchOrders();
         setData(orders.data);
         console.log("Orders fetched:", orders);
       } else {

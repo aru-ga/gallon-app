@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   DialogHeader,
@@ -18,7 +17,6 @@ import { Label } from "@/components/ui/label";
 import { productType } from "@/types/productType";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
-import { Skeleton } from "@/components/ui/skeleton";
 
 export default function CatalogueEdit() {
   const [products, setProducts] = useState<payloadProductType[]>([]);
