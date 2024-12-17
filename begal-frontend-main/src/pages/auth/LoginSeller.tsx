@@ -40,7 +40,6 @@ export default function LoginSeller() {
 
         await refetchSellerData();
 
-        // Only navigate when session data is set
         navigate("/seller/dashboard");
       } else {
         setError("Invalid server response. Token not found.");
