@@ -14,7 +14,7 @@ export default function CardProduct({
     <Card
       className={`overflow-hidden bg-blue-600 dark:bg-blue-600 block border border-blue-600 rounded-t-[2rem] min-h-[250px] min-w-[200px] max-w-[200px] ${className}`}
     >
-      <div className="bg-white p-8">
+      <div className="bg-white flex items-center justify-center p-8">
         <img
           src={image_url || dummyImg}
           alt={name}
