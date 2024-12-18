@@ -27,7 +27,7 @@ const CardProductDetailDepot: React.FC<CardProductProps> = ({
         <img
           src={image_url || dummyImg}
           alt={name}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-contain"
         />
         {stock <= 0 && (
           <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center">
