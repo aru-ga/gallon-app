@@ -8,6 +8,7 @@ import { Review, NewReview } from "@/types/reviewType";
 import instance from "@/lib/axios";
 import { useToast } from "@/hooks/use-toast";
 import StarRating from "./StarRating";
+import { Link } from "react-router-dom";
 
 interface UserReviewProps {
   sellerId: string;
@@ -286,14 +287,12 @@ const UserReview: React.FC<UserReviewProps> = ({ sellerId }) => {
             <p className="text-muted-foreground dark:text-gray-400">
               Anda harus login untuk memberikan ulasan.
             </p>
-            <Button
-              variant="link"
-              onClick={() => {
-                window.location.href = "/login-user";
-              }}
+            <Link
+              to={"/login-user"}
+              className="text-blue-600 dark:text-blue-400"
             >
               Login
-            </Button>
+            </Link>
           </div>
         )}
       </div>
