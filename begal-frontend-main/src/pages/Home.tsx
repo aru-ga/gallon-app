@@ -237,52 +237,55 @@ function Home() {
             <div className="text-lg lg:text-xl">lihat semua depot</div>
           </Link>
         </div>
-
         {token ? (
-          <Carousel
-            opts={{
-              align: "start",
-            }}
-            className="w-full mt-5 mx-auto justify-center"
-          >
-            <CarouselContent>
-              {nearbyDepotList.map((depot) => (
-                <CarouselItem
-                  key={depot.id}
-                  className="sm:basis-1/2 lg:basis-1/3 xl:basis-1/4"
-                >
-                  <CardDepot
-                    id={depot.id}
+          nearbyDepotList.length > 0 ? ( // Check if nearbyDepotList has items
+            <Carousel
+              opts={{ align: "start" }}
+              className="w-full mt-5 mx-auto justify-center"
+            >
+              <CarouselContent>
+                {nearbyDepotList.map((depot) => (
+                  <CarouselItem
                     key={depot.id}
-                    profile_picture_url={depot.profile_picture_url}
-                    name={depot.name}
-                    address={depot.address}
-                    rating={depot.rating}
-                    className={""}
-                    owner_name={""}
-                    email={""}
-                    phone={""}
-                    role={""}
-                    operational_hours={{
-                      open: "",
-                      close: "",
-                    }}
-                    reviews_count={""}
-                    created_at={""}
-                    updated_at={""}
-                    products={undefined}
-                  />
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="hidden lg:flex" />
-            <CarouselNext className="hidden lg:flex" />
-          </Carousel>
+                    className="sm:basis-1/2 lg:basis-1/3 xl:basis-1/4"
+                  >
+                    <CardDepot
+                      id={depot.id}
+                      profile_picture_url={depot.profile_picture_url}
+                      name={depot.name}
+                      address={depot.address}
+                      rating={depot.rating}
+                      owner_name={""}
+                      email={""}
+                      phone={""}
+                      role={""}
+                      operational_hours={{ open: "", close: "" }}
+                      reviews_count={""}
+                      created_at={""}
+                      updated_at={""}
+                      products={undefined}
+                      className={""}
+                    />
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="hidden lg:flex" />
+              <CarouselNext className="hidden lg:flex" />
+            </Carousel>
+          ) : (
+            <div className="flex justify-center items-center h-48 lg:h-96">
+              <p className="text-xl lg:text-2xl">
+                Tidak ada depot di daerah anda.
+              </p>{" "}
+              {/* Display message if no depots */}
+            </div>
+          )
         ) : (
           <div className="flex justify-center items-center h-48 lg:h-96">
             <p className="text-xl lg:text-2xl">
               <Link to="/login-user" className="underline">
-                Login
+                {" "}
+                Login{" "}
               </Link>{" "}
               untuk melihat depot terdekat
             </p>

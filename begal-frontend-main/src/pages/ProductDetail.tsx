@@ -17,6 +17,7 @@ import { ToastAction } from "@/components/ui/toast";
 import { productType } from "@/types/productType";
 import { getProductByID } from "@/api/public";
 import { addToWishlist } from "@/api/user";
+import { fetchSellerById } from "@/api/depot";
 
 export default function ProductDetail() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -25,16 +26,32 @@ export default function ProductDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
+  const [sellerData, setSellerData] = useState(null);
+  const [userData, setUserData] = useState(null);
   const dispatch = useDispatch();
   const { toast } = useToast();
 
   useEffect(() => {
     const token = sessionStorage.getItem("authToken");
-    if (token) {
+    const userSession = sessionStorage.getItem("user_session");
+
+    if (token && userSession) {
       setLoggedIn(true);
+
+      // Parse user data from session storage
+      try {
+        const user = JSON.parse(userSession).user;
+        setUserData(user);
+      } catch (error) {
+        console.error("Failed to parse user session data:", error);
+        setLoggedIn(false);
+        setUserData(null);
+      }
     } else {
       setLoggedIn(false);
+      setUserData(null);
     }
+
     const getProduct = async () => {
       setLoading(true);
       setError(null);
@@ -42,6 +59,10 @@ export default function ProductDetail() {
         const product = await getProductByID(productId);
         setProduct(product.data);
         setLoading(false);
+
+        const seller = await fetchSellerById(product.data.seller_id);
+        setSellerData(seller.data);
+        console.log("seller data", seller.data);
       } catch (error) {
         setError("Failed to get product");
         setLoading(false);
@@ -122,6 +143,12 @@ export default function ProductDetail() {
 
   if (!product) return null;
 
+  const isOutOfRange =
+    loggedIn &&
+    userData &&
+    sellerData &&
+    userData.address.district !== sellerData.address.district;
+
   return (
     <main className="container mx-auto mt-40 px-4 py-8 dark:text-white">
       <div className="grid gap-8 md:grid-cols-2">
@@ -150,50 +177,58 @@ export default function ProductDetail() {
 
           {loggedIn ? (
             <div className="space-y-4">
-              <div className="flex items-center justify-center space-x-4">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => handleQuantityChange(-1)}
-                  disabled={quantity <= 1}
-                >
-                  <MinusIcon />
-                </Button>
-                <Button
-                  className="max-w-[300px] dark:bg-blue-600 bg-blue-600 text-white dark:text-white hover:bg-blue-700 duration-300"
-                  disabled={product.stock === 0}
-                  onClick={addToCartHandler}
-                >
-                  Add to Cart
-                  <span className="text-xl font-semibold">{quantity}</span>
-                </Button>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => handleQuantityChange(1)}
-                  disabled={quantity >= product.stock}
-                >
-                  <PlusIcon />
-                </Button>
-              </div>
+              {isOutOfRange ? (
+                <p className="text-red-600 font-semibold">
+                  Lokasi penjual diluar jangkauan anda
+                </p>
+              ) : (
+                <>
+                  <div className="flex items-center justify-center space-x-4">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => handleQuantityChange(-1)}
+                      disabled={quantity <= 1}
+                    >
+                      <MinusIcon />
+                    </Button>
+                    <Button
+                      className="max-w-[300px] dark:bg-blue-600 bg-blue-600 text-white dark:text-white hover:bg-blue-700 duration-300"
+                      disabled={product.stock === 0}
+                      onClick={addToCartHandler}
+                    >
+                      Add to Cart
+                      <span className="text-xl font-semibold">{quantity}</span>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => handleQuantityChange(1)}
+                      disabled={quantity >= product.stock}
+                    >
+                      <PlusIcon />
+                    </Button>
+                  </div>
 
-              <div className="flex flex-row items-center justify-between">
-                <Link
-                  className="text-blue-500 hover:text-blue-400 font-bold"
-                  to={`/depot-detail/${product.seller_id}`}
-                >
-                  {product.seller_name}
-                </Link>
-                <Button
-                  onClick={() => handleAddWishlist()}
-                  className="bg-transparent p-0 text-blue-500 hover:text-blue-400 hover:bg-transparent font-bold"
-                >
-                  <span>
-                    <HeartIcon fill="blue" />
-                  </span>
-                  add to wish list
-                </Button>
-              </div>
+                  <div className="flex flex-row items-center justify-between">
+                    <Link
+                      className="text-blue-500 hover:text-blue-400 font-bold"
+                      to={`/depot-detail/${product.seller_id}`}
+                    >
+                      {product.seller_name}
+                    </Link>
+                    <Button
+                      onClick={() => handleAddWishlist()}
+                      className="bg-transparent p-0 text-blue-500 hover:text-blue-400 hover:bg-transparent font-bold"
+                    >
+                      <span>
+                        <HeartIcon fill="blue" />
+                      </span>
+                      add to wish list
+                    </Button>
+                  </div>
+                </>
+              )}
             </div>
           ) : (
             <div className="flex justify-center items-center">

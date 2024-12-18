@@ -197,8 +197,19 @@ const refetchSellerData = async () => {
   }
 };
 
+const fetchSellerById = async (sellerId: string) => {
+  try {
+    const response = await axios.get(`https://api-beli-galon.vercel.app/api/users/sellers/${sellerId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error in fetchSellerById API call:", error);
+    throw new Error("Failed to fetch seller data");
+  }
+};
+
 export {
   fetchProducts,
+  fetchSellerById,
   register,
   sellerProfile,
   fetchOrders,
